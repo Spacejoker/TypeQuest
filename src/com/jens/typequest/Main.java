@@ -138,7 +138,6 @@ public class Main extends BasicGame {
 	}
 
 	private void handleMainMenu(GameContainer container) {
-		// TODO Auto-generated method stub
 		
 	}
 

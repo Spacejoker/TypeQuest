@@ -1,5 +1,8 @@
 package com.jens.typequest.loaders;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,6 +10,7 @@ import java.util.List;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 
+import com.google.gson.Gson;
 import com.jens.typequest.model.Battle;
 import com.jens.typequest.model.EnemyBlueprint;
 import com.jens.typequest.model.EnemyEntity;
@@ -14,61 +18,74 @@ import com.jens.typequest.model.Wave;
 
 public class ContentLoader {
 
+	static String contentFolder = "src/content/json/";
+
 	static List<EnemyBlueprint> enemyBlueprints = new ArrayList<EnemyBlueprint>();
-	
-	public static EnemyEntity getEnemy(String id){
-		
-		if(enemyBlueprints.size() == 0){
+
+	public static EnemyEntity getEnemy(String id, int nr) {
+
+		if (enemyBlueprints.size() == 0) {
 			loadBlueprints();
 		}
-		
+
 		System.out.println("Looking for id: " + id);
 		for (int i = 0; i < enemyBlueprints.size(); i++) {
-			System.out.println("enemy has id: "+ enemyBlueprints.get(i).getId());
-			if(enemyBlueprints.get(i).getId().equals(id)){
-				return createEnemy(enemyBlueprints.get(i));
+			System.out.println("enemy has id: " + enemyBlueprints.get(i).getId());
+			if (enemyBlueprints.get(i).getId().equals(id)) {
+				return createEnemy(enemyBlueprints.get(i), nr);
 			}
 		}
-//		enemies.add(new EnemyEntity("apa", new Vector2f(800, 500), new Image("src/content/image/enemy.png"), new Image("src/content/image/enemy_marked.png"), EnemyType.OZZY));
-//		enemies.add(new EnemyEntity("apa", new Vector2f(680, 450), new Image("src/content/image/enemy.png"), new Image("src/content/image/enemy_marked.png"), EnemyType.OZZY));
-//		enemies.add(new EnemyEntity("apa", new Vector2f(300, 660), new Image("src/content/image/enemy.png"), new Image("src/content/image/enemy_marked.png"), EnemyType.OZZY));
-		System.out.println("Problem detected");
 		return null;
 	}
 
 	private static void loadBlueprints() {
-		enemyBlueprints.add(new EnemyBlueprint("1", 0.1, 1.5, 100L, Arrays.asList(new String[]{"Ra ra oh la la"}), "enemy"));
+
+		Gson gson = new Gson();
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(contentFolder + "enemies.json"));
+			while (true) {
+
+				String readLine = reader.readLine();
+				if (readLine == null) {
+					return;
+				}
+				// ;
+				// enemyBlueprints.add(new EnemyBlueprint("1", 0.1, 1.5, 100L, Arrays.asList(new String[]{"Ra ra oh la la"}), "enemy"));
+				enemyBlueprints.add(gson.fromJson(readLine, EnemyBlueprint.class));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
-	private static EnemyEntity createEnemy(EnemyBlueprint enemyBlueprint) {
-		
-		//randomize a new position
+	private static EnemyEntity createEnemy(EnemyBlueprint enemyBlueprint, int nr) {
+
+		// randomize a new position
 		int rand = RandomUtil.nextInt(200);
 		Image image = ImageProvider.getImage(enemyBlueprint.getImagePath());
 		rand += image.getHeight();
-		
-		
-		
-		return new EnemyEntity(enemyBlueprint.getId(),new Vector2f(1024+RandomUtil.nextInt(300), 800 - rand) , image, enemyBlueprint);
+
+		return new EnemyEntity(enemyBlueprint.getId(), new Vector2f(1024 + 100*nr, 800 - rand), image, enemyBlueprint);
 	}
 
 	public static Battle getBattle(String nextBattleId) {
 		Battle battle = new Battle();
-		
+
 		Wave w = new Wave();
-		w.add(getEnemy("1"));
-		w.add(getEnemy("1"));
-		w.add(getEnemy("1"));
-		
+		w.add(getEnemy("1", 0));
+		w.add(getEnemy("2", 1));
+		w.add(getEnemy("1", 2));
+
 		battle.getWaves().add(w);
-		
+
 		w = new Wave();
-		w.add(getEnemy("1"));
-		w.add(getEnemy("1"));
-		w.add(getEnemy("1"));
+		w.add(getEnemy("2", 1));
+		w.add(getEnemy("1", 2));
 		
 		battle.getWaves().add(w);
-		
+
 		return battle;
 	}
 }

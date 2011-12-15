@@ -1,6 +1,7 @@
 package com.jens.typequest.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Player {
@@ -31,8 +32,15 @@ public class Player {
 
 	public void cycleEnemy() {
 		
-		possibleTargets = StateHandler.getInstance().battle.currentEnemies;
-		
+		possibleTargets.clear();
+		possibleTargets.addAll(StateHandler.getInstance().battle.currentEnemies);
+		for (Iterator<EnemyEntity> iterator = possibleTargets.iterator(); iterator.hasNext();) {
+			EnemyEntity entity = iterator.next();
+			if(entity.getPosition().getX() > 1024){
+				iterator.remove();
+			}
+		}
+	
 		if(possibleTargets.size() == 0){
 			target = null;
 			return;
