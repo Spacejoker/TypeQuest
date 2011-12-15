@@ -14,4 +14,5 @@ public interface TypeQuestConstants {
 	public static String ENTER_BATTLE_BUTTON_ID = "enter-battle-button";
 	public static String ENTER_TOWN_BUTTON_ID = "enter-town-button";
 	public static String ENTER_MAIN_MENU_BUTTON_ID = "enter-mainmenu-button";
+	public static String SHOW_PLAYER_STATS = "show-player-stats";
 }

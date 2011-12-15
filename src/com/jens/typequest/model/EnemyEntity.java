@@ -5,6 +5,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 
 import com.jens.typequest.TypeQuestConstants;
+import com.jens.typequest.loaders.RandomUtil;
 import com.jens.typequest.ui.BroadCaster;
 
 public class EnemyEntity extends GraphicalEntity {
@@ -19,6 +20,8 @@ public class EnemyEntity extends GraphicalEntity {
 	String textToWrite ="";
 	int lettersTyped = 0;
 	String name;
+	int xp;
+	int gold;
 	
 	public EnemyEntity(String id, Vector2f position, Image image, EnemyBlueprint blueprint) {
 		super(id, position, image);
@@ -26,6 +29,9 @@ public class EnemyEntity extends GraphicalEntity {
 		dmg = blueprint.getDmg();
 		attackSpeed = blueprint.getAttackSpeed();
 		textToWrite = blueprint.getText();
+		gold = blueprint.getMingold() + RandomUtil.nextInt(blueprint.getDiffgold());
+		xp = blueprint.getXp();
+		
 	}
 	
 	public long becomesActive = 0;
@@ -79,6 +85,12 @@ public class EnemyEntity extends GraphicalEntity {
 
 	public boolean getIsDead() {
 		return isDead;
+	}
+	public int getXp() {
+		return xp;
+	}
+	public int getGold() {
+		return gold;
 	}
 	
 	

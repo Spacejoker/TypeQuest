@@ -10,6 +10,8 @@ public class Player {
 	int targetNr = 0;
 	List<EnemyEntity> possibleTargets = new ArrayList<EnemyEntity>();
 	EnemyEntity target = null;
+	int gold;
+	int xp;
 	
 	public Player() {
 	}
@@ -64,4 +66,29 @@ public class Player {
 	public void setPossibleTargets(List<EnemyEntity> possibleTargets) {
 		this.possibleTargets = possibleTargets;
 	}
+
+	public int getTargetNr() {
+		return targetNr;
+	}
+
+	public void setTargetNr(int targetNr) {
+		this.targetNr = targetNr;
+	}
+
+	public int getGold() {
+		return gold;
+	}
+
+	public void modGold(int gold) {
+		this.gold += gold;
+	}
+
+	public int getXp() {
+		return xp;
+	}
+
+	public void addXp(int xp) {
+		this.xp = xp;
+	}
+	
 }

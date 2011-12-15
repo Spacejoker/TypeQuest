@@ -74,6 +74,21 @@ public class ContentLoader {
 		Battle battle = new Battle();
 
 		Wave w = new Wave();
+		w.add(getEnemy("2", 0));
+		w.add(getEnemy("2", 1));
+		w.add(getEnemy("2", 2));
+		w.add(getEnemy("2", 3));
+		w.add(getEnemy("2", 4));
+		w.add(getEnemy("2", 5));
+		w.add(getEnemy("2", 6));
+		w.add(getEnemy("2", 7));
+		w.add(getEnemy("2", 8));
+		w.add(getEnemy("2", 9));
+		
+		battle.getWaves().add(w);
+
+		
+		w = new Wave();
 		w.add(getEnemy("1", 0));
 		w.add(getEnemy("2", 1));
 		w.add(getEnemy("1", 2));

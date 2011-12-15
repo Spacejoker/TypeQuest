@@ -54,30 +54,19 @@ public class UserCommandReader implements KeyListener, MouseListener {
 	}
 
 	public void handleQueuedCommands(StateHandler stateHandler) throws SlickException {
-		while (queuedCommands.size()> 0) {
-			Integer poll = queuedCommands.poll();
-			if(poll == Input.KEY_F1){
-				stateHandler.setCurrentMode(Mode.MAIN_MENU);
-				//add clickable button -> enter battle mode
-				stateHandler.addClickEntry(new ClickableEntity(TypeQuestConstants.ENTER_BATTLE_BUTTON_ID, new Vector2f(100, 100), new Vector2f(80, 50), new Image(Main.IMAGE_FOLDER + "battlebutton.png")));
-			}
-			if(poll == Input.KEY_F2){
-				stateHandler.setCurrentMode(Mode.TOWN);
-			}
-			if(poll == Input.KEY_F3){
-				stateHandler.setCurrentMode(Mode.BATTLE);
-				//load battle
-			}
-		}
-		
-		while (queuedClicks.size()> 0) {
+		out:while (queuedClicks.size()> 0) {
 			Vector2f poll = queuedClicks.poll();
-			for (ClickableEntity entity: stateHandler.getClickEntities()) {
+			for (int i = 0; i < stateHandler.getClickEntities().size(); i++) {
+				ClickableEntity entity = stateHandler.getClickEntities().get(i);
 				if(entity.isIn(poll.x, poll.y)){
+					System.out.println("in "  + entity.getImage().getResourceReference());
+					
 					stateHandler.isClicked(entity);
+					break out;
 				}
 			}
 		}
+		queuedClicks.clear();
 	}
 
 	@Override

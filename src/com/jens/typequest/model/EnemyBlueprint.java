@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.jens.typequest.loaders.RandomUtil;
+
 /**
  * Blueprints for an enemy - what picture/stats does it have etc?
  */
@@ -15,7 +17,12 @@ public class EnemyBlueprint {
 	private long attackSpeed; // ms between attacks
 	private List<String> texts = new ArrayList<String>();
 	private String imagePath;
-	public EnemyBlueprint(String id, double speed, double dmg, long attackSpeed, List<String> texts, String imagePath) {
+	int mingold;
+	int diffgold;
+	int xp;
+	
+	
+	public EnemyBlueprint(String id, double speed, double dmg, long attackSpeed, List<String> texts, String imagePath, int mingold, int diffgold, int xp) {
 		super();
 		this.id = id;
 		this.speed = speed;
@@ -23,6 +30,9 @@ public class EnemyBlueprint {
 		this.attackSpeed = attackSpeed;
 		this.texts = texts;
 		this.imagePath = imagePath;
+		this.mingold = mingold;
+		this.diffgold = diffgold;
+		this.xp = xp;
 	}
 	public String getId() {
 		return id;
@@ -65,6 +75,25 @@ public class EnemyBlueprint {
 		if(texts.size() == 0){
 			return "Hello world!";
 		}
-		return texts.get(new  Random(System.currentTimeMillis()).nextInt(texts.size()));
+		return texts.get(RandomUtil.nextInt(texts.size()));
 	}
+	public int getMingold() {
+		return mingold;
+	}
+	public void setMingold(int mingold) {
+		this.mingold = mingold;
+	}
+	public int getDiffgold() {
+		return diffgold;
+	}
+	public void setDiffgold(int diffgold) {
+		this.diffgold = diffgold;
+	}
+	public int getXp() {
+		return xp;
+	}
+	public void setXp(int xp) {
+		this.xp = xp;
+	}
+	
 }

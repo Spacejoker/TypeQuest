@@ -41,6 +41,9 @@ public class Main extends BasicGame {
 	Image townBg = null;
 	Image textbox = null;
 	Image targetImage = null;
+	Image battleCompleteBg = null;
+	Image playerStatsBg = null;
+	
 	Player player = null;
 
 	public Main() {
@@ -55,7 +58,7 @@ public class Main extends BasicGame {
 		container.getInput().addMouseListener(commandReader);
 		
 		font = new TrueTypeFont(new Font("Courier new", Font.BOLD, 24), false);
-		
+		currentState.setFont(font);
 		// create a few test enemies:
 		
 		//load some bg-graphics
@@ -64,6 +67,8 @@ public class Main extends BasicGame {
 		townBg = new Image(IMAGE_FOLDER + "town.png");
 		textbox = new Image(IMAGE_FOLDER + "textbox.png");
 		targetImage = new Image(IMAGE_FOLDER + "target.png");
+		battleCompleteBg = new Image(IMAGE_FOLDER + "battlecomplete.png");
+		playerStatsBg = new Image(IMAGE_FOLDER + "playerstatsbg.png");
 		
 		currentState.setCurrentMode(Mode.MAIN_MENU);
 	}
@@ -80,6 +85,9 @@ public class Main extends BasicGame {
 				drawWritingArea();
 				drawEnemies();
 				drawCombatLog();
+				if(currentState.getBattle().isCompleted()){
+					drawBattleCompletedScreen();
+				}
 				break;
 
 			case MAIN_MENU:
@@ -99,6 +107,20 @@ public class Main extends BasicGame {
 		for (ClickableEntity entity : currentState.getClickEntities()) {
 			entity.getImage().draw(entity.getPosition().x, entity.getPosition().y);
 		}
+		
+		if(currentState.getShowPlayerStats()){
+			playerStatsBg.draw(100,100);
+			font.drawString(400, 250, "Current xp: " + currentState.getPlayer().getXp(), Color.darkGray);
+			font.drawString(400, 280, "Gained xp: " + currentState.getPlayer().getGold(), Color.darkGray);
+		}
+	}
+
+	private void drawBattleCompletedScreen() {
+		battleCompleteBg.draw(200, 100);
+		font.drawString(300, 220, "You completed the level!", Color.darkGray);
+		font.drawString(300, 250, "Gained gold: " + currentState.getBattle().getGainedGold(), Color.darkGray);
+		font.drawString(300, 280, "Gained xp: " + currentState.getBattle().getGainedXp(), Color.darkGray);
+		font.drawString(300, 310, "You should get back to town and celebrate!", Color.darkGray);
 	}
 
 	@Override
@@ -116,9 +138,6 @@ public class Main extends BasicGame {
 				handleMessageLog();
 				
 				//show score screen if the battle is over
-				if(currentState.getBattle().isCompleted()){
-					
-				}
 				break;
 			case MAIN_MENU:
 //				displayMainMenu();
@@ -181,24 +200,28 @@ public class Main extends BasicGame {
 	}
 
 	private void handleEnemies(int delta) {
-		if(currentState.getBattle().getCurrentEnemies().size() == 0){
+		if(currentState.getBattle().getCurrentEnemies().size() == 0 && !currentState.getBattle().isCompleted()){
 			boolean nextWave = currentState.getBattle().nextWave();
 			if(!nextWave){
+				currentState.getPlayer().addXp(currentState.getBattle().getGainedXp());
+				currentState.getPlayer().modGold(currentState.getBattle().getGainedGold());
 				currentState.getBattle().setCompleted(true);
 			}
 		}
 		
 		for (Iterator<EnemyEntity> iterator = currentState.getBattle().getCurrentEnemies().iterator(); iterator.hasNext();) {
-			EnemyEntity entity = iterator.next();
-			if (entity.getIsDead()) {
+			EnemyEntity enemy = iterator.next();
+			if (enemy.getIsDead()) {
+				currentState.getBattle().addGold(enemy.getGold());
+				currentState.getBattle().addXp(enemy.getXp());
 				iterator.remove();
 			}
-			if (entity.equals(player.getTarget())) {
-				entity.setMarked(true);
+			if (enemy.equals(player.getTarget())) {
+				enemy.setMarked(true);
 			} else {
-				entity.setMarked(false);
+				enemy.setMarked(false);
 			}
-			entity.update(delta);
+			enemy.update(delta);
 		}
 	}
 
