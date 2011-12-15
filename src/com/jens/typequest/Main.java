@@ -16,27 +16,37 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.util.InputAdapter;
 
+import com.jens.typequest.model.ClickableEntity;
 import com.jens.typequest.model.EnemyEntity;
 import com.jens.typequest.model.EnemyEntity.EnemyType;
+import com.jens.typequest.model.StateHandler;
 import com.jens.typequest.model.GraphicalEntity;
 import com.jens.typequest.model.Player;
+import com.jens.typequest.model.StateHandler.Mode;
 import com.jens.typequest.ui.BroadCaster;
 import com.jens.typequest.ui.Message;
 
 public class Main extends BasicGame {
 
-	private static final String IMAGE_FOLDER = "src/content/image/";
-	InputAdapter inputAdapter;
+	StateHandler currentState = new StateHandler();
+	
+	public static final String IMAGE_FOLDER = "src/content/image/";
+
 	TextProcessor textProcessor = new TextProcessor();
+	UserCommandReader commandReader = new UserCommandReader();
 	TrueTypeFont font = null;
+	
 	Color doneLetterColor = Color.green;
 	Color undoneLetterColor = Color.white;
-	Image bg = null;
+	
+	Image battleBg = null;
+	Image mainMenuBg = null;
+	Image townBg = null;
 	Image textbox = null;
 	Player player = null;
-	
+
 	List<EnemyEntity> enemies = new ArrayList<EnemyEntity>();
-	GraphicalEntity graphicalEntity = null;
+	
 	public Main() {
 		super("Type Quest");
 	}
@@ -45,16 +55,25 @@ public class Main extends BasicGame {
 	public void init(GameContainer container) throws SlickException {
 		player = Player.getInstance();
 		player.setPossibleTargets(enemies);
-		inputAdapter = new InputAdapter();
+		
 		container.getInput().addKeyListener(textProcessor);
+		container.getInput().addKeyListener(commandReader);
+		container.getInput().addMouseListener(commandReader);
+		
 		font = new TrueTypeFont(new Font("Courier new", Font.BOLD, 24), false);
 		
-		//create a test enemy:
+		// create a few test enemies:
 		enemies.add(new EnemyEntity("apa", new Vector2f(800, 500), new Image("src/content/image/enemy.png"), new Image("src/content/image/enemy_marked.png"), EnemyType.OZZY));
-		enemies.add(new EnemyEntity("apa", new Vector2f(680, 450), new Image("src/content/image/enemy.png"), new Image("src/content/image/enemy_marked.png"),  EnemyType.OZZY));
+		enemies.add(new EnemyEntity("apa", new Vector2f(680, 450), new Image("src/content/image/enemy.png"), new Image("src/content/image/enemy_marked.png"), EnemyType.OZZY));
 		enemies.add(new EnemyEntity("apa", new Vector2f(300, 660), new Image("src/content/image/enemy.png"), new Image("src/content/image/enemy_marked.png"), EnemyType.OZZY));
-		bg = new Image(IMAGE_FOLDER + "fortress.png");
+		
+		//load some bg-graphics
+		battleBg = new Image(IMAGE_FOLDER + "fortress.png");
+		mainMenuBg = new Image(IMAGE_FOLDER + "mainmenu.png");
+		townBg = new Image(IMAGE_FOLDER + "town.png");
 		textbox = new Image(IMAGE_FOLDER + "textbox.png");
+		
+		currentState.setCurrentMode(Mode.MAIN_MENU);
 	}
 
 	int charWidth = 14;
@@ -63,56 +82,104 @@ public class Main extends BasicGame {
 	@Override
 	public void render(GameContainer container, Graphics graphics) throws SlickException {
 		synchronized (this.getClass()) {
-			bg.draw();
-			drawWritingArea();
+			switch (currentState.getCurrentMode()) {
+			case BATTLE:
+				battleBg.draw();
+				drawWritingArea();
+				drawEnemies();
+				drawCombatLog();
+				break;
 
-			drawEnemies();
+			case MAIN_MENU:
+				mainMenuBg.draw();
+				displayMainMenu();
+				break;
+				
+			case TOWN:
+				townBg.draw();
+				showTown();
+				break;
 			
-			drawCombatLog();
+			default:
+				break;
+			}
+		}
+		for (ClickableEntity entity : currentState.getClickEntities()) {
+			entity.getImage().draw(entity.getPosition().x, entity.getPosition().y);
 		}
 	}
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
 		synchronized (this.getClass()) {
-			//The actual combat - writing!
-			handleWriting();
-			
-			//Set up the currently selected enemy
-			selectEnemy(delta);
-			
-			//Broadcast any messages in the broadcaster que and then clear the que
-			handleMessageLog();
+			switch (currentState.getCurrentMode()) {
+			case BATTLE:
+				// The actual combat - writing!
+				handleWriting();
+
+				// Set up the currently selected enemy
+				selectEnemy(delta);
+
+				// Broadcast any messages in the broadcaster que and then clear the que
+				handleMessageLog();
+				break;
+			case MAIN_MENU:
+//				displayMainMenu();
+				handleMainMenu(container);
+			case TOWN:
+//				showTown();
+				handleTown(container);
+			default:
+				break;
+			}
 		}
+		commandReader.handleQueuedCommands(currentState);
+	}
+
+	private void handleTown(GameContainer container) {
+		
+	}
+
+	private void handleMainMenu(GameContainer container) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void showTown() {
+		
+	}
+
+	private void displayMainMenu() {
+		
 	}
 
 	private void handleWriting() {
-		if(player.getTarget() == null){
+		if (player.getTarget() == null) {
 			return;
 		}
 		String written = textProcessor.popCharacterQue().toLowerCase();
 		String targetString = player.getTarget().getTextToWrite().toLowerCase();
 		int correctLetters = player.getTarget().getLettersTyped();
 		if (written.length() > 0) {
-			
+
 			for (int i = 0; i < written.length(); i++) {
-				if(written.charAt(i) == targetString.charAt(correctLetters) ){
-					correctLetters ++;
-					if(correctLetters == targetString.length()){
-						//string is done!
+				if (written.charAt(i) == targetString.charAt(correctLetters)) {
+					correctLetters++;
+					if (correctLetters == targetString.length()) {
+						// string is done!
 						player.getTarget().kill();
 						player.setTarget(null);
-						
+
 						correctLetters = 0;
 					}
-					while(targetString.charAt(correctLetters) == ' '){
-						correctLetters ++;
+					while (targetString.charAt(correctLetters) == ' ') {
+						correctLetters++;
 					}
 				}
 			}
 		}
-		
-		if(player.getTarget() != null){
+
+		if (player.getTarget() != null) {
 			player.getTarget().setLettersTyped(correctLetters);
 		}
 	}
@@ -120,10 +187,10 @@ public class Main extends BasicGame {
 	private void selectEnemy(int delta) {
 		for (Iterator<EnemyEntity> iterator = enemies.iterator(); iterator.hasNext();) {
 			EnemyEntity entity = iterator.next();
-			if(entity.getIsDead()){
+			if (entity.getIsDead()) {
 				iterator.remove();
 			}
-			if(entity.equals(player.getTarget())){
+			if (entity.equals(player.getTarget())) {
 				entity.setMarked(true);
 			} else {
 				entity.setMarked(false);
@@ -135,29 +202,29 @@ public class Main extends BasicGame {
 	private void handleMessageLog() {
 		List<Message> messages = BroadCaster.getInstance().getMessages();
 		for (Message message : messages) {
-			combatLog.add(0,message);
+			combatLog.add(0, message);
 		}
 		messages.clear();
 		for (int i = 0; i < combatLog.size(); i++) {
-			if(combatLog.get(i).age() > 2000){
+			if (combatLog.get(i).age() > 2000) {
 				combatLog.remove(i);
-				i --;
+				i--;
 			}
 		}
 	}
 
 	private void drawWritingArea() {
-		if(player.getTarget() != null){
+		if (player.getTarget() != null) {
 			EnemyEntity target = player.getTarget();
-			
+
 			textbox.draw(TypeQuestConstants.TEXT_BOX_X, TypeQuestConstants.TEXT_BOX_Y);
-			
+
 			String targetString = player.getTarget().getTextToWrite();
 			int correctLetters = player.getTarget().getLettersTyped();
-			
+
 			String doneString = targetString.substring(0, correctLetters);
 			String undoneString = targetString.substring(correctLetters);
-			
+
 			target.getSmallImage().draw(TypeQuestConstants.PIC_X, TypeQuestConstants.TEXT_Y);
 			font.drawString(TypeQuestConstants.TEXT_X, TypeQuestConstants.TEXT_Y, doneString, doneLetterColor);
 			font.drawString(TypeQuestConstants.TEXT_X + doneString.length() * charWidth, TypeQuestConstants.TEXT_Y, undoneString, undoneLetterColor);
@@ -171,13 +238,13 @@ public class Main extends BasicGame {
 	}
 
 	private void drawCombatLog() {
-		//display messages in the combat log
-		for (int i = 0; i < Math.min(combatLog.size(),5); i++) {
+		// display messages in the combat log
+		for (int i = 0; i < Math.min(combatLog.size(), 5); i++) {
 			Message message = combatLog.get(i);
-			font.drawString(20, 600 + i*20, message.getContent(), message.getColor());
+			font.drawString(20, 600 + i * 20, message.getContent(), message.getColor());
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		try {
 			AppGameContainer app = new AppGameContainer(new Main());

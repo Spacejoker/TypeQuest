@@ -1,13 +1,8 @@
 package com.jens.typequest;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
 
-import com.jens.typequest.model.EnemyEntity;
 import com.jens.typequest.model.Player;
 
 /**
@@ -43,12 +38,12 @@ public class TextProcessor implements KeyListener {
 	}
 
 	@Override
-	public void keyPressed(int arg0, char arg1) {
+	public void keyPressed(int arg0, char character) {
 		if (arg0 == Input.KEY_TAB) {
+			System.out.println("TAB");
 			Player.getInstance().cycleEnemy();
 		} else {
-			System.out.println("Got char: " + arg1);
-			characterQue.append(arg1);
+			characterQue.append(character);
 		}
 	}
 

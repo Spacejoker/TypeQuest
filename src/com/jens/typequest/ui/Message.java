@@ -1,6 +1,5 @@
 package com.jens.typequest.ui;
 
-import org.lwjgl.Sys;
 import org.newdawn.slick.Color;
 //fades down in 2 seconds
 public class Message {

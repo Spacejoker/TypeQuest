@@ -2,7 +2,11 @@ package com.jens.typequest.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Making Player a singleton to make it easy to access - no plans for multiplayer anyway.
+ * @author Jensa
+ *
+ */
 public class Player {
 
 	private static Player instance = null;
