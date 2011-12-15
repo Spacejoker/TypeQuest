@@ -3,16 +3,30 @@ package com.jens.typequest.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 
-import com.jens.typequest.ImageProvider;
-import com.jens.typequest.Main;
 import com.jens.typequest.TypeQuestConstants;
+import com.jens.typequest.loaders.ContentLoader;
+import com.jens.typequest.loaders.ImageProvider;
 
 public class StateHandler {
 	
 	private List<ClickableEntity> clickEntities = new ArrayList<ClickableEntity>();
+	String nextBattleId = "1";
+	Battle battle;
+	Player player = new Player();
+	
+	private StateHandler() {
+	}
+	
+	static StateHandler instance = null;
+	
+	public static StateHandler getInstance(){
+		if(instance == null){
+			instance = new StateHandler();
+		}
+		return instance;
+	}
 	
 	public enum Mode {
 		MAIN_MENU, TOWN, BATTLE;
@@ -56,8 +70,34 @@ public class StateHandler {
 	public void isClicked(ClickableEntity entity) {
 		if(entity.id.equals(TypeQuestConstants.ENTER_BATTLE_BUTTON_ID)){
 			setCurrentMode(Mode.BATTLE);
+			battle = ContentLoader.getBattle(nextBattleId);
 		} else if(entity.id.equals(TypeQuestConstants.ENTER_TOWN_BUTTON_ID)){
 			setCurrentMode(Mode.TOWN);
 		}
 	}
+
+	public String getNextBattleId() {
+		return nextBattleId;
+	}
+
+	public void setNextBattleId(String nextBattleId) {
+		this.nextBattleId = nextBattleId;
+	}
+
+	public Battle getBattle() {
+		return battle;
+	}
+
+	public void setBattle(Battle battle) {
+		this.battle = battle;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+	
 }

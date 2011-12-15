@@ -3,6 +3,7 @@ import java.util.Random;
 
 import com.jens.typequest.model.EnemyEntity;
 
+@Deprecated
 public class TextGenerator {
 
 	static String[] content = new String[]{"You know that I want you",

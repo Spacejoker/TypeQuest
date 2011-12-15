@@ -1,7 +1,9 @@
-package com.jens.typequest;
+package com.jens.typequest.loaders;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+
+import com.jens.typequest.Main;
 
 public class ImageProvider {
 

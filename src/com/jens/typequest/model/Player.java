@@ -2,30 +2,17 @@ package com.jens.typequest.model;
 
 import java.util.ArrayList;
 import java.util.List;
-/**
- * Making Player a singleton to make it easy to access - no plans for multiplayer anyway.
- * @author Jensa
- *
- */
-public class Player {
 
-	private static Player instance = null;
+public class Player {
 
 	private int wallHealth = 100;
 	int targetNr = 0;
 	List<EnemyEntity> possibleTargets = new ArrayList<EnemyEntity>();
 	EnemyEntity target = null;
 	
-	private Player() {
+	public Player() {
 	}
-
-	public static Player getInstance() {
-		if (instance == null) {
-			instance = new Player();
-		}
-		return instance;
-	}
-
+	
 	public EnemyEntity getTarget() {
 		return target;
 	}
@@ -43,6 +30,9 @@ public class Player {
 	}
 
 	public void cycleEnemy() {
+		
+		possibleTargets = StateHandler.getInstance().battle.currentEnemies;
+		
 		if(possibleTargets.size() == 0){
 			target = null;
 			return;
@@ -51,6 +41,7 @@ public class Player {
 		if(target != null){
 			targetNr ++;
 		}
+		
 		target = possibleTargets.get(targetNr % possibleTargets.size());
 	}
 

@@ -4,61 +4,30 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 
-import com.jens.typequest.TextGenerator;
 import com.jens.typequest.TypeQuestConstants;
 import com.jens.typequest.ui.BroadCaster;
 
 public class EnemyEntity extends GraphicalEntity {
 
-	Image markedImage = null;
-	@Override
-	public Image getImage() {
-		return marked ? markedImage : image;
-	}
-	
 	public Image getSmallImage(){
 		return image;
 	}
-	public enum EnemyType {
-		OZZY(1);
-		int id;
-
-		private EnemyType(int id) {
-			this.id = id;
-		}
-	}
-
+	
 	double speed = 0.1;
 	double dmg;
 	long attackSpeed;
 	String textToWrite ="";
 	int lettersTyped = 0;
+	String name;
 	
-	EnemyType type;
-
-	public EnemyEntity(String id, Vector2f position, Image image, Image markedImage, EnemyType type) {
+	public EnemyEntity(String id, Vector2f position, Image image, EnemyBlueprint blueprint) {
 		super(id, position, image);
-		this.type = type;
-		this.markedImage = markedImage;
-		switch (type) {
-		case OZZY:
-			speed = 0.1d;
-			dmg = 1;
-			attackSpeed = 1000L;
-			textToWrite = TextGenerator.generateText(this);
-			break;
-
-		default:
-			break;
-		}
+		speed = blueprint.getSpeed();
+		dmg = blueprint.getDmg();
+		attackSpeed = blueprint.getAttackSpeed();
+		textToWrite = blueprint.getText();
 	}
-	public EnemyType getType() {
-		return type;
-	}
-	public void setType(EnemyType type) {
-		this.type = type;
-	}
-
+	
 	public long becomesActive = 0;
 	public long lastDmg = 0;
 	
@@ -72,18 +41,12 @@ public class EnemyEntity extends GraphicalEntity {
 				//hit the wall!
 				while(System.currentTimeMillis() -lastDmg > attackSpeed){
 					lastDmg = System.currentTimeMillis();
-					Player.getInstance().setWallHealth((int) (Player.getInstance().getWallHealth() - dmg)); // bleh
-					BroadCaster.getInstance().writeMessage(type.toString() + " hits the wall for " + dmg + " damage.", Color.orange);
+//					Player.getInstance().setWallHealth((int) (Player.getInstance().getWallHealth() - dmg)); // bleh
+					BroadCaster.getInstance().writeMessage(name + " hits the wall for " + dmg + " damage.", Color.orange);
 				}
 			}
 		}
-		switch (type) {
-		case OZZY:
-			break;
-
-		default:
-			break;
-		}
+	
 	}
 	boolean marked = false;
 	public void setMarked(boolean b) {
@@ -94,7 +57,6 @@ public class EnemyEntity extends GraphicalEntity {
 	}
 
 	public String getTextToWrite() {
-//		System.out.println("textToWrite: " + textToWrite);
 		return textToWrite;
 	}
 
@@ -103,7 +65,6 @@ public class EnemyEntity extends GraphicalEntity {
 	}
 
 	public int getLettersTyped() {
-//		System.out.println("letters typed: " + lettersTyped);
 		return lettersTyped;
 	}
 

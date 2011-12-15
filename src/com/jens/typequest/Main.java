@@ -13,23 +13,20 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.geom.Vector2f;
-import org.newdawn.slick.util.InputAdapter;
 
 import com.jens.typequest.model.ClickableEntity;
 import com.jens.typequest.model.EnemyEntity;
-import com.jens.typequest.model.EnemyEntity.EnemyType;
-import com.jens.typequest.model.StateHandler;
-import com.jens.typequest.model.GraphicalEntity;
 import com.jens.typequest.model.Player;
+import com.jens.typequest.model.StateHandler;
 import com.jens.typequest.model.StateHandler.Mode;
 import com.jens.typequest.ui.BroadCaster;
 import com.jens.typequest.ui.Message;
+import com.jens.typequest.ui.TextProcessor;
+import com.jens.typequest.ui.UserCommandReader;
 
 public class Main extends BasicGame {
 
-	StateHandler currentState = new StateHandler();
-	
+	StateHandler currentState = StateHandler.getInstance();	
 	public static final String IMAGE_FOLDER = "src/content/image/";
 
 	TextProcessor textProcessor = new TextProcessor();
@@ -43,19 +40,16 @@ public class Main extends BasicGame {
 	Image mainMenuBg = null;
 	Image townBg = null;
 	Image textbox = null;
+	Image targetImage = null;
 	Player player = null;
 
-	List<EnemyEntity> enemies = new ArrayList<EnemyEntity>();
-	
 	public Main() {
 		super("Type Quest");
 	}
 
 	@Override
 	public void init(GameContainer container) throws SlickException {
-		player = Player.getInstance();
-		player.setPossibleTargets(enemies);
-		
+		player = StateHandler.getInstance().getPlayer();
 		container.getInput().addKeyListener(textProcessor);
 		container.getInput().addKeyListener(commandReader);
 		container.getInput().addMouseListener(commandReader);
@@ -63,15 +57,13 @@ public class Main extends BasicGame {
 		font = new TrueTypeFont(new Font("Courier new", Font.BOLD, 24), false);
 		
 		// create a few test enemies:
-		enemies.add(new EnemyEntity("apa", new Vector2f(800, 500), new Image("src/content/image/enemy.png"), new Image("src/content/image/enemy_marked.png"), EnemyType.OZZY));
-		enemies.add(new EnemyEntity("apa", new Vector2f(680, 450), new Image("src/content/image/enemy.png"), new Image("src/content/image/enemy_marked.png"), EnemyType.OZZY));
-		enemies.add(new EnemyEntity("apa", new Vector2f(300, 660), new Image("src/content/image/enemy.png"), new Image("src/content/image/enemy_marked.png"), EnemyType.OZZY));
 		
 		//load some bg-graphics
 		battleBg = new Image(IMAGE_FOLDER + "fortress.png");
 		mainMenuBg = new Image(IMAGE_FOLDER + "mainmenu.png");
 		townBg = new Image(IMAGE_FOLDER + "town.png");
 		textbox = new Image(IMAGE_FOLDER + "textbox.png");
+		targetImage = new Image(IMAGE_FOLDER + "target.png");
 		
 		currentState.setCurrentMode(Mode.MAIN_MENU);
 	}
@@ -118,10 +110,15 @@ public class Main extends BasicGame {
 				handleWriting();
 
 				// Set up the currently selected enemy
-				selectEnemy(delta);
+				handleEnemies(delta);
 
 				// Broadcast any messages in the broadcaster que and then clear the que
 				handleMessageLog();
+				
+				//show score screen if the battle is over
+				if(currentState.getBattle().isCompleted()){
+					
+				}
 				break;
 			case MAIN_MENU:
 //				displayMainMenu();
@@ -184,8 +181,15 @@ public class Main extends BasicGame {
 		}
 	}
 
-	private void selectEnemy(int delta) {
-		for (Iterator<EnemyEntity> iterator = enemies.iterator(); iterator.hasNext();) {
+	private void handleEnemies(int delta) {
+		if(currentState.getBattle().getCurrentEnemies().size() == 0){
+			boolean nextWave = currentState.getBattle().nextWave();
+			if(!nextWave){
+				currentState.getBattle().setCompleted(true);
+			}
+		}
+		
+		for (Iterator<EnemyEntity> iterator = currentState.getBattle().getCurrentEnemies().iterator(); iterator.hasNext();) {
 			EnemyEntity entity = iterator.next();
 			if (entity.getIsDead()) {
 				iterator.remove();
@@ -232,8 +236,11 @@ public class Main extends BasicGame {
 	}
 
 	private void drawEnemies() {
-		for (EnemyEntity entity : enemies) {
+		for (EnemyEntity entity : currentState.getBattle().getCurrentEnemies()) {
 			entity.getImage().draw(entity.getPosition().x, entity.getPosition().y);
+			if(entity.isMarked()){
+				targetImage.draw(entity.getPosition().x+entity.getImage().getWidth()/2-targetImage.getWidth()/2, entity.getPosition().y+entity.getImage().getHeight()/2-targetImage.getHeight()/2);
+			}
 		}
 	}
 

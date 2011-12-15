@@ -1,4 +1,4 @@
-package com.jens.typequest;
+package com.jens.typequest.ui;
 
 import java.util.LinkedList;
 
@@ -9,16 +9,18 @@ import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 
+import com.jens.typequest.Main;
+import com.jens.typequest.TypeQuestConstants;
 import com.jens.typequest.model.ClickableEntity;
 import com.jens.typequest.model.StateHandler;
 import com.jens.typequest.model.StateHandler.Mode;
-import com.jens.typequest.model.Player;
 
 public class UserCommandReader implements KeyListener, MouseListener {
 
 	StringBuilder characterQue = new StringBuilder();
 	LinkedList<Integer> queuedCommands = new LinkedList<Integer>();
-	LinkedList<Vector2f> queuedClicks = new LinkedList<Vector2f>(); 
+	LinkedList<Vector2f> queuedClicks = new LinkedList<Vector2f>();
+	
 	public String popCharacterQue() {
 		String string = characterQue.toString();
 		characterQue = new StringBuilder();
@@ -64,6 +66,7 @@ public class UserCommandReader implements KeyListener, MouseListener {
 			}
 			if(poll == Input.KEY_F3){
 				stateHandler.setCurrentMode(Mode.BATTLE);
+				//load battle
 			}
 		}
 		
@@ -97,7 +100,6 @@ public class UserCommandReader implements KeyListener, MouseListener {
 
 	@Override
 	public void mousePressed(int arg0, int x, int y) {
-		System.out.println("arg0: " + arg0 + ", arg1: " + x + ", arg2: "+ y);
 		if(arg0 == 0){
 			queuedClicks.offer(new Vector2f(x,y));
 		}
