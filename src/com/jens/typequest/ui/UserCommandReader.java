@@ -2,18 +2,14 @@ package com.jens.typequest.ui;
 
 import java.util.LinkedList;
 
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 
-import com.jens.typequest.Main;
-import com.jens.typequest.TypeQuestConstants;
 import com.jens.typequest.model.ClickableEntity;
 import com.jens.typequest.model.StateHandler;
-import com.jens.typequest.model.StateHandler.Mode;
 
 public class UserCommandReader implements KeyListener, MouseListener {
 

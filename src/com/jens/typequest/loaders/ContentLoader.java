@@ -1,10 +1,8 @@
 package com.jens.typequest.loaders;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.newdawn.slick.Image;
@@ -14,7 +12,10 @@ import com.google.gson.Gson;
 import com.jens.typequest.model.Battle;
 import com.jens.typequest.model.EnemyBlueprint;
 import com.jens.typequest.model.EnemyEntity;
+import com.jens.typequest.model.Player;
+import com.jens.typequest.model.StateHandler;
 import com.jens.typequest.model.Wave;
+import com.sun.org.apache.bcel.internal.generic.RET;
 
 public class ContentLoader {
 
@@ -22,20 +23,25 @@ public class ContentLoader {
 
 	static List<EnemyBlueprint> enemyBlueprints = new ArrayList<EnemyBlueprint>();
 
-	public static EnemyEntity getEnemy(String id, int nr) {
+	public static EnemyEntity getEnemy(int level, int nr, boolean boss) {
 
 		if (enemyBlueprints.size() == 0) {
 			loadBlueprints();
 		}
-
-		System.out.println("Looking for id: " + id);
+		
+		List<EnemyBlueprint> appropriateBlueprints = new ArrayList<EnemyBlueprint>();
+		
 		for (int i = 0; i < enemyBlueprints.size(); i++) {
-			System.out.println("enemy has id: " + enemyBlueprints.get(i).getId());
-			if (enemyBlueprints.get(i).getId().equals(id)) {
-				return createEnemy(enemyBlueprints.get(i), nr);
+			if (enemyBlueprints.get(i).isBoss() == boss && enemyBlueprints.get(i).getMinlevel() <= level && enemyBlueprints.get(i).getMaxlevel() >= level) {
+				appropriateBlueprints.add(enemyBlueprints.get(i));
 			}
 		}
-		return null;
+		
+		if(appropriateBlueprints.size() == 0){
+			appropriateBlueprints.addAll(enemyBlueprints);
+		} 
+		
+		return createEnemy(appropriateBlueprints.get(RandomUtil.nextInt(appropriateBlueprints.size())), nr, level);
 	}
 
 	private static void loadBlueprints() {
@@ -44,62 +50,54 @@ public class ContentLoader {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(contentFolder + "enemies.json"));
 			while (true) {
-
+				
 				String readLine = reader.readLine();
 				if (readLine == null) {
 					return;
 				}
-				// ;
-				// enemyBlueprints.add(new EnemyBlueprint("1", 0.1, 1.5, 100L, Arrays.asList(new String[]{"Ra ra oh la la"}), "enemy"));
+				
 				enemyBlueprints.add(gson.fromJson(readLine, EnemyBlueprint.class));
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
 
-	private static EnemyEntity createEnemy(EnemyBlueprint enemyBlueprint, int nr) {
+	private static EnemyEntity createEnemy(EnemyBlueprint enemyBlueprint, int nr, int level) {
 
 		// randomize a new position
 		int rand = RandomUtil.nextInt(200);
 		Image image = ImageProvider.getImage(enemyBlueprint.getImagePath());
 		rand += image.getHeight();
 
-		return new EnemyEntity(enemyBlueprint.getId(), new Vector2f(1024 + 100*nr, 800 - rand), image, enemyBlueprint);
+		return new EnemyEntity(enemyBlueprint.getId(), new Vector2f(1024 + 100*nr, 800 - rand), image, enemyBlueprint, level);
 	}
 
-	public static Battle getBattle(String nextBattleId) {
+	public static Battle getBattle(int difficulty) {
 		Battle battle = new Battle();
-
+		//typical map is 10 levels
+		
+		StateHandler handler = StateHandler.getInstance();
+		Player player = handler.getPlayer();
+		
+		// and a boss at the end
 		Wave w = new Wave();
-		w.add(getEnemy("2", 0));
-		w.add(getEnemy("2", 1));
-		w.add(getEnemy("2", 2));
-		w.add(getEnemy("2", 3));
-		w.add(getEnemy("2", 4));
-		w.add(getEnemy("2", 5));
-		w.add(getEnemy("2", 6));
-		w.add(getEnemy("2", 7));
-		w.add(getEnemy("2", 8));
-		w.add(getEnemy("2", 9));
+		w.add(getEnemy(1, 0, true));
+		battle.addWave(w);
 		
-		battle.getWaves().add(w);
-
-		
-		w = new Wave();
-		w.add(getEnemy("1", 0));
-		w.add(getEnemy("2", 1));
-		w.add(getEnemy("1", 2));
-
-		battle.getWaves().add(w);
-
-		w = new Wave();
-		w.add(getEnemy("2", 1));
-		w.add(getEnemy("1", 2));
-		
-		battle.getWaves().add(w);
+		// level should be difficulty +- 2
+		for (int i = 0; i < 9; i++) {
+			int cnt = 3 + RandomUtil.nextInt(3) + i/3;
+			w = new Wave();
+			for (int j = 0; j < cnt; j++) {
+				int level = RandomUtil.nextInt(5) - 2 + difficulty;
+				level = Math.max(level,0);
+				
+				w.add(getEnemy(level, j, false));
+			}
+			battle.addWave(w);
+		}
 
 		return battle;
 	}

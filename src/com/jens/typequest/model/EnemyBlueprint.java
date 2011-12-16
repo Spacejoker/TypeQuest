@@ -2,7 +2,6 @@ package com.jens.typequest.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import com.jens.typequest.loaders.RandomUtil;
 
@@ -20,9 +19,10 @@ public class EnemyBlueprint {
 	int mingold;
 	int diffgold;
 	int xp;
+	int minlevel, maxlevel;
+	boolean boss;
 	
-	
-	public EnemyBlueprint(String id, double speed, double dmg, long attackSpeed, List<String> texts, String imagePath, int mingold, int diffgold, int xp) {
+	public EnemyBlueprint(String id, double speed, double dmg, long attackSpeed, List<String> texts, String imagePath, int mingold, int diffgold, int xp, int minlevel, int maxlevel, boolean boss) {
 		super();
 		this.id = id;
 		this.speed = speed;
@@ -33,6 +33,9 @@ public class EnemyBlueprint {
 		this.mingold = mingold;
 		this.diffgold = diffgold;
 		this.xp = xp;
+		this.maxlevel = maxlevel;
+		this.minlevel = minlevel;
+		this.boss = boss;
 	}
 	public String getId() {
 		return id;
@@ -94,6 +97,24 @@ public class EnemyBlueprint {
 	}
 	public void setXp(int xp) {
 		this.xp = xp;
+	}
+	public int getMinlevel() {
+		return minlevel;
+	}
+	public void setMinlevel(int minlevel) {
+		this.minlevel = minlevel;
+	}
+	public int getMaxlevel() {
+		return maxlevel;
+	}
+	public void setMaxlevel(int maxlevel) {
+		this.maxlevel = maxlevel;
+	}
+	public boolean isBoss() {
+		return boss;
+	}
+	public void setBoss(boolean boss) {
+		this.boss = boss;
 	}
 	
 }

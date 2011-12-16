@@ -48,7 +48,7 @@ public class StateHandler {
 		switch (currentMode) {
 		case BATTLE:
 			addClickEntry(new ClickableEntity(TypeQuestConstants.ENTER_TOWN_BUTTON_ID, new Vector2f(0, 720), new Vector2f(200, 80), ImageProvider.getImage("button-town")));
-			battle = ContentLoader.getBattle(nextBattleId);
+			battle = ContentLoader.getBattle(1);
 			break;
 		case TOWN:
 			addClickEntry(new ClickableEntity(TypeQuestConstants.ENTER_BATTLE_BUTTON_ID, new Vector2f(0, 720), new Vector2f(200, 80), ImageProvider.getImage("button-battle")));

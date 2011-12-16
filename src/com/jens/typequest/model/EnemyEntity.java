@@ -22,8 +22,9 @@ public class EnemyEntity extends GraphicalEntity {
 	String name;
 	int xp;
 	int gold;
+	int level;
 	
-	public EnemyEntity(String id, Vector2f position, Image image, EnemyBlueprint blueprint) {
+	public EnemyEntity(String id, Vector2f position, Image image, EnemyBlueprint blueprint, int level) {
 		super(id, position, image);
 		speed = blueprint.getSpeed();
 		dmg = blueprint.getDmg();
@@ -31,7 +32,7 @@ public class EnemyEntity extends GraphicalEntity {
 		textToWrite = blueprint.getText();
 		gold = blueprint.getMingold() + RandomUtil.nextInt(blueprint.getDiffgold());
 		xp = blueprint.getXp();
-		
+		this.level = level;
 	}
 	
 	public long becomesActive = 0;
@@ -92,7 +93,10 @@ public class EnemyEntity extends GraphicalEntity {
 	public int getGold() {
 		return gold;
 	}
-	
-	
-	
+	public int getLevel() {
+		return level;
+	}
+	public void setLevel(int level) {
+		this.level = level;
+	}
 }
