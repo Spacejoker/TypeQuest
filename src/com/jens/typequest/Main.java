@@ -2,6 +2,8 @@ package com.jens.typequest;
 
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -110,8 +112,9 @@ public class Main extends BasicGame {
 		
 		if(currentState.getShowPlayerStats()){
 			playerStatsBg.draw(100,100);
-			font.drawString(400, 250, "Current xp: " + currentState.getPlayer().getXp(), Color.darkGray);
-			font.drawString(400, 280, "Gained xp: " + currentState.getPlayer().getGold(), Color.darkGray);
+			font.drawString(400, 250, "Current level: " + currentState.getPlayer().getLevel(), Color.darkGray);
+			font.drawString(400, 280, "Xp current (next level): " + currentState.getPlayer().getXp() + "(" +currentState.getPlayer().getLevel()+ ")", Color.darkGray);
+			font.drawString(400, 310, "Gold: " + currentState.getPlayer().getGold(), Color.darkGray);
 		}
 	}
 
@@ -206,6 +209,8 @@ public class Main extends BasicGame {
 				currentState.getPlayer().addXp(currentState.getBattle().getGainedXp());
 				currentState.getPlayer().modGold(currentState.getBattle().getGainedGold());
 				currentState.getBattle().setCompleted(true);
+			} else {
+				font.drawString(200, 500, "Next wave approaches", Color.orange);
 			}
 		}
 		
@@ -258,6 +263,13 @@ public class Main extends BasicGame {
 	}
 
 	private void drawEnemies() {
+		Collections.sort(currentState.getBattle().getCurrentEnemies(), new Comparator<EnemyEntity>() {
+			@Override
+			public int compare(EnemyEntity o1, EnemyEntity o2) {
+				return (int) (o1.getPosition().getY()+o1.getImage().getHeight() - o2.getPosition().getY()-o2.getImage().getHeight());
+			}
+		});
+		
 		for (EnemyEntity entity : currentState.getBattle().getCurrentEnemies()) {
 			entity.getImage().draw(entity.getPosition().x, entity.getPosition().y);
 			if(entity.isMarked()){

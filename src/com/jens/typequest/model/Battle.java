@@ -36,6 +36,7 @@ public class Battle {
 		}
 		Wave pop = waves.pop();
 		currentEnemies.addAll(pop.getWaveEnemies());
+		
 		return true;
 	}
 

@@ -11,7 +11,9 @@ public class Player {
 	List<EnemyEntity> possibleTargets = new ArrayList<EnemyEntity>();
 	EnemyEntity target = null;
 	int gold;
-	int xp;
+	int xp = 0;
+	int level = 1;
+	int nextLevel = 10;
 	
 	public Player() {
 	}
@@ -89,6 +91,14 @@ public class Player {
 
 	public void addXp(int xp) {
 		this.xp = xp;
+		while(this.xp >= nextLevel){
+			level ++;
+			nextLevel += level*1.5*10;
+		}
 	}
-	
+
+	public int getLevel() {
+		return level;
+	}
+
 }

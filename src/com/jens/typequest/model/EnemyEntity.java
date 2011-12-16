@@ -27,11 +27,11 @@ public class EnemyEntity extends GraphicalEntity {
 	public EnemyEntity(String id, Vector2f position, Image image, EnemyBlueprint blueprint, int level) {
 		super(id, position, image);
 		speed = blueprint.getSpeed();
-		dmg = blueprint.getDmg();
-		attackSpeed = blueprint.getAttackSpeed();
+		dmg = blueprint.getDmg()*1.2*level;
+		attackSpeed = (long) (blueprint.getAttackSpeed()/(1.1*level));
 		textToWrite = blueprint.getText();
 		gold = blueprint.getMingold() + RandomUtil.nextInt(blueprint.getDiffgold());
-		xp = blueprint.getXp();
+		xp = (int) (blueprint.getXp()*1.5*level);
 		this.level = level;
 	}
 	
