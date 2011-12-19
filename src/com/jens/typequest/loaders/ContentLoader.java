@@ -15,7 +15,6 @@ import com.jens.typequest.model.EnemyEntity;
 import com.jens.typequest.model.Player;
 import com.jens.typequest.model.StateHandler;
 import com.jens.typequest.model.Wave;
-import com.sun.org.apache.bcel.internal.generic.RET;
 
 public class ContentLoader {
 
@@ -87,8 +86,8 @@ public class ContentLoader {
 		battle.addWave(w);
 		
 		// level should be difficulty +- 2
-		for (int i = 0; i < 9; i++) {
-			int cnt = 3 + RandomUtil.nextInt(3) + i/3;
+		for (int i = 0; i < 1; i++) {
+			int cnt = 1 + RandomUtil.nextInt(3);
 			w = new Wave();
 			for (int j = 0; j < cnt; j++) {
 				int level = RandomUtil.nextInt(5) - 2 + difficulty;

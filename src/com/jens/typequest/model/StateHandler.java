@@ -1,14 +1,19 @@
 package com.jens.typequest.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Vector2f;
 
+import com.jens.typequest.Main;
 import com.jens.typequest.TypeQuestConstants;
 import com.jens.typequest.loaders.ContentLoader;
 import com.jens.typequest.loaders.ImageProvider;
+import com.jens.typequest.ui.ContentFrame;
 
 public class StateHandler {
 	
@@ -80,16 +85,38 @@ public class StateHandler {
 		clickEntities.add(entity);
 	}
 
+	ContentFrame contentFrame = null;
+	
 	public void isClicked(ClickableEntity entity) {
 		if(entity.id.equals(TypeQuestConstants.ENTER_BATTLE_BUTTON_ID)){
 			setCurrentMode(Mode.BATTLE);
+			contentFrame = null;
 		} else if(entity.id.equals(TypeQuestConstants.ENTER_TOWN_BUTTON_ID)){
 			setCurrentMode(Mode.TOWN);
+			contentFrame = null;
 		} else if(entity.id.equals(TypeQuestConstants.SHOW_PLAYER_STATS)){
 			toggleShowPlayerStats();
+			if(getShowPlayerStats()){
+				Image playerStatsBg = ImageProvider.getImage("playerstatsbg");
+//				playerStatsBg.draw(100,100);
+				List entities = Arrays.asList(new TextEntity("Current level: " + getPlayer().getLevel(), font, new Vector2f(400,250), Color.darkGray),
+						new TextEntity("Xp current (next level): " + getPlayer().getXp() + "(" + getPlayer().getLevel()+ ")", font, new Vector2f(400,280), Color.darkGray),
+						new TextEntity("Gold: " + getPlayer().getGold(), font, new Vector2f(400,310), Color.darkGray) );
+				contentFrame = new ContentFrame(playerStatsBg, 100,100, entities);
+			} else {
+				contentFrame = null;
+			}
 		}
 	}
 	
+	public ContentFrame getContentFrame() {
+		return contentFrame;
+	}
+
+	public void setContentFrame(ContentFrame contentFrame) {
+		this.contentFrame = contentFrame;
+	}
+
 	private void toggleShowPlayerStats() {
 		showPlayerStats = !showPlayerStats;
 	}

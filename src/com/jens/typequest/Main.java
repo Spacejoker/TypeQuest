@@ -2,6 +2,7 @@ package com.jens.typequest;
 
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -15,13 +16,17 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.geom.Vector2f;
 
 import com.jens.typequest.model.ClickableEntity;
 import com.jens.typequest.model.EnemyEntity;
+import com.jens.typequest.model.GraphicalEntity;
 import com.jens.typequest.model.Player;
 import com.jens.typequest.model.StateHandler;
 import com.jens.typequest.model.StateHandler.Mode;
+import com.jens.typequest.model.TextEntity;
 import com.jens.typequest.ui.BroadCaster;
+import com.jens.typequest.ui.ContentFrame;
 import com.jens.typequest.ui.Message;
 import com.jens.typequest.ui.TextProcessor;
 import com.jens.typequest.ui.UserCommandReader;
@@ -33,7 +38,7 @@ public class Main extends BasicGame {
 
 	TextProcessor textProcessor = new TextProcessor();
 	UserCommandReader commandReader = new UserCommandReader();
-	TrueTypeFont font = null;
+	public static TrueTypeFont font = null;
 	
 	Color doneLetterColor = Color.green;
 	Color undoneLetterColor = Color.white;
@@ -70,7 +75,6 @@ public class Main extends BasicGame {
 		textbox = new Image(IMAGE_FOLDER + "textbox.png");
 		targetImage = new Image(IMAGE_FOLDER + "target.png");
 		battleCompleteBg = new Image(IMAGE_FOLDER + "battlecomplete.png");
-		playerStatsBg = new Image(IMAGE_FOLDER + "playerstatsbg.png");
 		
 		currentState.setCurrentMode(Mode.MAIN_MENU);
 	}
@@ -87,9 +91,7 @@ public class Main extends BasicGame {
 				drawWritingArea();
 				drawEnemies();
 				drawCombatLog();
-				if(currentState.getBattle().isCompleted()){
-					drawBattleCompletedScreen();
-				}
+				
 				break;
 
 			case MAIN_MENU:
@@ -106,24 +108,26 @@ public class Main extends BasicGame {
 				break;
 			}
 		}
+		if(currentState.getContentFrame() != null){
+			ContentFrame contentFrame = currentState.getContentFrame();
+			contentFrame.getBackground().draw(contentFrame.getX(), contentFrame.getY());
+			
+			for (GraphicalEntity entity : currentState.getContentFrame().getEntities()) {
+				if(entity instanceof TextEntity){
+					((TextEntity) entity).getFont().drawString(entity.getPosition().getX(), entity.getPosition().getY(), ((TextEntity) entity).getText(), ((TextEntity) entity).getColor());
+				} else {
+					entity.getImage().draw(entity.getPosition().x, entity.getPosition().y);
+				}
+			}
+		}
+		
 		for (ClickableEntity entity : currentState.getClickEntities()) {
 			entity.getImage().draw(entity.getPosition().x, entity.getPosition().y);
 		}
 		
 		if(currentState.getShowPlayerStats()){
-			playerStatsBg.draw(100,100);
-			font.drawString(400, 250, "Current level: " + currentState.getPlayer().getLevel(), Color.darkGray);
-			font.drawString(400, 280, "Xp current (next level): " + currentState.getPlayer().getXp() + "(" +currentState.getPlayer().getLevel()+ ")", Color.darkGray);
-			font.drawString(400, 310, "Gold: " + currentState.getPlayer().getGold(), Color.darkGray);
+			
 		}
-	}
-
-	private void drawBattleCompletedScreen() {
-		battleCompleteBg.draw(200, 100);
-		font.drawString(300, 220, "You completed the level!", Color.darkGray);
-		font.drawString(300, 250, "Gained gold: " + currentState.getBattle().getGainedGold(), Color.darkGray);
-		font.drawString(300, 280, "Gained xp: " + currentState.getBattle().getGainedXp(), Color.darkGray);
-		font.drawString(300, 310, "You should get back to town and celebrate!", Color.darkGray);
 	}
 
 	@Override
@@ -203,14 +207,24 @@ public class Main extends BasicGame {
 	}
 
 	private void handleEnemies(int delta) {
+		
 		if(currentState.getBattle().getCurrentEnemies().size() == 0 && !currentState.getBattle().isCompleted()){
 			boolean nextWave = currentState.getBattle().nextWave();
 			if(!nextWave){
 				currentState.getPlayer().addXp(currentState.getBattle().getGainedXp());
 				currentState.getPlayer().modGold(currentState.getBattle().getGainedGold());
 				currentState.getBattle().setCompleted(true);
+
+				ContentFrame contentFrame = new ContentFrame(battleCompleteBg, 200, 100, Arrays.asList(new GraphicalEntity[]{
+						new TextEntity("You completed the level!", font, new Vector2f(300,220), Color.darkGray),
+						new TextEntity("Gained gold: " + currentState.getBattle().getGainedGold(), font, new Vector2f(300,250), Color.darkGray),
+						new TextEntity("Gained xp: " + currentState.getBattle().getGainedXp(), font, new Vector2f(300,280), Color.darkGray),
+						new TextEntity("You should get back to town and celebrate!", font, new Vector2f(300,310), Color.darkGray)
+				}));
+				
+				currentState.setContentFrame(contentFrame);
 			} else {
-				font.drawString(200, 500, "Next wave approaches", Color.orange);
+//				font.drawString(200, 500, "Next wave approaches", Color.orange);
 			}
 		}
 		
