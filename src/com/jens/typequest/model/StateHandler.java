@@ -9,6 +9,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Vector2f;
 
+import com.google.gson.Gson;
 import com.jens.typequest.Main;
 import com.jens.typequest.TypeQuestConstants;
 import com.jens.typequest.loaders.ContentLoader;
@@ -99,10 +100,21 @@ public class StateHandler {
 			if(getShowPlayerStats()){
 				Image playerStatsBg = ImageProvider.getImage("playerstatsbg");
 //				playerStatsBg.draw(100,100);
-				List entities = Arrays.asList(new TextEntity("Current level: " + getPlayer().getLevel(), font, new Vector2f(400,250), Color.darkGray),
-						new TextEntity("Xp current (next level): " + getPlayer().getXp() + "(" + getPlayer().getLevel()+ ")", font, new Vector2f(400,280), Color.darkGray),
-						new TextEntity("Gold: " + getPlayer().getGold(), font, new Vector2f(400,310), Color.darkGray) );
-				contentFrame = new ContentFrame(playerStatsBg, 100,100, entities);
+				List entities = Arrays.asList(new TextEntity("Current level: " + getPlayer().getLevel(), new Vector2f(400,250), Color.darkGray),
+						new TextEntity("Xp current (next level): " + getPlayer().getXp() + "(" + getPlayer().getLevel()+ ")", new Vector2f(400,280), Color.darkGray),
+						new TextEntity("Gold: " + getPlayer().getGold(), new Vector2f(400,310), Color.darkGray) );
+				
+				String loadJsonString = ContentLoader.loadJsonString("playerstat");
+				
+				Gson gson2 = new Gson();
+				contentFrame = gson2.fromJson(loadJsonString, ContentFrame.class);
+				
+//				contentFrame = new ContentFrame(playerStatsBg, 100,100, entities);
+				
+				Gson gson = new Gson();
+				String json = gson.toJson(contentFrame, ContentFrame.class);
+				System.out.println(json);
+				
 			} else {
 				contentFrame = null;
 			}

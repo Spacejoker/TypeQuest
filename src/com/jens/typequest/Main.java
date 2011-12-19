@@ -108,25 +108,23 @@ public class Main extends BasicGame {
 				break;
 			}
 		}
-		if(currentState.getContentFrame() != null){
+		
+		if(currentState.getContentFrame() != null){ // a menu is open
 			ContentFrame contentFrame = currentState.getContentFrame();
 			contentFrame.getBackground().draw(contentFrame.getX(), contentFrame.getY());
 			
 			for (GraphicalEntity entity : currentState.getContentFrame().getEntities()) {
 				if(entity instanceof TextEntity){
-					((TextEntity) entity).getFont().drawString(entity.getPosition().getX(), entity.getPosition().getY(), ((TextEntity) entity).getText(), ((TextEntity) entity).getColor());
+					font.drawString(entity.getPosition().getX(), entity.getPosition().getY(), ((TextEntity) entity).getText(), ((TextEntity) entity).getColor());
 				} else {
 					entity.getImage().draw(entity.getPosition().x, entity.getPosition().y);
 				}
 			}
 		}
 		
+		//Other clickable entities, weird :s
 		for (ClickableEntity entity : currentState.getClickEntities()) {
 			entity.getImage().draw(entity.getPosition().x, entity.getPosition().y);
-		}
-		
-		if(currentState.getShowPlayerStats()){
-			
 		}
 	}
 
@@ -216,14 +214,15 @@ public class Main extends BasicGame {
 				currentState.getBattle().setCompleted(true);
 
 				ContentFrame contentFrame = new ContentFrame(battleCompleteBg, 200, 100, Arrays.asList(new GraphicalEntity[]{
-						new TextEntity("You completed the level!", font, new Vector2f(300,220), Color.darkGray),
-						new TextEntity("Gained gold: " + currentState.getBattle().getGainedGold(), font, new Vector2f(300,250), Color.darkGray),
-						new TextEntity("Gained xp: " + currentState.getBattle().getGainedXp(), font, new Vector2f(300,280), Color.darkGray),
-						new TextEntity("You should get back to town and celebrate!", font, new Vector2f(300,310), Color.darkGray)
+						new TextEntity("You completed the level!",  new Vector2f(300,220), Color.darkGray),
+						new TextEntity("Gained gold: " + currentState.getBattle().getGainedGold(), new Vector2f(300,250), Color.darkGray),
+						new TextEntity("Gained xp: " + currentState.getBattle().getGainedXp(), new Vector2f(300,280), Color.darkGray),
+						new TextEntity("You should get back to town and celebrate!", new Vector2f(300,310), Color.darkGray)
 				}));
 				
 				currentState.setContentFrame(contentFrame);
 			} else {
+				
 //				font.drawString(200, 500, "Next wave approaches", Color.orange);
 			}
 		}

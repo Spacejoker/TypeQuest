@@ -1,6 +1,7 @@
 package com.jens.typequest.loaders;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -99,5 +100,17 @@ public class ContentLoader {
 		}
 
 		return battle;
+	}
+	
+	public static String loadJsonString(String fileName){
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader("src/content/json/" + fileName+ ".json"));
+			return reader.readLine();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "";
 	}
 }

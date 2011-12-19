@@ -6,21 +6,13 @@ import org.newdawn.slick.geom.Vector2f;
 
 public class TextEntity extends GraphicalEntity {
 
-	TrueTypeFont font;
 	Color color;
 	private String text;
 	
-	public TextEntity(String text, TrueTypeFont font, Vector2f pos, Color color) {
+	public TextEntity(String text, Vector2f pos, Color color) {
 		super("", pos, null);
-		this.font = font;
 		this.color = color;
 		this.text = text;
-	}
-	public TrueTypeFont getFont() {
-		return font;
-	}
-	public void setFont(TrueTypeFont font) {
-		this.font = font;
 	}
 	public Color getColor() {
 		return color;
