@@ -1,7 +1,10 @@
 package com.jens.typequest.loaders;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,10 +16,12 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.jens.typequest.model.Battle;
 import com.jens.typequest.model.Button;
 import com.jens.typequest.model.EnemyEntity;
 import com.jens.typequest.model.GraphicalEntity;
+import com.jens.typequest.model.Player;
 import com.jens.typequest.model.StateHandler;
 import com.jens.typequest.model.TextEntity;
 import com.jens.typequest.model.Wave;
@@ -24,6 +29,7 @@ import com.jens.typequest.model.blueprint.Blueprint;
 import com.jens.typequest.model.blueprint.ButtonBlueprint;
 import com.jens.typequest.model.blueprint.ContentFrameBlueprint;
 import com.jens.typequest.model.blueprint.EnemyBlueprint;
+import com.jens.typequest.model.blueprint.PlayerBlueprint;
 import com.jens.typequest.ui.ContentFrame;
 
 public class ContentLoader {
@@ -85,6 +91,28 @@ public class ContentLoader {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Player loadPlayer(){
+		try {
+			PlayerBlueprint blueprint = new Gson().fromJson(readAll(contentFolder + "player.json").toString(), PlayerBlueprint.class);
+			return new Player(blueprint);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public void savePlayer(Player player){
+		PlayerBlueprint playerBlueprint = new PlayerBlueprint(player);
+		String json = new Gson().toJson(player);
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(contentFolder + "player.json"));
+			writer.write(json);
+			writer.close();
+		} catch (Exception  e) {
+			System.out.println("Probelm problem");
 			e.printStackTrace();
 		}
 	}
@@ -169,7 +197,8 @@ public class ContentLoader {
 		for (String buttonBp : blueprint.getButtonBlueprints()) {
 			contentFrame.getButtons().add(getButtonFromBlueprint(buttonBp));
 		}
-
+		
+		//texts hard wired per content frame, dont know what to do about this that makes sense
 		if (id.equals("playerStats")) {
 			contentFrame.getEntities().addAll(
 					Arrays.asList(

@@ -45,7 +45,7 @@ public class Main extends BasicGame {
 	private Image textbox = null;
 	private Image targetImage = null;
 
-	Player player = null;
+//	Player player = null;
 
 	int charWidth = 14;
 	List<Message> combatLog = new ArrayList<Message>();
@@ -56,8 +56,6 @@ public class Main extends BasicGame {
 
 	@Override
 	public void init(GameContainer container) throws SlickException {
-
-		player = StateHandler.getInstance().getPlayer();
 
 		container.getInput().addKeyListener(textProcessor);
 		container.getInput().addKeyListener(commandReader);
@@ -139,20 +137,20 @@ public class Main extends BasicGame {
 	 * Handle the writing
 	 */
 	private void handleWriting() {
-		if (player.getTarget() == null) {
+		if (state.getPlayer().getTarget() == null) {
 			return;
 		}
 		String written = textProcessor.popCharacterQue().toLowerCase();
-		String targetString = player.getTarget().getTextToWrite().toLowerCase();
-		int correctLetters = player.getTarget().getLettersTyped();
+		String targetString = state.getPlayer().getTarget().getTextToWrite().toLowerCase();
+		int correctLetters = state.getPlayer().getTarget().getLettersTyped();
 		if (written.length() > 0) {
 			for (int i = 0; i < written.length(); i++) {
 				if (written.charAt(i) == targetString.charAt(correctLetters)) {
 					correctLetters++;
 					if (correctLetters == targetString.length()) {
 						// string is done!
-						player.getTarget().kill();
-						player.setTarget(null);
+						state.getPlayer().getTarget().kill();
+						state.getPlayer().setTarget(null);
 
 						correctLetters = 0;
 					}
@@ -163,8 +161,8 @@ public class Main extends BasicGame {
 			}
 		}
 
-		if (player.getTarget() != null) {
-			player.getTarget().setLettersTyped(correctLetters);
+		if (state.getPlayer().getTarget() != null) {
+			state.getPlayer().getTarget().setLettersTyped(correctLetters);
 		}
 	}
 
@@ -194,7 +192,7 @@ public class Main extends BasicGame {
 					state.getBattle().addXp(enemy.getXp());
 					iterator.remove();
 				}
-				if (enemy.equals(player.getTarget())) {
+				if (enemy.equals(state.getPlayer().getTarget())) {
 					enemy.setMarked(true);
 				} else {
 					enemy.setMarked(false);
@@ -219,13 +217,13 @@ public class Main extends BasicGame {
 	}
 
 	private void drawWritingArea() {
-		if (player.getTarget() != null) {
-			EnemyEntity target = player.getTarget();
+		if (state.getPlayer().getTarget() != null) {
+			EnemyEntity target = state.getPlayer().getTarget();
 
 			textbox.draw(TypeQuestConstants.TEXT_BOX_X, TypeQuestConstants.TEXT_BOX_Y);
 
-			String targetString = player.getTarget().getTextToWrite();
-			int correctLetters = player.getTarget().getLettersTyped();
+			String targetString = state.getPlayer().getTarget().getTextToWrite();
+			int correctLetters = state.getPlayer().getTarget().getLettersTyped();
 
 			String doneString = targetString.substring(0, correctLetters);
 			String undoneString = targetString.substring(correctLetters);

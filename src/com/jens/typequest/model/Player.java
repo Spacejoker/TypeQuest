@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.jens.typequest.model.StateHandler.Mode;
+import com.jens.typequest.model.blueprint.PlayerBlueprint;
 
 public class Player {
 
@@ -16,6 +17,15 @@ public class Player {
 	int xp = 0;
 	int level = 1;
 	int nextLevel = 10;
+	int[] skillLevels = new int[10]; // 10 siklls hard wired to begin with, all start at 0
+
+	public Player(PlayerBlueprint player){
+		this.gold = player.getGold();
+		this.xp = player.getXp();
+		this.level = player.getLevel();
+		this.nextLevel = player.getNextLevel();
+		this.skillLevels = player.getSkillLevels();
+	}
 	
 	public Player() {
 	}
@@ -126,4 +136,12 @@ public class Player {
 		this.level = level;
 	}
 
+	public int[] getSkillLevels() {
+		return skillLevels;
+	}
+
+	public void setSkillLevels(int[] skillLevels) {
+		this.skillLevels = skillLevels;
+	}
+	
 }

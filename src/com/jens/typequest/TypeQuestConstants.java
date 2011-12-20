@@ -21,5 +21,7 @@ public interface TypeQuestConstants {
 	public static Object ACTION_ENTER_BATTLE = "action-enter-battle";
 	public static Object ACTION_SHOW_PLAYER_STATS = "action-show-player-stats";
 	public static Object ACTION_HIDE_PLAYER_STATS = "action-hide-player-stats";
+	public static Object ACTION_SAVE_PLAYER = "action-save-player";
+	public static Object ACTION_LOAD_PLAYER = "action-load-player";
 	
 }

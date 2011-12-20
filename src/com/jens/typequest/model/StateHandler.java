@@ -81,6 +81,9 @@ public class StateHandler {
 		
 		String action = entity.getAction();
 		
+//		{"id":"savePlayer","imagePath":"button-town","position":{"x":600.0,"y":600.0},"actionId":"action-save-player"}
+//		{"id":"loadPlayer","imagePath":"button-town","position":{"x":400.0,"y":600.0},"actionId":"action-load-player"}
+		
 		if(action.equals(TypeQuestConstants.ACTION_ENTER_TOWN)){
 			setCurrentMode(Mode.TOWN);
 			contentFrame = null;
@@ -91,6 +94,11 @@ public class StateHandler {
 			contentFrame = loader.getContentFrame(TypeQuestConstants.SHOW_PLAYER_STATS);
 		} else if(action.equals(TypeQuestConstants.ACTION_HIDE_PLAYER_STATS)){
 			contentFrame = null; // hide it
+		} else if(action.equals(TypeQuestConstants.ACTION_SAVE_PLAYER)){
+			loader.savePlayer(player);
+		} else if(action.equals(TypeQuestConstants.ACTION_LOAD_PLAYER)){
+			Player loadPlayer = loader.loadPlayer();
+			player = loadPlayer != null ? loadPlayer : player;
 		}
 	}
 	

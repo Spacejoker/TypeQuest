@@ -3,6 +3,7 @@ Save/Load playerstats
 Upgrade system for wall
 Instant repair kits, skill-items
 Make a serious player status page with relevant & structured info
+Make a simple stand alone editor for Enemy-admin (enemies.json)
 
 Started:
 Skill system for Player
