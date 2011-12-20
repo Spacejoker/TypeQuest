@@ -1,14 +1,11 @@
 package com.jens.typequest.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.geom.Vector2f;
 
 import com.jens.typequest.TypeQuestConstants;
 import com.jens.typequest.loaders.ContentLoader;
-import com.jens.typequest.loaders.ImageProvider;
 import com.jens.typequest.ui.ContentFrame;
 
 public class StateHandler {
@@ -37,7 +34,7 @@ public class StateHandler {
 	}
 	
 	public enum Mode {
-		MAIN_MENU, TOWN, BATTLE;
+		MAIN_MENU, TOWN, BATTLE, BATTLE_COMPLETE, DEFEAT;
 	}
 	
 	Mode currentMode = null;
@@ -49,7 +46,7 @@ public class StateHandler {
 	public void setCurrentMode(Mode currentMode) {
 		this.currentMode = currentMode;
 		backgroundFrame = null;
-//		clickEntities.clear();
+
 		switch (currentMode) {
 		case BATTLE:
 			backgroundFrame = loader.getContentFrame("battle");
@@ -61,7 +58,12 @@ public class StateHandler {
 		case MAIN_MENU:
 			backgroundFrame = loader.getContentFrame("mainMenu");
 			break;
-		
+		case BATTLE_COMPLETE:
+			contentFrame = loader.getContentFrame("battleComplete");
+			break;
+		case DEFEAT:
+			contentFrame = loader.getContentFrame("defeat");
+			break;
 		}
 	}
 
@@ -71,15 +73,6 @@ public class StateHandler {
 		}
 		return backgroundFrame.getButtons();
 	}
-
-//	public void setClickEntities(List<Button> clickEntities) {
-//		this.clickEntities = clickEntities;
-//	}
-//	
-//	public void addClickEntry(Button entity){
-//		clickEntities.add(entity);
-//	}
-
 	
 	/**
 	 * Handle clicked events:
@@ -88,12 +81,17 @@ public class StateHandler {
 	public void isClicked(Button entity) {
 		
 		String action = entity.getAction();
+		
 		if(action.equals(TypeQuestConstants.ACTION_ENTER_TOWN)){
 			setCurrentMode(Mode.TOWN);
 			contentFrame = null;
 		} else if(action.equals(TypeQuestConstants.ACTION_ENTER_BATTLE)){
 			setCurrentMode(Mode.BATTLE);
 			contentFrame = null;
+		} else if(action.equals(TypeQuestConstants.ACTION_SHOW_PLAYER_STATS)){
+			contentFrame = loader.getContentFrame(TypeQuestConstants.SHOW_PLAYER_STATS);
+		} else if(action.equals(TypeQuestConstants.ACTION_HIDE_PLAYER_STATS)){
+			contentFrame = null; // hide it
 		}
 	}
 	

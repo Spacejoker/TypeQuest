@@ -12,31 +12,37 @@ public class Battle {
 
 	int gainedXp = 0;
 	int gainedGold = 0;
-	
-	public void addGold(int gold){
+
+	double currentHp = 1;
+	double maxHp = 1;
+
+	public void addGold(int gold) {
 		gainedGold += gold;
 	}
-	public void addXp(int xp){
+
+	public void addXp(int xp) {
 		gainedXp += xp;
 	}
-	
+
 	public int getGainedXp() {
 		return gainedXp;
 	}
+
 	public int getGainedGold() {
 		return gainedGold;
 	}
-	public void addWave(Wave w){
+
+	public void addWave(Wave w) {
 		waves.add(w);
 	}
-	
+
 	public boolean nextWave() {
 		if (waves.size() == 0) {
 			return false;
 		}
 		Wave pop = waves.pop();
 		currentEnemies.addAll(pop.getWaveEnemies());
-		
+
 		return true;
 	}
 
@@ -64,4 +70,31 @@ public class Battle {
 		this.completed = completed;
 	}
 
+	public void dmgWall(double dmg) {
+		currentHp -= dmg;
+	}
+
+	public double getCurrentHp() {
+		return currentHp;
+	}
+
+	public void setCurrentHp(double currentHp) {
+		this.currentHp = currentHp;
+	}
+
+	public double getMaxHp() {
+		return maxHp;
+	}
+
+	public void setMaxHp(double maxHp) {
+		this.maxHp = maxHp;
+	}
+
+	public void setGainedXp(int gainedXp) {
+		this.gainedXp = gainedXp;
+	}
+
+	public void setGainedGold(int gainedGold) {
+		this.gainedGold = gainedGold;
+	}
 }

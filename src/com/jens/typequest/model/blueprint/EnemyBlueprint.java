@@ -16,14 +16,16 @@ public class EnemyBlueprint implements Blueprint{
 	private long attackSpeed; // ms between attacks
 	private List<String> texts = new ArrayList<String>();
 	private String imagePath;
+	private String portraitImage;
 	int mingold;
 	int diffgold;
 	int xp;
 	int minlevel, maxlevel;
 	boolean boss;
 	
-	public EnemyBlueprint(String id, double speed, double dmg, long attackSpeed, List<String> texts, String imagePath, int mingold, int diffgold, int xp, int minlevel, int maxlevel, boolean boss) {
+	public EnemyBlueprint(String id, double speed, double dmg, long attackSpeed, List<String> texts, String imagePath, int mingold, int diffgold, int xp, int minlevel, int maxlevel, boolean boss, String portraitImage) {
 		super();
+		this.portraitImage = portraitImage;
 		this.id = id;
 		this.speed = speed;
 		this.dmg = dmg;
@@ -116,4 +118,11 @@ public class EnemyBlueprint implements Blueprint{
 	public void setBoss(boolean boss) {
 		this.boss = boss;
 	}
+	public String getPortraitImage() {
+		return portraitImage;
+	}
+	public void setPortraitImage(String portraitImage) {
+		this.portraitImage = portraitImage;
+	}
+	
 }

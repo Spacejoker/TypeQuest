@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.jens.typequest.model.StateHandler.Mode;
+
 public class Player {
 
 	private int wallHealth = 100;
@@ -35,6 +37,9 @@ public class Player {
 	}
 
 	public void cycleEnemy() {
+		if(!StateHandler.getInstance().getCurrentMode().equals(Mode.BATTLE)){
+			return;
+		}
 		
 		possibleTargets.clear();
 		possibleTargets.addAll(StateHandler.getInstance().battle.currentEnemies);

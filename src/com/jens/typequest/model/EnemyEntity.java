@@ -5,6 +5,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 
 import com.jens.typequest.TypeQuestConstants;
+import com.jens.typequest.loaders.ImageProvider;
 import com.jens.typequest.loaders.RandomUtil;
 import com.jens.typequest.model.blueprint.EnemyBlueprint;
 import com.jens.typequest.ui.BroadCaster;
@@ -12,7 +13,7 @@ import com.jens.typequest.ui.BroadCaster;
 public class EnemyEntity extends GraphicalEntity {
 
 	public Image getSmallImage(){
-		return image;
+		return portraitImage;
 	}
 	
 	double speed = 0.1;
@@ -24,6 +25,7 @@ public class EnemyEntity extends GraphicalEntity {
 	int xp;
 	int gold;
 	int level;
+	Image portraitImage;
 	
 	public EnemyEntity(String id, Vector2f position, Image image, EnemyBlueprint blueprint, int level) {
 		super(id, position, image);
@@ -33,11 +35,14 @@ public class EnemyEntity extends GraphicalEntity {
 		textToWrite = blueprint.getText();
 		gold = blueprint.getMingold() + RandomUtil.nextInt(blueprint.getDiffgold());
 		xp = (int) (blueprint.getXp()*1.5*level);
+		
 		this.level = level;
+		this.portraitImage = ImageProvider.getImage(blueprint.getPortraitImage());
 	}
 	
 	public long becomesActive = 0;
 	public long lastDmg = 0;
+	boolean marked = false;
 	
 	@Override
 	public void update(int delta) {
@@ -45,18 +50,17 @@ public class EnemyEntity extends GraphicalEntity {
 		if(System.currentTimeMillis() >= becomesActive){
 			if(position.x > TypeQuestConstants.WALL_X){
 				position.x -= speed*delta;
-			} else {
-				//hit the wall!
-				while(System.currentTimeMillis() -lastDmg > attackSpeed){
+			} else { //hit the wall!
+				if(System.currentTimeMillis() -lastDmg > attackSpeed){
 					lastDmg = System.currentTimeMillis();
-//					Player.getInstance().setWallHealth((int) (Player.getInstance().getWallHealth() - dmg)); // bleh
 					BroadCaster.getInstance().writeMessage(name + " hits the wall for " + dmg + " damage.", Color.orange);
+					Battle battle = StateHandler.getInstance().getBattle();
+					battle.dmgWall(dmg);
 				}
 			}
 		}
-	
 	}
-	boolean marked = false;
+	
 	public void setMarked(boolean b) {
 		marked = b;
 	}

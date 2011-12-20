@@ -13,12 +13,13 @@ public interface TypeQuestConstants {
 	public static String ENTER_BATTLE_BUTTON_ID = "enter-battle-button";
 	public static String ENTER_TOWN_BUTTON_ID = "enter-town-button";
 	public static String ENTER_MAIN_MENU_BUTTON_ID = "enter-mainmenu-button";
-	public static String SHOW_PLAYER_STATS = "show-player-stats";
-	public static String CLOSE_PLAYER_STATS = "close-player-stats";
+	public static String SHOW_PLAYER_STATS = "playerStats";
 	
 	
 	// ACTIONS
 	public static String ACTION_ENTER_TOWN = "action-enter-town";
 	public static Object ACTION_ENTER_BATTLE = "action-enter-battle";
+	public static Object ACTION_SHOW_PLAYER_STATS = "action-show-player-stats";
+	public static Object ACTION_HIDE_PLAYER_STATS = "action-hide-player-stats";
 	
 }
