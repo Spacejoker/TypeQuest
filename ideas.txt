@@ -1,12 +1,12 @@
 Not started:
-Save/Load playerstats
 Upgrade system for wall
 Instant repair kits, skill-items
 Make a serious player status page with relevant & structured info
 Make a simple stand alone editor for Enemy-admin (enemies.json)
-Make load/save be a dialogue with 5 slots or so, that shows level etc.
+Upgrade load/save be a dialogue with 5 slots or so, that shows level etc.
 Configure character, name? Lore?
- 
+Implement a cache for Image-content in ImageProvider (just in memory hash instead of reading from disk all the time)
+
 Started:
-Skill system for Player
-Show stats during fight
+Skill system for Player - make it simple
+Show stats during fight - Health bar in place, maybe show current wave and total waves or something?
