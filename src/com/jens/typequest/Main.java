@@ -66,7 +66,6 @@ public class Main extends BasicGame {
 		
 		font = new TrueTypeFont(new Font("Courier new", Font.BOLD, 24), false);
 		currentState.setFont(font);
-		// create a few test enemies:
 		
 		//load some bg-graphics, move to content loader
 		battleBg = new Image(IMAGE_FOLDER + "fortress.png");
@@ -212,7 +211,7 @@ public class Main extends BasicGame {
 				currentState.getPlayer().modGold(currentState.getBattle().getGainedGold());
 				currentState.getBattle().setCompleted(true);
 				
-				ContentFrame contentFrame = ContentLoader.getContentFrame("battleComplete"); 
+				ContentFrame contentFrame = ContentLoader.getInstance().getContentFrame("battleComplete"); 
 				currentState.setContentFrame(contentFrame);
 			} else {
 				//go to victory scene

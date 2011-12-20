@@ -23,6 +23,8 @@ public class StateHandler {
 	boolean showPlayerStats = false;
 	TrueTypeFont font = null;
 	
+	ContentLoader loader = ContentLoader.getInstance();
+	
 	private StateHandler() {
 	}
 	
@@ -52,7 +54,7 @@ public class StateHandler {
 		switch (currentMode) {
 		case BATTLE:
 			addClickEntry(new Button(TypeQuestConstants.ENTER_TOWN_BUTTON_ID, new Vector2f(0, 720), new Vector2f(200, 80), ImageProvider.getImage("button-town")));
-			battle = ContentLoader.getBattle(1);
+			battle = loader.getBattle(1);
 			break;
 		case TOWN:
 			addClickEntry(new Button(TypeQuestConstants.ENTER_BATTLE_BUTTON_ID, new Vector2f(0, 720), new Vector2f(200, 80), ImageProvider.getImage("button-battle")));
@@ -96,7 +98,7 @@ public class StateHandler {
 		} else if(entity.id.equals(TypeQuestConstants.SHOW_PLAYER_STATS)){
 			toggleShowPlayerStats();
 			if(getShowPlayerStats()){
-				contentFrame = ContentLoader.getContentFrame("playerStats");
+				contentFrame = loader.getContentFrame("playerStats");
 			} else {
 				contentFrame = null;
 			}

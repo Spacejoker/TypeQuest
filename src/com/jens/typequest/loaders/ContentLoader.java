@@ -2,15 +2,23 @@ package com.jens.typequest.loaders;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.jens.typequest.model.Battle;
 import com.jens.typequest.model.EnemyEntity;
 import com.jens.typequest.model.GraphicalEntity;
@@ -26,51 +34,90 @@ import com.jens.typequest.ui.ContentFrame;
 public class ContentLoader {
 
 	static String contentFolder = "src/content/json/";
+	
+	private static ContentLoader instance;
 
-	static List<EnemyBlueprint> enemyBlueprints = new ArrayList<EnemyBlueprint>();
+	private ContentLoader(){
 
-	public static EnemyEntity getEnemy(int level, int nr, boolean boss) {
+	}
+	
+	public static ContentLoader getInstance(){
+		if(instance == null){
+			instance = new ContentLoader();			
+		}
+		return instance;
+	}
+	
+//	static List<EnemyBlueprint> enemyBlueprints = new ArrayList<EnemyBlueprint>();
+	
+	 Map<String, ContentFrameBlueprint> contentBlueprintMap = new HashMap<String, ContentFrameBlueprint>();
+	 Map<String, EnemyBlueprint> enemyBlueprints = new HashMap<String, EnemyBlueprint>();
+	
+	public  EnemyEntity getEnemy(int level, int nr, boolean boss) {
 
-		if (enemyBlueprints.size() == 0) {
+		if (enemyBlueprints.keySet().size() == 0) {
 			loadBlueprints();
 		}
 
 		List<EnemyBlueprint> appropriateBlueprints = new ArrayList<EnemyBlueprint>();
 
-		for (int i = 0; i < enemyBlueprints.size(); i++) {
-			if (enemyBlueprints.get(i).isBoss() == boss && enemyBlueprints.get(i).getMinlevel() <= level && enemyBlueprints.get(i).getMaxlevel() >= level) {
-				appropriateBlueprints.add(enemyBlueprints.get(i));
+		for (String key : enemyBlueprints.keySet()) {
+			EnemyBlueprint enemy = enemyBlueprints.get(key);
+			
+			if (enemy.isBoss() == boss && enemy.getMinlevel() <= level && enemy.getMaxlevel() >= level) {
+				appropriateBlueprints.add(enemy);
 			}
 		}
 
 		if (appropriateBlueprints.size() == 0) {
-			appropriateBlueprints.addAll(enemyBlueprints);
+			appropriateBlueprints.addAll(enemyBlueprints.values());
 		}
 
 		return createEnemy(appropriateBlueprints.get(RandomUtil.nextInt(appropriateBlueprints.size())), nr, level);
 	}
 
-	private static void loadBlueprints() {
-
+	private  void loadBlueprints() {
 		Gson gson = new Gson();
 		try {
+		
 			BufferedReader reader = new BufferedReader(new FileReader(contentFolder + "enemies.json"));
 			while (true) {
-
-				String readLine = reader.readLine();
-				if (readLine == null) {
-					return;
+				String enemyData = reader.readLine();
+				if(enemyData == null || enemyData.length() == 0){
+					break;
 				}
-
-				enemyBlueprints.add(gson.fromJson(readLine, EnemyBlueprint.class));
+				EnemyBlueprint print = gson.fromJson(enemyData, EnemyBlueprint.class);
+				enemyBlueprints.put(print.getId(), print);
+			}
+			
+			reader = new BufferedReader(new FileReader(contentFolder + "contentframes.json"));
+			while (true) {
+				String contentData = reader.readLine();
+				if(contentData == null || contentData.length() == 0){
+					break;
+				}
+				ContentFrameBlueprint print = gson.fromJson(contentData, ContentFrameBlueprint.class);
+				contentBlueprintMap.put(print.getId(), print);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
-	private static EnemyEntity createEnemy(EnemyBlueprint enemyBlueprint, int nr, int level) {
+	private  StringBuffer readAll(String string) throws Exception {
+		BufferedReader reader = new BufferedReader(new FileReader(string));
+		StringBuffer buf = new StringBuffer();
+		while (true) {
+			String readLine = reader.readLine();
+			if (readLine == null) {
+				return buf;
+			}
+			buf.append(readLine);
+			
+		}
+	}
+
+	private  EnemyEntity createEnemy(EnemyBlueprint enemyBlueprint, int nr, int level) {
 
 		// randomize a new position
 		int rand = RandomUtil.nextInt(200);
@@ -80,7 +127,7 @@ public class ContentLoader {
 		return new EnemyEntity(enemyBlueprint.getId(), new Vector2f(1024 + 100 * nr, 800 - rand), image, enemyBlueprint, level);
 	}
 
-	public static Battle getBattle(int difficulty) {
+	public  Battle getBattle(int difficulty) {
 		Battle battle = new Battle();
 		// typical map is 10 levels
 
@@ -108,19 +155,18 @@ public class ContentLoader {
 		return battle;
 	}
 
-	public static String loadJsonString(String fileName) {
+	public  String loadJsonString(String fileName) {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader("src/content/json/" + fileName + ".json"));
 			return reader.readLine();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		return "";
 	}
 
-	public static ContentFrame getContentFrame(String id){
+	public  ContentFrame getContentFrame(String id){
 		
 		StateHandler state = StateHandler.getInstance();
 		ContentFrameBlueprint blueprint = (ContentFrameBlueprint) getBlueprint(id, ContentFrame.class);
@@ -148,12 +194,14 @@ public class ContentLoader {
 		return contentFrame;
 	}
 
-	public static Blueprint getBlueprint(String name, Class clazz) {
+	public  Blueprint getBlueprint(String name, Class<ContentFrame> clazz) {
 		if (clazz.equals(ContentFrame.class)) {
+			
 			if ("playerStats".equals(name)) {
 				ContentFrameBlueprint playerStatsBlueprint = new ContentFrameBlueprint();
 				playerStatsBlueprint.setBackgroundImage("playerstatsbg");
 				playerStatsBlueprint.setPosition(new Vector2f(100, 100));
+				System.out.println(new Gson().toJson(playerStatsBlueprint));
 				return playerStatsBlueprint;
 			}
 			if ("battleComplete".equals(name)) {

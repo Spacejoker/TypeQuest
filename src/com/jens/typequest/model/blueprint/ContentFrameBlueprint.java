@@ -12,32 +12,47 @@ import org.newdawn.slick.geom.Vector2f;
  */
 public class ContentFrameBlueprint implements Blueprint {
 
+	String id ="";
 	String backgroundImage = "";
 	List<ButtonBlueprint> buttonBlueprints = new ArrayList<ButtonBlueprint>();
 	List<GraphicalEntityBlueprint> images = new ArrayList<GraphicalEntityBlueprint>();
 	Vector2f position = null;
 	
 	public ContentFrameBlueprint() { }
-	
-	public ContentFrameBlueprint(String backgroundImage, List<ButtonBlueprint> buttonBlueprints, List<GraphicalEntityBlueprint> images, Vector2f position) {
+
+	public ContentFrameBlueprint(String id, String backgroundImage, List<ButtonBlueprint> buttonBlueprints, List<GraphicalEntityBlueprint> images, Vector2f position) {
 		super();
+		this.id = id;
 		this.backgroundImage = backgroundImage;
 		this.buttonBlueprints = buttonBlueprints;
 		this.images = images;
 		this.position = position;
 	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getBackgroundImage() {
 		return backgroundImage;
 	}
+
 	public void setBackgroundImage(String backgroundImage) {
 		this.backgroundImage = backgroundImage;
 	}
+
 	public List<ButtonBlueprint> getButtonBlueprints() {
 		return buttonBlueprints;
 	}
+
 	public void setButtonBlueprints(List<ButtonBlueprint> buttonBlueprints) {
 		this.buttonBlueprints = buttonBlueprints;
 	}
+
 	public List<GraphicalEntityBlueprint> getImages() {
 		return images;
 	}

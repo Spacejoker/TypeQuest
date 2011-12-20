@@ -1,6 +1,0 @@
-Not started:
-Victory screen for batte - count the xp and gold pinball style.
-Defeat screen for battle.
-
-Started:
-Create a ContentFrame class that holds item for a specific scene - this should be loaded from file. This idea can be extended to create an entire scene but it feels a bit too ambitious atm.

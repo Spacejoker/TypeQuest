@@ -10,13 +10,10 @@ public class ImageProvider {
 	public static Image getImage(String name){
 		try {
 			String s = Main.IMAGE_FOLDER + name + ".png";
-			System.out.println(s);
-			
 			return new Image(s);
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new RuntimeException("Error loading file: " + name);
 		}
-		return null;
 	}
 }

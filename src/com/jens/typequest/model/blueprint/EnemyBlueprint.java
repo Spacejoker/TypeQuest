@@ -116,5 +116,4 @@ public class EnemyBlueprint implements Blueprint{
 	public void setBoss(boolean boss) {
 		this.boss = boss;
 	}
-	
 }
