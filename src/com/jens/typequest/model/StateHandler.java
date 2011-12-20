@@ -10,7 +10,6 @@ import com.jens.typequest.ui.ContentFrame;
 
 public class StateHandler {
 	
-//	private List<Button> clickEntities = new ArrayList<Button>();
 	String nextBattleId = "1";
 	Battle battle;
 	Player player = new Player();

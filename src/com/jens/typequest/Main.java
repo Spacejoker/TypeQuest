@@ -84,11 +84,9 @@ public class Main extends BasicGame {
 			if (state.getBackgroundFrame() != null) {
 				drawFrame(state.getBackgroundFrame());
 			}
-
 			if (state.getContentFrame() != null) { // a menu of some kind is open
 				drawFrame(state.getContentFrame());
 			}
-
 			// some special stuff for the battle mode:
 			if (state.getCurrentMode().equals(Mode.BATTLE)) {
 				drawWritingArea();
@@ -107,10 +105,8 @@ public class Main extends BasicGame {
 			if (state.getCurrentMode().equals(Mode.BATTLE)) {
 				// The actual combat - writing!
 				handleWriting();
-
 				// Set up the currently selected enemy
 				handleEnemies(delta);
-
 				// Broadcast any messages in the broadcaster que and then clear the que
 				handleMessageLog();
 			}
@@ -150,7 +146,6 @@ public class Main extends BasicGame {
 		String targetString = player.getTarget().getTextToWrite().toLowerCase();
 		int correctLetters = player.getTarget().getLettersTyped();
 		if (written.length() > 0) {
-
 			for (int i = 0; i < written.length(); i++) {
 				if (written.charAt(i) == targetString.charAt(correctLetters)) {
 					correctLetters++;
@@ -178,7 +173,6 @@ public class Main extends BasicGame {
 		if (state.getBattle().getCurrentHp() <= 0) {
 			state.setCurrentMode(Mode.DEFEAT);
 		} else {
-
 			if (state.getBattle().getCurrentEnemies().size() == 0 && !state.getBattle().isCompleted()) {
 				boolean nextWave = state.getBattle().nextWave();
 				if (!nextWave) {

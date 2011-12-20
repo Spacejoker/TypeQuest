@@ -172,15 +172,22 @@ public class ContentLoader {
 
 		if (id.equals("playerStats")) {
 			contentFrame.getEntities().addAll(
-					Arrays.asList(new TextEntity("Current level: " + state.getPlayer().getLevel(), new Vector2f(400, 250), Color.darkGray), new TextEntity("Xp current (next level): " + state.getPlayer().getXp() + "(" + state.getPlayer().getNextLevel() + ")", new Vector2f(400,
-							280), Color.darkGray), new TextEntity("Gold: " + state.getPlayer().getGold(), new Vector2f(400, 310), Color.darkGray)));
+					Arrays.asList(
+							new TextEntity("Current level: " + state.getPlayer().getLevel(), new Vector2f(400, 250), Color.darkGray), 
+							new TextEntity("Xp current (next level): " + state.getPlayer().getXp() + "(" + state.getPlayer().getNextLevel() + ")", new Vector2f(400, 280), Color.darkGray), 
+							new TextEntity("Gold: " + state.getPlayer().getGold(), new Vector2f(400, 310), Color.darkGray)));
 		} else if (id.equals("battleComplete")) {
 			contentFrame.getEntities().addAll(
-					Arrays.asList(new GraphicalEntity[] { new TextEntity("You completed the level!", new Vector2f(300, 220), Color.darkGray), new TextEntity("Gained gold: " + state.getBattle().getGainedGold(), new Vector2f(300, 250), Color.darkGray),
-							new TextEntity("Gained xp: " + state.getBattle().getGainedXp(), new Vector2f(300, 280), Color.darkGray), new TextEntity("You should get back to town and celebrate!", new Vector2f(300, 310), Color.darkGray) }));
-		} else if (id.equals("town")) {
-		} else if (id.equals("mainMenu")) {
-		} else if (id.equals("battle")) {
+					Arrays.asList(new GraphicalEntity[] { 
+							new TextEntity("You completed the level!", new Vector2f(300, 220), Color.darkGray), 
+							new TextEntity("Gained gold: " + state.getBattle().getGainedGold(), new Vector2f(300, 250), Color.darkGray),
+							new TextEntity("Gained xp: " + state.getBattle().getGainedXp(), new Vector2f(300, 280), Color.darkGray), 
+							new TextEntity("You should get back to town and celebrate!", new Vector2f(300, 310), Color.darkGray) }));
+		} else if (id.equals("defeat")) {
+			contentFrame.getEntities().addAll(
+					Arrays.asList(
+							new GraphicalEntity[] { new TextEntity("Your wall is destroyed and you flee!", new Vector2f(300, 220), Color.darkGray), 
+							new TextEntity("Maybe you should try an easier level?", new Vector2f(300, 250), Color.darkGray)}));
 		}
 
 		return contentFrame;
