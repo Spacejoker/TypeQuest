@@ -12,6 +12,7 @@ public class GraphicalEntity extends Entity {
 		this.position = position;
 		this.id = id;
 		this.image = image;
+		
 	}
 
 	public Image getImage() {

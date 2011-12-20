@@ -14,13 +14,13 @@ public class ContentFrameBlueprint implements Blueprint {
 
 	String id ="";
 	String backgroundImage = "";
-	List<ButtonBlueprint> buttonBlueprints = new ArrayList<ButtonBlueprint>();
-	List<GraphicalEntityBlueprint> images = new ArrayList<GraphicalEntityBlueprint>();
+	List<String> buttonBlueprints = new ArrayList<String>();
+	List<String> images = new ArrayList<String>();
 	Vector2f position = null;
 	
 	public ContentFrameBlueprint() { }
 
-	public ContentFrameBlueprint(String id, String backgroundImage, List<ButtonBlueprint> buttonBlueprints, List<GraphicalEntityBlueprint> images, Vector2f position) {
+	public ContentFrameBlueprint(String id, String backgroundImage, List<String> buttonBlueprints, List<String> images, Vector2f position) {
 		super();
 		this.id = id;
 		this.backgroundImage = backgroundImage;
@@ -45,24 +45,29 @@ public class ContentFrameBlueprint implements Blueprint {
 		this.backgroundImage = backgroundImage;
 	}
 
-	public List<ButtonBlueprint> getButtonBlueprints() {
+	public List<String> getButtonBlueprints() {
 		return buttonBlueprints;
 	}
 
-	public void setButtonBlueprints(List<ButtonBlueprint> buttonBlueprints) {
+	public void setButtonBlueprints(List<String> buttonBlueprints) {
 		this.buttonBlueprints = buttonBlueprints;
 	}
 
-	public List<GraphicalEntityBlueprint> getImages() {
+	public List<String> getImages() {
 		return images;
 	}
-	public void setImages(List<GraphicalEntityBlueprint> images) {
+
+	public void setImages(List<String> images) {
 		this.images = images;
 	}
+
 	public Vector2f getPosition() {
 		return position;
 	}
+
 	public void setPosition(Vector2f position) {
 		this.position = position;
 	}
+	
+
 }

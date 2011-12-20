@@ -1,5 +1,5 @@
 {id="battleComplete","backgroundImage":"battlecomplete","buttonBlueprints":[],"images":[],"position":{"x":200.0,"y":100.0}}
 {id="playerStats","backgroundImage":"playerstatsbg","buttonBlueprints":[],"images":[],"position":{"x":100.0,"y":100.0}}
-{id="town","backgroundImage":"town","buttonBlueprints":[],"images":[],"position":{"x":0,"y":0}}
-{id="mainMenu","backgroundImage":"mainmenu","buttonBlueprints":[],"images":[],"position":{"x":0,"y":0}}
+{id="town","backgroundImage":"town","buttonBlueprints":["town-to-battle-button"],"images":[],"position":{"x":0,"y":0}}
+{id="mainMenu","backgroundImage":"mainmenu","buttonBlueprints":["menu-to-town-button"],"images":[],"position":{"x":0,"y":0}}
 {id="battle","backgroundImage":"fortress","buttonBlueprints":[],"images":[],"position":{"x":0,"y":0}}

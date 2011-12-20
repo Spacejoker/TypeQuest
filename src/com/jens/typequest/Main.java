@@ -2,7 +2,6 @@ package com.jens.typequest;
 
 import java.awt.Font;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -16,7 +15,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.geom.Vector2f;
 
 import com.jens.typequest.loaders.ContentLoader;
 import com.jens.typequest.model.Button;
@@ -84,7 +82,7 @@ public class Main extends BasicGame {
 				drawFrame(state.getBackgroundFrame());
 			}
 			
-			if(state.getContentFrame() != null){ // a menu is open
+			if(state.getContentFrame() != null){ // a menu of some kind is open
 				drawFrame(state.getContentFrame());
 			}
 
@@ -224,6 +222,7 @@ public class Main extends BasicGame {
 			String undoneString = targetString.substring(correctLetters);
 
 			target.getSmallImage().draw(TypeQuestConstants.PIC_X, TypeQuestConstants.TEXT_Y);
+			
 			font.drawString(TypeQuestConstants.TEXT_X, TypeQuestConstants.TEXT_Y, doneString, doneLetterColor);
 			font.drawString(TypeQuestConstants.TEXT_X + doneString.length() * charWidth, TypeQuestConstants.TEXT_Y, undoneString, undoneLetterColor);
 		}
@@ -262,5 +261,4 @@ public class Main extends BasicGame {
 			e.printStackTrace();
 		}
 	}
-
 }

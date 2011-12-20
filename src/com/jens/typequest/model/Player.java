@@ -101,4 +101,24 @@ public class Player {
 		return level;
 	}
 
+	public int getNextLevel() {
+		return nextLevel;
+	}
+
+	public void setNextLevel(int nextLevel) {
+		this.nextLevel = nextLevel;
+	}
+
+	public void setGold(int gold) {
+		this.gold = gold;
+	}
+
+	public void setXp(int xp) {
+		this.xp = xp;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
 }

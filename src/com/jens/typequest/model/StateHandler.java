@@ -1,11 +1,8 @@
 package com.jens.typequest.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Vector2f;
 
@@ -16,7 +13,7 @@ import com.jens.typequest.ui.ContentFrame;
 
 public class StateHandler {
 	
-	private List<Button> clickEntities = new ArrayList<Button>();
+//	private List<Button> clickEntities = new ArrayList<Button>();
 	String nextBattleId = "1";
 	Battle battle;
 	Player player = new Player();
@@ -52,20 +49,17 @@ public class StateHandler {
 	public void setCurrentMode(Mode currentMode) {
 		this.currentMode = currentMode;
 		backgroundFrame = null;
-		clickEntities.clear();
+//		clickEntities.clear();
 		switch (currentMode) {
 		case BATTLE:
 			backgroundFrame = loader.getContentFrame("battle");
-			addClickEntry(new Button(TypeQuestConstants.ENTER_TOWN_BUTTON_ID, new Vector2f(0, 720), new Vector2f(200, 80), ImageProvider.getImage("button-town")));
 			battle = loader.getBattle(1);
 			break;
 		case TOWN:
 			backgroundFrame = loader.getContentFrame("town");
-//			backgroundFrame = ContentLoader.getInstance().getContentFrame("town");
 			break;
 		case MAIN_MENU:
 			backgroundFrame = loader.getContentFrame("mainMenu");
-			addClickEntry(new Button(TypeQuestConstants.ENTER_TOWN_BUTTON_ID, new Vector2f(0, 720), new Vector2f(200, 80), ImageProvider.getImage("button-town")));
 			break;
 		
 		}
@@ -78,25 +72,27 @@ public class StateHandler {
 		return backgroundFrame.getButtons();
 	}
 
-	public void setClickEntities(List<Button> clickEntities) {
-		this.clickEntities = clickEntities;
-	}
-	
-	public void addClickEntry(Button entity){
-		clickEntities.add(entity);
-	}
+//	public void setClickEntities(List<Button> clickEntities) {
+//		this.clickEntities = clickEntities;
+//	}
+//	
+//	public void addClickEntry(Button entity){
+//		clickEntities.add(entity);
+//	}
 
 	
+	/**
+	 * Handle clicked events:
+	 * @param entity
+	 */
 	public void isClicked(Button entity) {
-		if(entity.id.equals(TypeQuestConstants.ENTER_BATTLE_BUTTON_ID)){
-			setCurrentMode(Mode.BATTLE);
-			contentFrame = null;
-		} else if(entity.id.equals(TypeQuestConstants.ENTER_TOWN_BUTTON_ID)){
+		
+		String action = entity.getAction();
+		if(action.equals(TypeQuestConstants.ACTION_ENTER_TOWN)){
 			setCurrentMode(Mode.TOWN);
 			contentFrame = null;
-		} else if(entity.id.equals(TypeQuestConstants.SHOW_PLAYER_STATS)){
-			contentFrame = loader.getContentFrame("playerStats");
-		} else if(entity.id.equals(TypeQuestConstants.CLOSE_PLAYER_STATS)){
+		} else if(action.equals(TypeQuestConstants.ACTION_ENTER_BATTLE)){
+			setCurrentMode(Mode.BATTLE);
 			contentFrame = null;
 		}
 	}

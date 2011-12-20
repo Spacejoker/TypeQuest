@@ -16,4 +16,9 @@ public interface TypeQuestConstants {
 	public static String SHOW_PLAYER_STATS = "show-player-stats";
 	public static String CLOSE_PLAYER_STATS = "close-player-stats";
 	
+	
+	// ACTIONS
+	public static String ACTION_ENTER_TOWN = "action-enter-town";
+	public static Object ACTION_ENTER_BATTLE = "action-enter-battle";
+	
 }

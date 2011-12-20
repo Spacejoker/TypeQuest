@@ -9,17 +9,17 @@ import org.newdawn.slick.geom.Vector2f;
  */
 public class ButtonBlueprint implements Blueprint {
 
+	String id = "";
 	String imagePath = "";
 	Vector2f position = null;
 	String actionId = "";
-
-	public ButtonBlueprint(String imagePath, Vector2f position, String actionId) {
-		super();
-		this.imagePath = imagePath;
-		this.position = position;
-		this.actionId = actionId;
-	}
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getImagePath() {
 		return imagePath;
 	}
@@ -38,4 +38,12 @@ public class ButtonBlueprint implements Blueprint {
 	public void setActionId(String actionId) {
 		this.actionId = actionId;
 	}
+	public ButtonBlueprint(String id, String imagePath, Vector2f position, String actionId) {
+		super();
+		this.id = id;
+		this.imagePath = imagePath;
+		this.position = position;
+		this.actionId = actionId;
+	}
+	
 }

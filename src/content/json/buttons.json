@@ -1,0 +1,2 @@
+{"id":"town-to-battle-button","imagePath":"button-battle","position":{"x":0.0,"y":0.0},"actionId":"action-enter-battle"}
+{"id":"menu-to-town-button","imagePath":"button-town","position":{"x":0.0,"y":0.0},"actionId":"action-enter-town"}
