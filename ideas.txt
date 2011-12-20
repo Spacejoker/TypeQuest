@@ -5,7 +5,6 @@ Make a serious player status page with relevant & structured info
 Make a simple stand alone editor for Enemy-admin (enemies.json)
 Upgrade load/save be a dialogue with 5 slots or so, that shows level etc.
 Configure character, name? Lore?
-Implement a cache for Image-content in ImageProvider (just in memory hash instead of reading from disk all the time)
 
 Started:
 Skill system for Player - make it simple
