@@ -5,6 +5,10 @@ Make a serious player status page with relevant & structured info
 Make a simple stand alone editor for Enemy-admin (enemies.json)
 Upgrade load/save be a dialogue with 5 slots or so, that shows level etc.
 Configure character, name? Lore?
+Need to implement text-loading from file in some smart way... this one is tricky
+Add a player inventory with pots etc - short term boosts
+Start working on some graphics - need to set a theme for the game. Something funny and cool.
+Some deeper stats, save some history data or such for statistikrunkare
 
 Started:
 Skill system for Player - make it simple
