@@ -9,7 +9,8 @@ public class TextGenerator {
 	static String[] content = new String[]{"You know that I want you",
 			"And you know that I need you",
 			"I want it bad",
-			"Your bad romance"};
+			"Your bad romance",
+			"Rah rah ah ah ah"};
 	
 	static Random r = new Random(System.currentTimeMillis());
 	
