@@ -6,6 +6,7 @@ import java.util.List;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 
+import com.jens.typequest.model.Button;
 import com.jens.typequest.model.GraphicalEntity;
 
 public class ContentFrame {
@@ -13,7 +14,7 @@ public class ContentFrame {
 	String id = "";
 	Image background = null;
 	List<GraphicalEntity> entities = new ArrayList<GraphicalEntity>();
-	
+	List<Button> buttons = new ArrayList<Button>();
 	Vector2f position;
 	
 	public ContentFrame() {
@@ -59,5 +60,11 @@ public class ContentFrame {
 		this.position = position;
 	}
 
-	
+	public List<Button> getButtons() {
+		return buttons;
+	}
+
+	public void setButtons(List<Button> buttons) {
+		this.buttons = buttons;
+	}	
 }

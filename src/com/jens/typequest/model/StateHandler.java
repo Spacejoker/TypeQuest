@@ -20,10 +20,12 @@ public class StateHandler {
 	String nextBattleId = "1";
 	Battle battle;
 	Player player = new Player();
-	boolean showPlayerStats = false;
+	
 	TrueTypeFont font = null;
 	
-	ContentLoader loader = ContentLoader.getInstance();
+	private ContentLoader loader = ContentLoader.getInstance();
+	private ContentFrame contentFrame = null;
+	private ContentFrame backgroundFrame = null;
 	
 	private StateHandler() {
 	}
@@ -41,7 +43,7 @@ public class StateHandler {
 		MAIN_MENU, TOWN, BATTLE;
 	}
 	
-	Mode currentMode = Mode.MAIN_MENU;
+	Mode currentMode = null;
 
 	public Mode getCurrentMode() {
 		return currentMode;
@@ -49,33 +51,31 @@ public class StateHandler {
 
 	public void setCurrentMode(Mode currentMode) {
 		this.currentMode = currentMode;
-		hidePopups();
+		backgroundFrame = null;
 		clickEntities.clear();
 		switch (currentMode) {
 		case BATTLE:
+			backgroundFrame = loader.getContentFrame("battle");
 			addClickEntry(new Button(TypeQuestConstants.ENTER_TOWN_BUTTON_ID, new Vector2f(0, 720), new Vector2f(200, 80), ImageProvider.getImage("button-town")));
 			battle = loader.getBattle(1);
 			break;
 		case TOWN:
-			addClickEntry(new Button(TypeQuestConstants.ENTER_BATTLE_BUTTON_ID, new Vector2f(0, 720), new Vector2f(200, 80), ImageProvider.getImage("button-battle")));
-			addClickEntry(new Button(TypeQuestConstants.SHOW_PLAYER_STATS, new Vector2f(200, 720), new Vector2f(200, 80), ImageProvider.getImage("button-stats")));
+			backgroundFrame = loader.getContentFrame("town");
+//			backgroundFrame = ContentLoader.getInstance().getContentFrame("town");
 			break;
 		case MAIN_MENU:
+			backgroundFrame = loader.getContentFrame("mainMenu");
 			addClickEntry(new Button(TypeQuestConstants.ENTER_TOWN_BUTTON_ID, new Vector2f(0, 720), new Vector2f(200, 80), ImageProvider.getImage("button-town")));
 			break;
 		
 		}
 	}
 
-	/**
-	 * Hide popus when switching mode
-	 */
-	private void hidePopups() {
-		showPlayerStats = false;
-	}
-
 	public List<Button> getClickEntities() {
-		return clickEntities;
+		if(contentFrame != null){
+			return contentFrame.getButtons();
+		}
+		return backgroundFrame.getButtons();
 	}
 
 	public void setClickEntities(List<Button> clickEntities) {
@@ -86,7 +86,6 @@ public class StateHandler {
 		clickEntities.add(entity);
 	}
 
-	ContentFrame contentFrame = null;
 	
 	public void isClicked(Button entity) {
 		if(entity.id.equals(TypeQuestConstants.ENTER_BATTLE_BUTTON_ID)){
@@ -96,12 +95,9 @@ public class StateHandler {
 			setCurrentMode(Mode.TOWN);
 			contentFrame = null;
 		} else if(entity.id.equals(TypeQuestConstants.SHOW_PLAYER_STATS)){
-			toggleShowPlayerStats();
-			if(getShowPlayerStats()){
-				contentFrame = loader.getContentFrame("playerStats");
-			} else {
-				contentFrame = null;
-			}
+			contentFrame = loader.getContentFrame("playerStats");
+		} else if(entity.id.equals(TypeQuestConstants.CLOSE_PLAYER_STATS)){
+			contentFrame = null;
 		}
 	}
 	
@@ -111,18 +107,6 @@ public class StateHandler {
 
 	public void setContentFrame(ContentFrame contentFrame) {
 		this.contentFrame = contentFrame;
-	}
-
-	private void toggleShowPlayerStats() {
-		showPlayerStats = !showPlayerStats;
-	}
-
-	public boolean getShowPlayerStats() {
-		return showPlayerStats;
-	}
-
-	public void setShowPlayerStats(boolean showPlayerStats) {
-		this.showPlayerStats = showPlayerStats;
 	}
 
 	public String getNextBattleId() {
@@ -155,5 +139,13 @@ public class StateHandler {
 
 	public void setFont(TrueTypeFont font) {
 		this.font = font;
+	}
+
+	public ContentFrame getBackgroundFrame() {
+		return backgroundFrame;
+	}
+
+	public void setBackgroundFrame(ContentFrame backgroundFrame) {
+		this.backgroundFrame = backgroundFrame;
 	}
 }

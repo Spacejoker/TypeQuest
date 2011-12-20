@@ -12,7 +12,7 @@ public class ButtonBlueprint implements Blueprint {
 	String imagePath = "";
 	Vector2f position = null;
 	String actionId = "";
-	
+
 	public ButtonBlueprint(String imagePath, Vector2f position, String actionId) {
 		super();
 		this.imagePath = imagePath;

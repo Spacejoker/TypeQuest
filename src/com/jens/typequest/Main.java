@@ -34,7 +34,7 @@ import com.jens.typequest.ui.UserCommandReader;
 
 public class Main extends BasicGame {
 
-	StateHandler currentState = StateHandler.getInstance();	
+	StateHandler state = StateHandler.getInstance();	
 	public static final String IMAGE_FOLDER = "src/content/image/";
 
 	TextProcessor textProcessor = new TextProcessor();
@@ -44,14 +44,13 @@ public class Main extends BasicGame {
 	Color doneLetterColor = Color.green;
 	Color undoneLetterColor = Color.white;
 	
-	Image battleBg = null;
-	Image mainMenuBg = null;
-	Image townBg = null;
-	Image textbox = null;
-	Image targetImage = null;
-	Image playerStatsBg = null;
+	private Image textbox = null;
+	private Image targetImage = null;
 	
 	Player player = null;
+
+	int charWidth = 14;
+	List<Message> combatLog = new ArrayList<Message>();
 
 	public Main() {
 		super("Type Quest");
@@ -59,69 +58,57 @@ public class Main extends BasicGame {
 
 	@Override
 	public void init(GameContainer container) throws SlickException {
+		
 		player = StateHandler.getInstance().getPlayer();
+		
 		container.getInput().addKeyListener(textProcessor);
 		container.getInput().addKeyListener(commandReader);
 		container.getInput().addMouseListener(commandReader);
 		
 		font = new TrueTypeFont(new Font("Courier new", Font.BOLD, 24), false);
-		currentState.setFont(font);
+		state.setFont(font);
+		
+		ContentLoader.getInstance().init();
 		
 		//load some bg-graphics, move to content loader
-		battleBg = new Image(IMAGE_FOLDER + "fortress.png");
-		mainMenuBg = new Image(IMAGE_FOLDER + "mainmenu.png");
-		townBg = new Image(IMAGE_FOLDER + "town.png");
 		textbox = new Image(IMAGE_FOLDER + "textbox.png");
 		targetImage = new Image(IMAGE_FOLDER + "target.png");
 		
-		currentState.setCurrentMode(Mode.MAIN_MENU);
+		state.setCurrentMode(Mode.MAIN_MENU);
 	}
-
-	int charWidth = 14;
-	List<Message> combatLog = new ArrayList<Message>();
 
 	@Override
 	public void render(GameContainer container, Graphics graphics) throws SlickException {
 		synchronized (this.getClass()) {
-			switch (currentState.getCurrentMode()) {
-			case BATTLE:
-				battleBg.draw();
+			if(state.getBackgroundFrame() != null){
+				drawFrame(state.getBackgroundFrame());
+			}
+			
+			if(state.getContentFrame() != null){ // a menu is open
+				drawFrame(state.getContentFrame());
+			}
+
+			//some special stuff for the battle mode:
+			if(state.getCurrentMode().equals(Mode.BATTLE)) {
 				drawWritingArea();
 				drawEnemies();
 				drawCombatLog();
-				
-				break;
+			}
+		}
+	}
 
-			case MAIN_MENU:
-				mainMenuBg.draw();
-				displayMainMenu();
-				break;
-				
-			case TOWN:
-				townBg.draw();
-				showTown();
-				break;
-			
-			default:
-				break;
+	private void drawFrame(ContentFrame contentFrame) {
+		contentFrame.getBackground().draw(contentFrame.getPosition().getX(), contentFrame.getPosition().getY());
+		
+		for (GraphicalEntity entity : contentFrame.getEntities()) {
+			if(entity instanceof TextEntity){
+				font.drawString(entity.getPosition().getX(), entity.getPosition().getY(), ((TextEntity) entity).getText(), ((TextEntity) entity).getColor());
+			} else {
+				entity.getImage().draw(entity.getPosition().x, entity.getPosition().y);
 			}
 		}
 		
-		if(currentState.getContentFrame() != null){ // a menu is open
-			ContentFrame contentFrame = currentState.getContentFrame();
-			contentFrame.getBackground().draw(contentFrame.getPosition().getX(), contentFrame.getPosition().getY());
-			
-			for (GraphicalEntity entity : currentState.getContentFrame().getEntities()) {
-				if(entity instanceof TextEntity){
-					font.drawString(entity.getPosition().getX(), entity.getPosition().getY(), ((TextEntity) entity).getText(), ((TextEntity) entity).getColor());
-				} else {
-					entity.getImage().draw(entity.getPosition().x, entity.getPosition().y);
-				}
-			}
-		}
-		
-		//Other clickable entities, weird :s
-		for (Button entity : currentState.getClickEntities()) {
+		for (Button entity : contentFrame.getButtons()) {
 			entity.getImage().draw(entity.getPosition().x, entity.getPosition().y);
 		}
 	}
@@ -129,7 +116,7 @@ public class Main extends BasicGame {
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
 		synchronized (this.getClass()) {
-			switch (currentState.getCurrentMode()) {
+			switch (state.getCurrentMode()) {
 			case BATTLE:
 				// The actual combat - writing!
 				handleWriting();
@@ -139,36 +126,12 @@ public class Main extends BasicGame {
 
 				// Broadcast any messages in the broadcaster que and then clear the que
 				handleMessageLog();
-				
-				//show score screen if the battle is over
 				break;
-			case MAIN_MENU:
-//				displayMainMenu();
-				handleMainMenu(container);
-			case TOWN:
-//				showTown();
-				handleTown(container);
 			default:
 				break;
 			}
+			commandReader.handleQueuedCommands(state);
 		}
-		commandReader.handleQueuedCommands(currentState);
-	}
-
-	private void handleTown(GameContainer container) {
-		
-	}
-
-	private void handleMainMenu(GameContainer container) {
-		
-	}
-
-	private void showTown() {
-		
-	}
-
-	private void displayMainMenu() {
-		
 	}
 
 	private void handleWriting() {
@@ -204,25 +167,25 @@ public class Main extends BasicGame {
 
 	private void handleEnemies(int delta) {
 		
-		if(currentState.getBattle().getCurrentEnemies().size() == 0 && !currentState.getBattle().isCompleted()){
-			boolean nextWave = currentState.getBattle().nextWave();
+		if(state.getBattle().getCurrentEnemies().size() == 0 && !state.getBattle().isCompleted()){
+			boolean nextWave = state.getBattle().nextWave();
 			if(!nextWave){
-				currentState.getPlayer().addXp(currentState.getBattle().getGainedXp());
-				currentState.getPlayer().modGold(currentState.getBattle().getGainedGold());
-				currentState.getBattle().setCompleted(true);
+				state.getPlayer().addXp(state.getBattle().getGainedXp());
+				state.getPlayer().modGold(state.getBattle().getGainedGold());
+				state.getBattle().setCompleted(true);
 				
 				ContentFrame contentFrame = ContentLoader.getInstance().getContentFrame("battleComplete"); 
-				currentState.setContentFrame(contentFrame);
+				state.setContentFrame(contentFrame);
 			} else {
 				//go to victory scene
 			}
 		}
 		
-		for (Iterator<EnemyEntity> iterator = currentState.getBattle().getCurrentEnemies().iterator(); iterator.hasNext();) {
+		for (Iterator<EnemyEntity> iterator = state.getBattle().getCurrentEnemies().iterator(); iterator.hasNext();) {
 			EnemyEntity enemy = iterator.next();
 			if (enemy.getIsDead()) {
-				currentState.getBattle().addGold(enemy.getGold());
-				currentState.getBattle().addXp(enemy.getXp());
+				state.getBattle().addGold(enemy.getGold());
+				state.getBattle().addXp(enemy.getXp());
 				iterator.remove();
 			}
 			if (enemy.equals(player.getTarget())) {
@@ -267,14 +230,14 @@ public class Main extends BasicGame {
 	}
 
 	private void drawEnemies() {
-		Collections.sort(currentState.getBattle().getCurrentEnemies(), new Comparator<EnemyEntity>() {
+		Collections.sort(state.getBattle().getCurrentEnemies(), new Comparator<EnemyEntity>() {
 			@Override
 			public int compare(EnemyEntity o1, EnemyEntity o2) {
 				return (int) (o1.getPosition().getY()+o1.getImage().getHeight() - o2.getPosition().getY()-o2.getImage().getHeight());
 			}
 		});
 		
-		for (EnemyEntity entity : currentState.getBattle().getCurrentEnemies()) {
+		for (EnemyEntity entity : state.getBattle().getCurrentEnemies()) {
 			entity.getImage().draw(entity.getPosition().x, entity.getPosition().y);
 			if(entity.isMarked()){
 				targetImage.draw(entity.getPosition().x+entity.getImage().getWidth()/2-targetImage.getWidth()/2, entity.getPosition().y+entity.getImage().getHeight()/2-targetImage.getHeight()/2);

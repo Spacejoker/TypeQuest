@@ -19,7 +19,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.jens.typequest.TypeQuestConstants;
 import com.jens.typequest.model.Battle;
+import com.jens.typequest.model.Button;
 import com.jens.typequest.model.EnemyEntity;
 import com.jens.typequest.model.GraphicalEntity;
 import com.jens.typequest.model.Player;
@@ -53,30 +55,8 @@ public class ContentLoader {
 	 Map<String, ContentFrameBlueprint> contentBlueprintMap = new HashMap<String, ContentFrameBlueprint>();
 	 Map<String, EnemyBlueprint> enemyBlueprints = new HashMap<String, EnemyBlueprint>();
 	
-	public  EnemyEntity getEnemy(int level, int nr, boolean boss) {
 
-		if (enemyBlueprints.keySet().size() == 0) {
-			loadBlueprints();
-		}
-
-		List<EnemyBlueprint> appropriateBlueprints = new ArrayList<EnemyBlueprint>();
-
-		for (String key : enemyBlueprints.keySet()) {
-			EnemyBlueprint enemy = enemyBlueprints.get(key);
-			
-			if (enemy.isBoss() == boss && enemy.getMinlevel() <= level && enemy.getMaxlevel() >= level) {
-				appropriateBlueprints.add(enemy);
-			}
-		}
-
-		if (appropriateBlueprints.size() == 0) {
-			appropriateBlueprints.addAll(enemyBlueprints.values());
-		}
-
-		return createEnemy(appropriateBlueprints.get(RandomUtil.nextInt(appropriateBlueprints.size())), nr, level);
-	}
-
-	private  void loadBlueprints() {
+	public  void init() {
 		Gson gson = new Gson();
 		try {
 		
@@ -96,6 +76,7 @@ public class ContentLoader {
 				if(contentData == null || contentData.length() == 0){
 					break;
 				}
+				System.out.println(contentData);
 				ContentFrameBlueprint print = gson.fromJson(contentData, ContentFrameBlueprint.class);
 				contentBlueprintMap.put(print.getId(), print);
 			}
@@ -117,6 +98,25 @@ public class ContentLoader {
 		}
 	}
 
+	public  EnemyEntity getEnemy(int level, int nr, boolean boss) {
+		
+		List<EnemyBlueprint> appropriateBlueprints = new ArrayList<EnemyBlueprint>();
+		
+		for (String key : enemyBlueprints.keySet()) {
+			EnemyBlueprint enemy = enemyBlueprints.get(key);
+			
+			if (enemy.isBoss() == boss && enemy.getMinlevel() <= level && enemy.getMaxlevel() >= level) {
+				appropriateBlueprints.add(enemy);
+			}
+		}
+		
+		if (appropriateBlueprints.size() == 0) {
+			appropriateBlueprints.addAll(enemyBlueprints.values());
+		}
+		
+		return createEnemy(appropriateBlueprints.get(RandomUtil.nextInt(appropriateBlueprints.size())), nr, level);
+	}
+	
 	private  EnemyEntity createEnemy(EnemyBlueprint enemyBlueprint, int nr, int level) {
 
 		// randomize a new position
@@ -181,6 +181,8 @@ public class ContentLoader {
 					new TextEntity("Current level: " + state.getPlayer().getLevel(), new Vector2f(400,250), Color.darkGray),
 					new TextEntity("Xp current (next level): " + state.getPlayer().getXp() + "(" + state.getPlayer().getLevel()+ ")", new Vector2f(400,280), Color.darkGray),
 					new TextEntity("Gold: " + state.getPlayer().getGold(), new Vector2f(400,310), Color.darkGray)));
+			
+			contentFrame.getButtons().add(new Button(TypeQuestConstants.CLOSE_PLAYER_STATS, new Vector2f(0, 300), new Vector2f(200, 80), ImageProvider.getImage("button-battle")));
 		} else if(id.equals("battleComplete")){
 			contentFrame.getEntities().addAll(
 					Arrays.asList(new GraphicalEntity[]{
@@ -189,28 +191,24 @@ public class ContentLoader {
 				new TextEntity("Gained xp: " + state.getBattle().getGainedXp(), new Vector2f(300,280), Color.darkGray),
 				new TextEntity("You should get back to town and celebrate!", new Vector2f(300,310), Color.darkGray)
 					}));
+			contentFrame.getButtons().add(new Button(TypeQuestConstants.ENTER_TOWN_BUTTON_ID, new Vector2f(0, 600), new Vector2f(200, 80), ImageProvider.getImage("button-battle")));
+		} else if(id.equals("town")){
+			contentFrame.getButtons().add(new Button(TypeQuestConstants.ENTER_BATTLE_BUTTON_ID, new Vector2f(0, 720), new Vector2f(200, 80), ImageProvider.getImage("button-battle")));
+			contentFrame.getButtons().add(new Button(TypeQuestConstants.SHOW_PLAYER_STATS, new Vector2f(200, 720), new Vector2f(200, 80), ImageProvider.getImage("button-stats")));
+		} else if(id.equals("mainMenu")){
+			contentFrame.getButtons().add(new Button(TypeQuestConstants.ENTER_TOWN_BUTTON_ID, new Vector2f(0, 520), new Vector2f(200, 80), ImageProvider.getImage("button-battle")));
+		} else if(id.equals("battle")){
+			contentFrame.getButtons().add(new Button(TypeQuestConstants.ENTER_TOWN_BUTTON_ID, new Vector2f(0, 550), new Vector2f(200, 80), ImageProvider.getImage("button-battle")));
 		}
+		
 		
 		return contentFrame;
 	}
 
 	public  Blueprint getBlueprint(String name, Class<ContentFrame> clazz) {
 		if (clazz.equals(ContentFrame.class)) {
-			
-			if ("playerStats".equals(name)) {
-				ContentFrameBlueprint playerStatsBlueprint = new ContentFrameBlueprint();
-				playerStatsBlueprint.setBackgroundImage("playerstatsbg");
-				playerStatsBlueprint.setPosition(new Vector2f(100, 100));
-				System.out.println(new Gson().toJson(playerStatsBlueprint));
-				return playerStatsBlueprint;
-			}
-			if ("battleComplete".equals(name)) {
-				ContentFrameBlueprint playerStatsBlueprint = new ContentFrameBlueprint();
-				playerStatsBlueprint.setBackgroundImage("battlecomplete");
-				playerStatsBlueprint.setPosition(new Vector2f(200, 100));
-				return playerStatsBlueprint;
-			}
+			return contentBlueprintMap.get(name);
 		}
-		return null;
+		throw new RuntimeException("No blueprint for '" + name + "', classtype = " + clazz);
 	}
 }
