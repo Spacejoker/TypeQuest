@@ -13,13 +13,19 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.ShapeFill;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.fills.GradientFill;
+import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Vector2f;
 
 import com.jens.typequest.loaders.ContentLoader;
 import com.jens.typequest.model.Button;
 import com.jens.typequest.model.EnemyEntity;
 import com.jens.typequest.model.GraphicalEntity;
+import com.jens.typequest.model.HealthBar;
 import com.jens.typequest.model.Player;
 import com.jens.typequest.model.StateHandler;
 import com.jens.typequest.model.StateHandler.Mode;
@@ -29,6 +35,7 @@ import com.jens.typequest.ui.ContentFrame;
 import com.jens.typequest.ui.Message;
 import com.jens.typequest.ui.TextProcessor;
 import com.jens.typequest.ui.UserCommandReader;
+import com.jens.typequest.util.GraphUtil;
 
 public class Main extends BasicGame {
 
@@ -90,6 +97,12 @@ public class Main extends BasicGame {
 				drawWritingArea();
 				drawEnemies();
 				drawCombatLog();
+				
+				//health bar:
+				if(state.getBattle().getHealthBar().getRedPart() != null){
+					state.getBattle().getHealthBar().getBg().draw();
+					graphics.fill(state.getBattle().getHealthBar().getRedPart(), GraphUtil.getColorAsGradient(Color.red));
+				}
 			}
 		}
 	}

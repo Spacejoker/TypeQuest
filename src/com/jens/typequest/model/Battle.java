@@ -12,10 +12,15 @@ public class Battle {
 
 	int gainedXp = 0;
 	int gainedGold = 0;
+	HealthBar healthBar = new HealthBar();
 
 	double currentHp = 1;
 	double maxHp = 1;
 
+	public Battle() {
+		
+	}
+	
 	public void addGold(int gold) {
 		gainedGold += gold;
 	}
@@ -72,6 +77,8 @@ public class Battle {
 
 	public void dmgWall(double dmg) {
 		currentHp -= dmg;
+		healthBar.setPercentage(currentHp/maxHp*100);
+		healthBar.updateHealthBar();
 	}
 
 	public double getCurrentHp() {
@@ -97,4 +104,14 @@ public class Battle {
 	public void setGainedGold(int gainedGold) {
 		this.gainedGold = gainedGold;
 	}
+
+	public HealthBar getHealthBar() {
+		return healthBar;
+	}
+
+	public void setHealthBar(HealthBar healthBar) {
+		this.healthBar = healthBar;
+	}
+	
+	
 }

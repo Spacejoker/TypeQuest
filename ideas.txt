@@ -4,7 +4,9 @@ Upgrade system for wall
 Instant repair kits, skill-items
 Make a serious player status page with relevant & structured info
 Make a simple stand alone editor for Enemy-admin (enemies.json)
-
+Make load/save be a dialogue with 5 slots or so, that shows level etc.
+Configure character, name? Lore?
+ 
 Started:
 Skill system for Player
 Show stats during fight
