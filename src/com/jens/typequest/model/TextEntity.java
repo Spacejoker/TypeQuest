@@ -1,7 +1,6 @@
 package com.jens.typequest.model;
 
 import org.newdawn.slick.Color;
-import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Vector2f;
 
 public class TextEntity extends GraphicalEntity {

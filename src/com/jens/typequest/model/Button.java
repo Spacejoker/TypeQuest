@@ -3,11 +3,11 @@ package com.jens.typequest.model;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 
-public class ClickableEntity extends GraphicalEntity {
+public class Button extends GraphicalEntity {
 
 	private Vector2f size;
 
-	public ClickableEntity(String id, Vector2f position, Vector2f size, Image image) {
+	public Button(String id, Vector2f position, Vector2f size, Image image) {
 		super(id, position, image);
 		this.size = size;
 	}

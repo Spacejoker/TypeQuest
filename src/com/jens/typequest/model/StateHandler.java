@@ -9,8 +9,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Vector2f;
 
-import com.google.gson.Gson;
-import com.jens.typequest.Main;
 import com.jens.typequest.TypeQuestConstants;
 import com.jens.typequest.loaders.ContentLoader;
 import com.jens.typequest.loaders.ImageProvider;
@@ -18,7 +16,7 @@ import com.jens.typequest.ui.ContentFrame;
 
 public class StateHandler {
 	
-	private List<ClickableEntity> clickEntities = new ArrayList<ClickableEntity>();
+	private List<Button> clickEntities = new ArrayList<Button>();
 	String nextBattleId = "1";
 	Battle battle;
 	Player player = new Player();
@@ -53,15 +51,15 @@ public class StateHandler {
 		clickEntities.clear();
 		switch (currentMode) {
 		case BATTLE:
-			addClickEntry(new ClickableEntity(TypeQuestConstants.ENTER_TOWN_BUTTON_ID, new Vector2f(0, 720), new Vector2f(200, 80), ImageProvider.getImage("button-town")));
+			addClickEntry(new Button(TypeQuestConstants.ENTER_TOWN_BUTTON_ID, new Vector2f(0, 720), new Vector2f(200, 80), ImageProvider.getImage("button-town")));
 			battle = ContentLoader.getBattle(1);
 			break;
 		case TOWN:
-			addClickEntry(new ClickableEntity(TypeQuestConstants.ENTER_BATTLE_BUTTON_ID, new Vector2f(0, 720), new Vector2f(200, 80), ImageProvider.getImage("button-battle")));
-			addClickEntry(new ClickableEntity(TypeQuestConstants.SHOW_PLAYER_STATS, new Vector2f(200, 720), new Vector2f(200, 80), ImageProvider.getImage("button-stats")));
+			addClickEntry(new Button(TypeQuestConstants.ENTER_BATTLE_BUTTON_ID, new Vector2f(0, 720), new Vector2f(200, 80), ImageProvider.getImage("button-battle")));
+			addClickEntry(new Button(TypeQuestConstants.SHOW_PLAYER_STATS, new Vector2f(200, 720), new Vector2f(200, 80), ImageProvider.getImage("button-stats")));
 			break;
 		case MAIN_MENU:
-			addClickEntry(new ClickableEntity(TypeQuestConstants.ENTER_TOWN_BUTTON_ID, new Vector2f(0, 720), new Vector2f(200, 80), ImageProvider.getImage("button-town")));
+			addClickEntry(new Button(TypeQuestConstants.ENTER_TOWN_BUTTON_ID, new Vector2f(0, 720), new Vector2f(200, 80), ImageProvider.getImage("button-town")));
 			break;
 		
 		}
@@ -74,21 +72,21 @@ public class StateHandler {
 		showPlayerStats = false;
 	}
 
-	public List<ClickableEntity> getClickEntities() {
+	public List<Button> getClickEntities() {
 		return clickEntities;
 	}
 
-	public void setClickEntities(List<ClickableEntity> clickEntities) {
+	public void setClickEntities(List<Button> clickEntities) {
 		this.clickEntities = clickEntities;
 	}
 	
-	public void addClickEntry(ClickableEntity entity){
+	public void addClickEntry(Button entity){
 		clickEntities.add(entity);
 	}
 
 	ContentFrame contentFrame = null;
 	
-	public void isClicked(ClickableEntity entity) {
+	public void isClicked(Button entity) {
 		if(entity.id.equals(TypeQuestConstants.ENTER_BATTLE_BUTTON_ID)){
 			setCurrentMode(Mode.BATTLE);
 			contentFrame = null;
@@ -98,23 +96,7 @@ public class StateHandler {
 		} else if(entity.id.equals(TypeQuestConstants.SHOW_PLAYER_STATS)){
 			toggleShowPlayerStats();
 			if(getShowPlayerStats()){
-				Image playerStatsBg = ImageProvider.getImage("playerstatsbg");
-//				playerStatsBg.draw(100,100);
-				List entities = Arrays.asList(new TextEntity("Current level: " + getPlayer().getLevel(), new Vector2f(400,250), Color.darkGray),
-						new TextEntity("Xp current (next level): " + getPlayer().getXp() + "(" + getPlayer().getLevel()+ ")", new Vector2f(400,280), Color.darkGray),
-						new TextEntity("Gold: " + getPlayer().getGold(), new Vector2f(400,310), Color.darkGray) );
-				
-				String loadJsonString = ContentLoader.loadJsonString("playerstat");
-				
-				Gson gson2 = new Gson();
-				contentFrame = gson2.fromJson(loadJsonString, ContentFrame.class);
-				
-//				contentFrame = new ContentFrame(playerStatsBg, 100,100, entities);
-				
-				Gson gson = new Gson();
-				String json = gson.toJson(contentFrame, ContentFrame.class);
-				System.out.println(json);
-				
+				contentFrame = ContentLoader.getContentFrame("playerStats");
 			} else {
 				contentFrame = null;
 			}

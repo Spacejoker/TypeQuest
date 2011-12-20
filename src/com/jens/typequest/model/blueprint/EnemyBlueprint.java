@@ -1,4 +1,4 @@
-package com.jens.typequest.model;
+package com.jens.typequest.model.blueprint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import com.jens.typequest.loaders.RandomUtil;
 /**
  * Blueprints for an enemy - what picture/stats does it have etc?
  */
-public class EnemyBlueprint {
+public class EnemyBlueprint implements Blueprint{
 	
 	private String id;
 	private double speed = 0.1;

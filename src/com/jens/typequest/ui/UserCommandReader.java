@@ -8,7 +8,7 @@ import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 
-import com.jens.typequest.model.ClickableEntity;
+import com.jens.typequest.model.Button;
 import com.jens.typequest.model.StateHandler;
 
 public class UserCommandReader implements KeyListener, MouseListener {
@@ -53,7 +53,7 @@ public class UserCommandReader implements KeyListener, MouseListener {
 		out:while (queuedClicks.size()> 0) {
 			Vector2f poll = queuedClicks.poll();
 			for (int i = 0; i < stateHandler.getClickEntities().size(); i++) {
-				ClickableEntity entity = stateHandler.getClickEntities().get(i);
+				Button entity = stateHandler.getClickEntities().get(i);
 				if(entity.isIn(poll.x, poll.y)){
 					System.out.println("in "  + entity.getImage().getResourceReference());
 					

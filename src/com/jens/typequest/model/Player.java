@@ -90,7 +90,7 @@ public class Player {
 	}
 
 	public void addXp(int xp) {
-		this.xp = xp;
+		this.xp += xp;
 		while(this.xp >= nextLevel){
 			level ++;
 			nextLevel += level*1.5*10;

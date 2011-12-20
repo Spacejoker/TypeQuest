@@ -6,6 +6,7 @@ import org.newdawn.slick.geom.Vector2f;
 
 import com.jens.typequest.TypeQuestConstants;
 import com.jens.typequest.loaders.RandomUtil;
+import com.jens.typequest.model.blueprint.EnemyBlueprint;
 import com.jens.typequest.ui.BroadCaster;
 
 public class EnemyEntity extends GraphicalEntity {

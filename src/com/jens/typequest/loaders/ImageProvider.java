@@ -9,7 +9,10 @@ public class ImageProvider {
 
 	public static Image getImage(String name){
 		try {
-			return new Image(Main.IMAGE_FOLDER + name + ".png");
+			String s = Main.IMAGE_FOLDER + name + ".png";
+			System.out.println(s);
+			
+			return new Image(s);
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

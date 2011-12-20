@@ -1,24 +1,38 @@
 package com.jens.typequest.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Vector2f;
 
-import com.jens.typequest.model.ClickableEntity;
 import com.jens.typequest.model.GraphicalEntity;
 
 public class ContentFrame {
 
+	String id = "";
 	Image background = null;
-	List<GraphicalEntity> entities = null;
-	int x = 0;
-	int y = 0;
+	List<GraphicalEntity> entities = new ArrayList<GraphicalEntity>();
 	
-	public ContentFrame(Image bg, int x, int y, List<GraphicalEntity> entities) {
-		this.background = bg;
+	Vector2f position;
+	
+	public ContentFrame() {
+	}
+
+	public ContentFrame(String id, Image background, List<GraphicalEntity> entities, Vector2f position) {
+		super();
+		this.id = id;
+		this.background = background;
 		this.entities = entities;
-		this.x = x;
-		this.y = y;
+		this.position = position;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public Image getBackground() {
@@ -37,21 +51,13 @@ public class ContentFrame {
 		this.entities = entities;
 	}
 
-	public int getX() {
-		return x;
+	public Vector2f getPosition() {
+		return position;
 	}
 
-	public void setX(int x) {
-		this.x = x;
+	public void setPosition(Vector2f position) {
+		this.position = position;
 	}
 
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-	
 	
 }

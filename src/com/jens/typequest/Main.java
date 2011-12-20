@@ -18,7 +18,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Vector2f;
 
-import com.jens.typequest.model.ClickableEntity;
+import com.jens.typequest.loaders.ContentLoader;
+import com.jens.typequest.model.Button;
 import com.jens.typequest.model.EnemyEntity;
 import com.jens.typequest.model.GraphicalEntity;
 import com.jens.typequest.model.Player;
@@ -48,7 +49,6 @@ public class Main extends BasicGame {
 	Image townBg = null;
 	Image textbox = null;
 	Image targetImage = null;
-	Image battleCompleteBg = null;
 	Image playerStatsBg = null;
 	
 	Player player = null;
@@ -74,7 +74,6 @@ public class Main extends BasicGame {
 		townBg = new Image(IMAGE_FOLDER + "town.png");
 		textbox = new Image(IMAGE_FOLDER + "textbox.png");
 		targetImage = new Image(IMAGE_FOLDER + "target.png");
-		battleCompleteBg = new Image(IMAGE_FOLDER + "battlecomplete.png");
 		
 		currentState.setCurrentMode(Mode.MAIN_MENU);
 	}
@@ -111,7 +110,7 @@ public class Main extends BasicGame {
 		
 		if(currentState.getContentFrame() != null){ // a menu is open
 			ContentFrame contentFrame = currentState.getContentFrame();
-			contentFrame.getBackground().draw(contentFrame.getX(), contentFrame.getY());
+			contentFrame.getBackground().draw(contentFrame.getPosition().getX(), contentFrame.getPosition().getY());
 			
 			for (GraphicalEntity entity : currentState.getContentFrame().getEntities()) {
 				if(entity instanceof TextEntity){
@@ -123,7 +122,7 @@ public class Main extends BasicGame {
 		}
 		
 		//Other clickable entities, weird :s
-		for (ClickableEntity entity : currentState.getClickEntities()) {
+		for (Button entity : currentState.getClickEntities()) {
 			entity.getImage().draw(entity.getPosition().x, entity.getPosition().y);
 		}
 	}
@@ -212,18 +211,11 @@ public class Main extends BasicGame {
 				currentState.getPlayer().addXp(currentState.getBattle().getGainedXp());
 				currentState.getPlayer().modGold(currentState.getBattle().getGainedGold());
 				currentState.getBattle().setCompleted(true);
-
-				ContentFrame contentFrame = new ContentFrame(battleCompleteBg, 200, 100, Arrays.asList(new GraphicalEntity[]{
-						new TextEntity("You completed the level!",  new Vector2f(300,220), Color.darkGray),
-						new TextEntity("Gained gold: " + currentState.getBattle().getGainedGold(), new Vector2f(300,250), Color.darkGray),
-						new TextEntity("Gained xp: " + currentState.getBattle().getGainedXp(), new Vector2f(300,280), Color.darkGray),
-						new TextEntity("You should get back to town and celebrate!", new Vector2f(300,310), Color.darkGray)
-				}));
 				
+				ContentFrame contentFrame = ContentLoader.getContentFrame("battleComplete"); 
 				currentState.setContentFrame(contentFrame);
 			} else {
-				
-//				font.drawString(200, 500, "Next wave approaches", Color.orange);
+				//go to victory scene
 			}
 		}
 		

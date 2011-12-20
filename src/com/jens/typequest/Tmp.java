@@ -3,7 +3,7 @@ package com.jens.typequest;
 import java.util.Arrays;
 
 import com.google.gson.Gson;
-import com.jens.typequest.model.EnemyBlueprint;
+import com.jens.typequest.model.blueprint.EnemyBlueprint;
 
 public class Tmp {
 	
