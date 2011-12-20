@@ -1,0 +1,9 @@
+Not started:
+Save/Load playerstats
+Upgrade system for wall
+Instant repair kits, skill-items
+Make a serious player status page with relevant & structured info
+
+Started:
+Skill system for Player
+Show stats during fight
