@@ -68,7 +68,7 @@ public class Main extends BasicGame {
 		currentState.setFont(font);
 		// create a few test enemies:
 		
-		//load some bg-graphics
+		//load some bg-graphics, move to content loader
 		battleBg = new Image(IMAGE_FOLDER + "fortress.png");
 		mainMenuBg = new Image(IMAGE_FOLDER + "mainmenu.png");
 		townBg = new Image(IMAGE_FOLDER + "town.png");
