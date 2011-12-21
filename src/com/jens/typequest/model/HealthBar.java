@@ -43,7 +43,7 @@ public class HealthBar {
 		
 		healthPart = new Polygon();
 		shieldPart = new Polygon();
-//		int cnt = 0;
+
 		if(percentage > 0){
 			double start = (maxdegree -  mindegree) * (100-percentage) / 100.0 + mindegree;
 			
@@ -52,18 +52,14 @@ public class HealthBar {
 					float x = (float) (Math.cos(degree) * rad + position.x);
 					float y = (float) (Math.sin(degree) * rad*-1 + position.y);
 					healthPart.addPoint(x, y);
-//					cnt ++;
 				} else {
 					mod = Math.abs(mod)*-1;
 					rad = 80;
 				}
 			}
 		} else {
-			//empty life - dead
 			healthPart = null;
 		}
-//		System.out.println("its " + cnt + " polygons.");
-//		System.out.println("shieldPercentage: " + shieldPercentage);
 		rad = 120;
 		mod = Math.abs(mod);
 		if(shieldPercentage > 0){
@@ -80,7 +76,6 @@ public class HealthBar {
 				}
 			}
 		} else {
-			//empty life - dead
 			shieldPart = null;
 		}
 	}

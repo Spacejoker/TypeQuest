@@ -24,4 +24,18 @@ public interface TypeQuestConstants {
 	public static Object ACTION_SAVE_PLAYER = "action-save-player";
 	public static Object ACTION_LOAD_PLAYER = "action-load-player";
 	
+	public static String ACTION_PLAYER_UPGRADE_ONE = "action-player-upgrade-one";
+	public static String ACTION_PLAYER_UPGRADE_TWO = "action-player-upgrade-two";
+	public static String ACTION_PLAYER_UPGRADE_THREE = "action-player-upgrade-three";
+	public static String ACTION_PLAYER_UPGRADE_FOUR = "action-player-upgrade-four";
+	public static String ACTION_PLAYER_UPGRADE_FIVE = "action-player-upgrade-five";
+	
+	
+	//Skill ids
+	public static int PLAYER_UPGRADE_ONE = 0;
+	public static int PLAYER_UPGRADE_TWO = 0;
+	public static int PLAYER_UPGRADE_THREE = 0;
+	public static int PLAYER_UPGRADE_FOUR = 0;
+	public static int PLAYER_UPGRADE_FIVE = 0;
+	
 }

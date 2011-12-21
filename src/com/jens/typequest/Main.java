@@ -99,7 +99,6 @@ public class Main extends BasicGame {
 				drawCombatLog();
 				
 				//health bar:
-//				state.getBattle().updateHealthBar();
 				if(state.getBattle().getHealthBar().getShieldPart() != null){
 					graphics.fill(state.getBattle().getHealthBar().getShieldPart(), GraphUtil.getColorAsGradient(Color.blue));
 				}
