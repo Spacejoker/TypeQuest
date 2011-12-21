@@ -86,6 +86,7 @@ public class ContentLoader {
 				if (contentData == null || contentData.length() == 0) {
 					break;
 				}
+				System.out.println(contentData);
 				ButtonBlueprint print = gson.fromJson(contentData, ButtonBlueprint.class);
 				buttonBlueprintMap.put(print.getId(), print);
 			}
@@ -206,9 +207,16 @@ public class ContentLoader {
 		if (id.equals("playerStats")) {
 			contentFrame.getEntities().addAll(
 					Arrays.asList(
-							new TextEntity("Current level: " + state.getPlayer().getLevel(), new Vector2f(400, 250), Color.darkGray), 
-							new TextEntity("Xp current (next level): " + state.getPlayer().getXp() + "(" + state.getPlayer().getNextLevel() + ")", new Vector2f(400, 280), Color.darkGray), 
-							new TextEntity("Gold: " + state.getPlayer().getGold(), new Vector2f(400, 310), Color.darkGray)));
+							new TextEntity("Level: " + state.getPlayer().getLevel(), new Vector2f(600, 250), Color.darkGray), 
+							new TextEntity("Xp: " + state.getPlayer().getXp(), new Vector2f(600, 280), Color.darkGray), 
+							new TextEntity("Next: " + state.getPlayer().getNextLevel() , new Vector2f(600, 310), Color.darkGray), 
+							new TextEntity("Gold: " + state.getPlayer().getGold(), new Vector2f(600, 340), Color.darkGray),
+							new TextEntity("Wall Health Level: " + state.getPlayer().getSkillLevels()[0], new Vector2f(290, 190), Color.darkGray),
+							new TextEntity("Wall Shield Level: " + state.getPlayer().getSkillLevels()[1], new Vector2f(290, 280), Color.darkGray),
+							new TextEntity("Blabla Level: " + state.getPlayer().getSkillLevels()[2], new Vector2f(290, 370), Color.darkGray),
+							new TextEntity("Baka kaka Level: " + state.getPlayer().getSkillLevels()[3], new Vector2f(290, 460), Color.darkGray),
+							new TextEntity("Bygg lego Level: " + state.getPlayer().getSkillLevels()[4], new Vector2f(290, 550), Color.darkGray)
+							));
 		} else if (id.equals("battleComplete")) {
 			contentFrame.getEntities().addAll(
 					Arrays.asList(new GraphicalEntity[] { 
@@ -221,7 +229,7 @@ public class ContentLoader {
 					Arrays.asList(
 							new GraphicalEntity[] { new TextEntity("Your wall is destroyed and you flee!", new Vector2f(300, 220), Color.darkGray), 
 							new TextEntity("Maybe you should try an easier level?", new Vector2f(300, 250), Color.darkGray)}));
-		}
+		} 
 
 		return contentFrame;
 	}
