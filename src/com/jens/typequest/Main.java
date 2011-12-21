@@ -99,10 +99,14 @@ public class Main extends BasicGame {
 				drawCombatLog();
 				
 				//health bar:
+//				state.getBattle().updateHealthBar();
+				if(state.getBattle().getHealthBar().getShieldPart() != null){
+					graphics.fill(state.getBattle().getHealthBar().getShieldPart(), GraphUtil.getColorAsGradient(Color.blue));
+				}
 				if(state.getBattle().getHealthBar().getRedPart() != null){
-					state.getBattle().getHealthBar().getBg().draw();
 					graphics.fill(state.getBattle().getHealthBar().getRedPart(), GraphUtil.getColorAsGradient(Color.red));
 				}
+				state.getBattle().getHealthBar().getBg().draw();
 			}
 		}
 	}
@@ -120,6 +124,7 @@ public class Main extends BasicGame {
 				handleEnemies(delta);
 				// Broadcast any messages in the broadcaster que and then clear the que
 				handleMessageLog();
+				state.timePassed(delta);
 			}
 			commandReader.handleQueuedCommands(state);
 		}

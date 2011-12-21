@@ -112,7 +112,7 @@ public class ContentLoader {
 			writer.write(json);
 			writer.close();
 		} catch (Exception  e) {
-			System.out.println("Probelm problem");
+//			System.out.println("Probelm problem");
 			e.printStackTrace();
 		}
 	}
@@ -168,6 +168,10 @@ public class ContentLoader {
 
 		// test level
 		Wave w = new Wave();
+		w.add(getEnemy(1, 0, true));
+		battle.addWave(w);
+
+		w = new Wave();
 		w.add(getEnemy(1, 0, true));
 		battle.addWave(w);
 

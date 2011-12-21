@@ -1,2 +1,2 @@
-{"id":"gaga","speed":0.1,"dmg":7,"attackSpeed":500,"texts":["Ra ra oh la la LONG BUSINESS OLOL"],"portraitImage":"characterface","imagePath":"enemy","mingold":1,"diffgold":9,"xp":10,"minlevel":0,"maxlevel":10,"boss":false}
-{"id":"crab","speed":0.1,"dmg":5,"attackSpeed":500,"texts":["Ra ra oh la la LONG BUSINESS OLOL"],"portraitImage":"characterface","imagePath":"gaga","mingold":1,"diffgold":9,"xp":10,"minlevel":0,"maxlevel":10,"boss":false}
+{"id":"gaga","speed":0.1,"dmg":7,"attackSpeed":500,"texts":["ra ra"],"portraitImage":"characterface","imagePath":"enemy","mingold":1,"diffgold":9,"xp":10,"minlevel":0,"maxlevel":10,"boss":false}
+{"id":"crab","speed":0.1,"dmg":5,"attackSpeed":500,"texts":["busa"],"portraitImage":"characterface","imagePath":"gaga","mingold":1,"diffgold":9,"xp":10,"minlevel":0,"maxlevel":10,"boss":false}
