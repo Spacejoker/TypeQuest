@@ -153,7 +153,6 @@ public class StateHandler {
 	long lastShieldReg = System.currentTimeMillis();
 	
 	public void timePassed(int delta) {
-		
 //		System.out.println("a:" + battle.isShieldDamaged());
 //		System.out.println("b: " + (battle.getLastHit() + player.getShieldIdleTime() < System.currentTimeMillis()));
 //		System.out.println("c: " + (System.currentTimeMillis() - lastShieldReg > player.getShieldRegenSpeed()));
