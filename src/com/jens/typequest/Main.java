@@ -52,8 +52,6 @@ public class Main extends BasicGame {
 	private Image textbox = null;
 	private Image targetImage = null;
 
-//	Player player = null;
-
 	int charWidth = 14;
 	List<Message> combatLog = new ArrayList<Message>();
 
@@ -99,7 +97,6 @@ public class Main extends BasicGame {
 				drawCombatLog();
 				
 				//health bar:
-//				state.getBattle().updateHealthBar();
 				if(state.getBattle().getHealthBar().getShieldPart() != null){
 					graphics.fill(state.getBattle().getHealthBar().getShieldPart(), GraphUtil.getColorAsGradient(Color.blue));
 				}
@@ -296,7 +293,7 @@ public class Main extends BasicGame {
 	public static void main(String[] args) {
 		try {
 			AppGameContainer app = new AppGameContainer(new Main());
-			app.setDisplayMode(1024, 800, false);
+			app.setDisplayMode(1024, 720, false);
 			app.start();
 		} catch (Exception e) {
 			e.printStackTrace();

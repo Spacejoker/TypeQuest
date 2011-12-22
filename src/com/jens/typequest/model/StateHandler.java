@@ -154,9 +154,9 @@ public class StateHandler {
 	
 	public void timePassed(int delta) {
 		
-		System.out.println("a:" + battle.isShieldDamaged());
-		System.out.println("b: " + (battle.getLastHit() + player.getShieldIdleTime() < System.currentTimeMillis()));
-		System.out.println("c: " + (System.currentTimeMillis() - lastShieldReg > player.getShieldRegenSpeed()));
+//		System.out.println("a:" + battle.isShieldDamaged());
+//		System.out.println("b: " + (battle.getLastHit() + player.getShieldIdleTime() < System.currentTimeMillis()));
+//		System.out.println("c: " + (System.currentTimeMillis() - lastShieldReg > player.getShieldRegenSpeed()));
 		
 		if(battle.isShieldDamaged() && battle.getLastHit() + player.getShieldIdleTime() < System.currentTimeMillis() && System.currentTimeMillis() - lastShieldReg > player.getShieldRegenSpeed()){
 			lastShieldReg = System.currentTimeMillis();

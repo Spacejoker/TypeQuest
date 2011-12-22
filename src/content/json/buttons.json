@@ -1,7 +1,7 @@
-{"id":"town-to-battle-button","imagePath":"button-battle","position":{"x":0.0,"y":720.0},"actionId":"action-enter-battle"}
-{"id":"town-show-player-stats","imagePath":"button-stats","position":{"x":200.0,"y":720.0},"actionId":"action-show-player-stats"}
+{"id":"town-to-battle-button","imagePath":"button-battle","position":{"x":0.0,"y":640.0},"actionId":"action-enter-battle"}
+{"id":"town-show-player-stats","imagePath":"button-stats","position":{"x":200.0,"y":640.0},"actionId":"action-show-player-stats"}
 {"id":"playerStats-hide-player-stats","imagePath":"button-close","position":{"x":300.0,"y":500.0},"actionId":"action-hide-player-stats"}
 {"id":"menu-to-town-button","imagePath":"button-town","position":{"x":0.0,"y":0.0},"actionId":"action-enter-town"}
 {"id":"battlecomplete-to-town-button","imagePath":"button-close","position":{"x":220.0,"y":600.0},"actionId":"action-enter-town"}
-{"id":"savePlayer","imagePath":"button-save","position":{"x":600.0,"y":720.0},"actionId":"action-save-player"}
-{"id":"loadPlayer","imagePath":"button-load","position":{"x":400.0,"y":720.0},"actionId":"action-load-player"}
+{"id":"savePlayer","imagePath":"button-save","position":{"x":600.0,"y":640.0},"actionId":"action-save-player"}
+{"id":"loadPlayer","imagePath":"button-load","position":{"x":400.0,"y":640.0},"actionId":"action-load-player"}
