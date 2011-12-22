@@ -9,6 +9,11 @@ import org.newdawn.slick.geom.Vector2f;
 
 import com.jens.typequest.loaders.ImageProvider;
 
+/**
+ * Uber health bar
+ * 
+ * @author Jensa
+ */
 public class HealthBar {
 
 	double percentage = 100;
@@ -27,8 +32,6 @@ public class HealthBar {
 	Polygon healthPart = new Polygon();
 	Polygon shieldPart = new Polygon();
 	
-
-	Curve c = new Curve(new Vector2f(10, 10), new Vector2f(100, 10), new Vector2f(10, 100), new Vector2f(100, 100));
 	Image bg = null;
 	
 	public HealthBar() {
@@ -43,7 +46,7 @@ public class HealthBar {
 		
 		healthPart = new Polygon();
 		shieldPart = new Polygon();
-//		int cnt = 0;
+
 		if(percentage > 0){
 			double start = (maxdegree -  mindegree) * (100-percentage) / 100.0 + mindegree;
 			
@@ -52,7 +55,6 @@ public class HealthBar {
 					float x = (float) (Math.cos(degree) * rad + position.x);
 					float y = (float) (Math.sin(degree) * rad*-1 + position.y);
 					healthPart.addPoint(x, y);
-//					cnt ++;
 				} else {
 					mod = Math.abs(mod)*-1;
 					rad = 80;
@@ -62,8 +64,7 @@ public class HealthBar {
 			//empty life - dead
 			healthPart = null;
 		}
-//		System.out.println("its " + cnt + " polygons.");
-//		System.out.println("shieldPercentage: " + shieldPercentage);
+		
 		rad = 120;
 		mod = Math.abs(mod);
 		if(shieldPercentage > 0){
@@ -115,14 +116,6 @@ public class HealthBar {
 
 	public void setMaxdegree(double maxdegree) {
 		this.maxdegree = maxdegree;
-	}
-
-	public Curve getC() {
-		return c;
-	}
-
-	public void setC(Curve c) {
-		this.c = c;
 	}
 
 	public double getPercentage() {

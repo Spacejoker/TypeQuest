@@ -104,6 +104,8 @@ public class Main extends BasicGame {
 					graphics.fill(state.getBattle().getHealthBar().getRedPart(), GraphUtil.getColorAsGradient(Color.red));
 				}
 				state.getBattle().getHealthBar().getBg().draw();
+				
+				
 			}
 		}
 	}
