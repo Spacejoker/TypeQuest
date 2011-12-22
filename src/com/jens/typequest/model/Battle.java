@@ -183,4 +183,13 @@ public class Battle {
 		}
 		return s;
 	}
+
+	public String getRemainingWawes() {
+		if(waves.size() > 1){
+			return waves.size() + " waves left";
+		} else if(waves.size() == 1){
+			return "One wave left";
+		}
+		return "Battle complete";
+	}
 }

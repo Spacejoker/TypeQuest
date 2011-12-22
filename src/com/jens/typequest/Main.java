@@ -105,8 +105,9 @@ public class Main extends BasicGame {
 				}
 				state.getBattle().getHealthBar().getBg().draw();
 				//write the current shield and health in numbers
-				font.drawString(85, 190, state.getBattle().getShieldString(), Color.blue);
-				font.drawString(85, 210, state.getBattle().getHpString(), Color.red);
+				font.drawString(85, 188, state.getBattle().getShieldString(), Color.blue);
+				font.drawString(85, 205, state.getBattle().getHpString(), Color.red);
+				font.drawString(85, 222, state.getBattle().getRemainingWawes(), Color.red);
 //				double maxHp = state.getBattle().getMaxshield();
 //				double maxHp = state.getBattle().getCurrentHp();
 //				double maxHp = state.getBattle().getCurshield();
