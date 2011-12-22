@@ -166,4 +166,21 @@ public class Battle {
 	public boolean isShieldDamaged() {
 		return curshield < maxshield;
 	}
+
+	public String getHpString() {
+		return pad(6,((int)currentHp) + "") + "/" + pad(6,((int)maxHp) + "");
+	}
+	
+	public String getShieldString() {
+		return pad(6,((int)curshield) + "") + "/" + pad(6,((int)maxshield) + "");
+	}
+	
+	private String pad(int lens, String s) {
+		
+		;
+		while (s.length() < lens) {
+			s = " " + s;
+		}
+		return s;
+	}
 }

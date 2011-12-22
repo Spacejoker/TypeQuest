@@ -104,7 +104,12 @@ public class Main extends BasicGame {
 					graphics.fill(state.getBattle().getHealthBar().getRedPart(), GraphUtil.getColorAsGradient(Color.red));
 				}
 				state.getBattle().getHealthBar().getBg().draw();
-				
+				//write the current shield and health in numbers
+				font.drawString(85, 190, state.getBattle().getShieldString(), Color.blue);
+				font.drawString(85, 210, state.getBattle().getHpString(), Color.red);
+//				double maxHp = state.getBattle().getMaxshield();
+//				double maxHp = state.getBattle().getCurrentHp();
+//				double maxHp = state.getBattle().getCurshield();
 				
 			}
 		}
@@ -202,12 +207,16 @@ public class Main extends BasicGame {
 				}
 			}
 
+			if(state.getPlayer().getTarget() == null){
+				StateHandler.getInstance().getPlayer().cycleEnemy();
+			}
 			for (Iterator<EnemyEntity> iterator = state.getBattle().getCurrentEnemies().iterator(); iterator.hasNext();) {
 				EnemyEntity enemy = iterator.next();
 				if (enemy.getIsDead()) {
 					state.getBattle().addGold(enemy.getGold());
 					state.getBattle().addXp(enemy.getXp());
 					iterator.remove();
+					StateHandler.getInstance().getPlayer().cycleEnemy();
 				}
 				if (enemy.equals(state.getPlayer().getTarget())) {
 					enemy.setMarked(true);
