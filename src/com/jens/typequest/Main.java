@@ -294,6 +294,7 @@ public class Main extends BasicGame {
 		try {
 			AppGameContainer app = new AppGameContainer(new Main());
 			app.setDisplayMode(1024, 720, false);
+			app.setShowFPS(false);
 			app.start();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -16,7 +16,7 @@ public class HealthBar {
 	
 	Image characterImage = null;
 
-	Vector2f position = new Vector2f(120, 120);
+	Vector2f position = new Vector2f(126, 128);
 
 	double mindegree = 0;
 	double maxdegree = 7*210.0/360.0;
