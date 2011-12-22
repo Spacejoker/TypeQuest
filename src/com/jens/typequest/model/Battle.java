@@ -12,11 +12,17 @@ public class Battle {
 
 	int gainedXp = 0;
 	int gainedGold = 0;
+	
 	HealthBar healthBar = new HealthBar();
 
 	double currentHp = 1;
 	double maxHp = 1;
+	double maxshield = 100;
+	double curshield = 100;
+	double reg = 20;
 
+	long lastHit = 0;
+	
 	public Battle() {
 		
 	}
@@ -76,9 +82,17 @@ public class Battle {
 	}
 
 	public void dmgWall(double dmg) {
-		currentHp -= dmg;
+		lastHit = System.currentTimeMillis();
+		double shielddmg = Math.min(dmg, curshield);
+		curshield -= shielddmg;
+		currentHp -= dmg - shielddmg;
+		updateHealthBar();
+	}
+
+	public void updateHealthBar() {
+		healthBar.setShieldPercentage(curshield/maxshield*100);
 		healthBar.setPercentage(currentHp/maxHp*100);
-		healthBar.updateHealthBar();
+		healthBar.updateMe();
 	}
 
 	public double getCurrentHp() {
@@ -112,6 +126,44 @@ public class Battle {
 	public void setHealthBar(HealthBar healthBar) {
 		this.healthBar = healthBar;
 	}
-	
-	
+
+	public double getMaxshield() {
+		return maxshield;
+	}
+
+	public void setMaxshield(double maxshield) {
+		this.maxshield = maxshield;
+	}
+
+	public double getCurshield() {
+		return curshield;
+	}
+
+	public void setCurshield(double curshield) {
+		this.curshield = curshield;
+	}
+
+	public double getReg() {
+		return reg;
+	}
+
+	public void setReg(double reg) {
+		this.reg = reg;
+	}
+
+	public void addShield(int value) {
+		curshield = Math.min(curshield + value, maxshield); 
+	}
+
+	public long getLastHit() {
+		return lastHit;
+	}
+
+	public void setLastHit(long lastHit) {
+		this.lastHit = lastHit;
+	}
+
+	public boolean isShieldDamaged() {
+		return curshield < maxshield;
+	}
 }

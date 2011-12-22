@@ -12,6 +12,8 @@ import com.jens.typequest.loaders.ImageProvider;
 public class HealthBar {
 
 	double percentage = 100;
+	double shieldPercentage = 100;
+	
 	Image characterImage = null;
 
 	Vector2f position = new Vector2f(120, 120);
@@ -19,32 +21,38 @@ public class HealthBar {
 	double mindegree = 0;
 	double maxdegree = 7*210.0/360.0;
 
+	double shieldmin = 1*210.0/360.0;
+	double shieldmax = 7*210.0/360.0;
+
 	Polygon healthPart = new Polygon();
-	Polygon deathPart = new Polygon();
+	Polygon shieldPart = new Polygon();
+	
 
 	Curve c = new Curve(new Vector2f(10, 10), new Vector2f(100, 10), new Vector2f(10, 100), new Vector2f(100, 100));
 	Image bg = null;
+	
 	public HealthBar() {
 		setPercentage(100);
-		updateHealthBar();
+		updateMe();
 		bg = ImageProvider.getImage("healthbar-bg");
 	}
 
-	public void updateHealthBar() {
+	public void updateMe() {
 		double mod = 1.0/60.0;
 		double rad = 100;
-
-		healthPart = new Polygon();
 		
+		healthPart = new Polygon();
+		shieldPart = new Polygon();
+//		int cnt = 0;
 		if(percentage > 0){
 			double start = (maxdegree -  mindegree) * (100-percentage) / 100.0 + mindegree;
 			
 			for (double degree = start; degree >= start; degree += mod) {
 				if (degree < maxdegree) {
-					System.out.println(degree);
 					float x = (float) (Math.cos(degree) * rad + position.x);
 					float y = (float) (Math.sin(degree) * rad*-1 + position.y);
 					healthPart.addPoint(x, y);
+//					cnt ++;
 				} else {
 					mod = Math.abs(mod)*-1;
 					rad = 80;
@@ -53,6 +61,27 @@ public class HealthBar {
 		} else {
 			//empty life - dead
 			healthPart = null;
+		}
+//		System.out.println("its " + cnt + " polygons.");
+//		System.out.println("shieldPercentage: " + shieldPercentage);
+		rad = 120;
+		mod = Math.abs(mod);
+		if(shieldPercentage > 0){
+			double start = (shieldmax -  shieldmin) * (100-shieldPercentage) / 100.0 + shieldmin;
+			
+			for (double degree = start; degree >= start; degree += mod) {
+				if (degree < shieldmax) {
+					float x = (float) (Math.cos(degree) * rad + position.x);
+					float y = (float) (Math.sin(degree) * rad*-1 + position.y);
+					shieldPart.addPoint(x, y);
+				} else {
+					mod = Math.abs(mod)*-1;
+					rad = 104;
+				}
+			}
+		} else {
+			//empty life - dead
+			shieldPart = null;
 		}
 	}
 
@@ -120,14 +149,6 @@ public class HealthBar {
 		this.healthPart = healthPart;
 	}
 
-	public Polygon getDeathPart() {
-		return deathPart;
-	}
-
-	public void setDeathPart(Polygon deathPart) {
-		this.deathPart = deathPart;
-	}
-
 	public Image getBg() {
 		return bg;
 	}
@@ -136,5 +157,27 @@ public class HealthBar {
 		this.bg = bg;
 	}
 
-	
+	public double getShieldPercentage() {
+		return shieldPercentage;
+	}
+
+	public void setShieldPercentage(double shieldPercentage) {
+		this.shieldPercentage = shieldPercentage;
+	}
+
+	public double getShieldmax() {
+		return shieldmax;
+	}
+
+	public void setShieldmax(double shieldmax) {
+		this.shieldmax = shieldmax;
+	}
+
+	public Polygon getShieldPart() {
+		return shieldPart;
+	}
+
+	public void setShieldPart(Polygon shieldPart) {
+		this.shieldPart = shieldPart;
+	}
 }

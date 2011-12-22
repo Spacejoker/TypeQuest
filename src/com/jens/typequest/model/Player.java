@@ -17,6 +17,9 @@ public class Player {
 	int xp = 0;
 	int level = 1;
 	int nextLevel = 10;
+	int shieldRegenSpeed = 20;
+	int shieldIdleTime = 2000;
+	
 	int[] skillLevels = new int[10]; // 10 siklls hard wired to begin with, all start at 0
 
 	public Player(PlayerBlueprint player){
@@ -143,5 +146,20 @@ public class Player {
 	public void setSkillLevels(int[] skillLevels) {
 		this.skillLevels = skillLevels;
 	}
-	
+
+	public int getShieldRegenSpeed() {
+		return shieldRegenSpeed;
+	}
+
+	public void setShieldRegenSpeed(int shieldRegenSpeed) {
+		this.shieldRegenSpeed = shieldRegenSpeed;
+	}
+
+	public int getShieldIdleTime() {
+		return shieldIdleTime;
+	}
+
+	public void setShieldIdleTime(int shieldIdleTime) {
+		this.shieldIdleTime = shieldIdleTime;
+	}
 }
