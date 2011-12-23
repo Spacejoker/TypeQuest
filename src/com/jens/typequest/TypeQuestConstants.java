@@ -33,9 +33,9 @@ public interface TypeQuestConstants {
 	
 	//Skill ids
 	public static int PLAYER_UPGRADE_ONE = 0;
-	public static int PLAYER_UPGRADE_TWO = 0;
-	public static int PLAYER_UPGRADE_THREE = 0;
-	public static int PLAYER_UPGRADE_FOUR = 0;
-	public static int PLAYER_UPGRADE_FIVE = 0;
+	public static int PLAYER_UPGRADE_TWO = 1;
+	public static int PLAYER_UPGRADE_THREE = 2;
+	public static int PLAYER_UPGRADE_FOUR = 3;
+	public static int PLAYER_UPGRADE_FIVE = 4;
 	
 }

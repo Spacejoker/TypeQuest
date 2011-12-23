@@ -19,7 +19,6 @@ public class Player {
 	int nextLevel = 10;
 	int shieldRegenSpeed = 20;
 	int shieldIdleTime = 2000;
-	int unspentSkillPoints = 0;
 	
 	int[] skillLevels = new int[10]; // 10 siklls hard wired to begin with, all start at 0
 
@@ -113,8 +112,15 @@ public class Player {
 		while(this.xp >= nextLevel){
 			level ++;
 			nextLevel += level*1.5*10;
-			unspentSkillPoints ++;
 		}
+	}
+	
+	public int getUnspentSkillpoints(){
+		int tot = 0;
+		for (int i = 0; i < skillLevels.length; i++) {
+			tot += skillLevels[i];
+		}
+		return level - tot;
 	}
 
 	public int getLevel() {
@@ -167,9 +173,9 @@ public class Player {
 	
 	public void upgradeSkill(int i) {
 		System.out.println("Trying to upgrade skill nr: " + i);
-		if(unspentSkillPoints > 0){
+		if(getUnspentSkillpoints() > 0){
+			System.out.println("Upgrading skill nr " + i);
 			skillLevels[i] ++;
-			unspentSkillPoints --;
 		}
 	}
 }
