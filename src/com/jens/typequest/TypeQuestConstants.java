@@ -3,11 +3,11 @@ package com.jens.typequest;
 public interface TypeQuestConstants {
 
 	public static int WALL_X = 150;
-	public static float TEXT_BOX_X = 200;
-	public static float TEXT_BOX_Y = 150;
-	public static float TEXT_Y = 165;
-	public static float TEXT_X = 380;
-	public static float PIC_X = 230;
+	public static float TEXT_BOX_X = 350;
+	public static float TEXT_BOX_Y = 80;
+	public static float TEXT_X = TEXT_BOX_X + 120;
+	public static float TEXT_Y = TEXT_BOX_Y + 20;
+	public static float PIC_X = TEXT_BOX_X + 10;
 	
 	//IDs
 	public static String ENTER_BATTLE_BUTTON_ID = "enter-battle-button";

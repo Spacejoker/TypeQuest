@@ -52,8 +52,6 @@ public class Main extends BasicGame {
 	private Image textbox = null;
 	private Image targetImage = null;
 
-//	Player player = null;
-
 	int charWidth = 14;
 	List<Message> combatLog = new ArrayList<Message>();
 
@@ -106,6 +104,11 @@ public class Main extends BasicGame {
 					graphics.fill(state.getBattle().getHealthBar().getRedPart(), GraphUtil.getColorAsGradient(Color.red));
 				}
 				state.getBattle().getHealthBar().getBg().draw();
+				//write the current shield and health in numbers
+				font.drawString(85, 186, state.getBattle().getShieldString(), Color.blue);
+				font.drawString(85, 205, state.getBattle().getHpString(), Color.red);
+				font.drawString(85, 224, state.getBattle().getRemainingWawes(), Color.red);
+				
 			}
 		}
 	}
@@ -202,12 +205,16 @@ public class Main extends BasicGame {
 				}
 			}
 
+			if(state.getPlayer().getTarget() == null){
+				StateHandler.getInstance().getPlayer().cycleEnemy();
+			}
 			for (Iterator<EnemyEntity> iterator = state.getBattle().getCurrentEnemies().iterator(); iterator.hasNext();) {
 				EnemyEntity enemy = iterator.next();
 				if (enemy.getIsDead()) {
 					state.getBattle().addGold(enemy.getGold());
 					state.getBattle().addXp(enemy.getXp());
 					iterator.remove();
+					StateHandler.getInstance().getPlayer().cycleEnemy();
 				}
 				if (enemy.equals(state.getPlayer().getTarget())) {
 					enemy.setMarked(true);
@@ -295,7 +302,8 @@ public class Main extends BasicGame {
 	public static void main(String[] args) {
 		try {
 			AppGameContainer app = new AppGameContainer(new Main());
-			app.setDisplayMode(1024, 800, false);
+			app.setDisplayMode(1024, 720, false);
+			app.setShowFPS(false);
 			app.start();
 		} catch (Exception e) {
 			e.printStackTrace();

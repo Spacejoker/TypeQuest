@@ -9,6 +9,11 @@ import org.newdawn.slick.geom.Vector2f;
 
 import com.jens.typequest.loaders.ImageProvider;
 
+/**
+ * Uber health bar
+ * 
+ * @author Jensa
+ */
 public class HealthBar {
 
 	double percentage = 100;
@@ -16,7 +21,7 @@ public class HealthBar {
 	
 	Image characterImage = null;
 
-	Vector2f position = new Vector2f(120, 120);
+	Vector2f position = new Vector2f(126, 128);
 
 	double mindegree = 0;
 	double maxdegree = 7*210.0/360.0;
@@ -27,8 +32,6 @@ public class HealthBar {
 	Polygon healthPart = new Polygon();
 	Polygon shieldPart = new Polygon();
 	
-
-	Curve c = new Curve(new Vector2f(10, 10), new Vector2f(100, 10), new Vector2f(10, 100), new Vector2f(100, 100));
 	Image bg = null;
 	
 	public HealthBar() {
@@ -60,6 +63,7 @@ public class HealthBar {
 		} else {
 			healthPart = null;
 		}
+		
 		rad = 120;
 		mod = Math.abs(mod);
 		if(shieldPercentage > 0){
@@ -110,14 +114,6 @@ public class HealthBar {
 
 	public void setMaxdegree(double maxdegree) {
 		this.maxdegree = maxdegree;
-	}
-
-	public Curve getC() {
-		return c;
-	}
-
-	public void setC(Curve c) {
-		this.c = c;
 	}
 
 	public double getPercentage() {

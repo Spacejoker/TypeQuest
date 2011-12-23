@@ -9,6 +9,8 @@ Need to implement text-loading from file in some smart way... this one is tricky
 Add a player inventory with pots etc - short term boosts
 Start working on some graphics - need to set a theme for the game. Something funny and cool.
 Some deeper stats, save some history data or such for statistikrunkare
+No tabbing needed, first enemy to enter screen gets selected if nothing else is
+Keyboard commands for buttons
 
 Started:
 Skill system for Player - make it simple

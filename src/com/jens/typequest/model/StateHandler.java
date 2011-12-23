@@ -162,7 +162,6 @@ public class StateHandler {
 	long lastShieldReg = System.currentTimeMillis();
 	
 	public void timePassed(int delta) {
-		
 		if(battle.isShieldDamaged() && battle.getLastHit() + player.getShieldIdleTime() < System.currentTimeMillis() && System.currentTimeMillis() - lastShieldReg > player.getShieldRegenSpeed()){
 			lastShieldReg = System.currentTimeMillis();
 			battle.addShield(1);
