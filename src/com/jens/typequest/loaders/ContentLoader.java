@@ -152,11 +152,9 @@ public class ContentLoader {
 	private EnemyEntity createEnemy(EnemyBlueprint enemyBlueprint, int nr, int level) {
 
 		// randomize a new position
-		int rand = RandomUtil.nextInt(200);
 		Image image = ImageProvider.getImage(enemyBlueprint.getImagePath());
-		rand += image.getHeight();
-
-		return new EnemyEntity(enemyBlueprint.getId(), new Vector2f(1024 + 100 * nr, 800 - rand), image, enemyBlueprint, level);
+		
+		return new EnemyEntity(enemyBlueprint.getId(), new Vector2f(1024 + 100 * nr, 640- image.getHeight()), image, enemyBlueprint, level);
 	}
 
 	public Battle getBattle(int difficulty) {
