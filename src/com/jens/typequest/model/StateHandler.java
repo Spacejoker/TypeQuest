@@ -82,8 +82,7 @@ public class StateHandler {
 		String action = entity.getAction();
 		
 		if(action.equals(TypeQuestConstants.ACTION_ENTER_TOWN)){
-			setCurrentMode(Mode.TOWN);
-			contentFrame = null;
+			enterTown();
 		} else if(action.equals(TypeQuestConstants.ACTION_ENTER_BATTLE)){
 			setCurrentMode(Mode.BATTLE);
 			contentFrame = null;
@@ -109,6 +108,11 @@ public class StateHandler {
 		} else if(action.equals(TypeQuestConstants.ACTION_PLAYER_UPGRADE_FIVE)){
 			player.upgradeSkill(TypeQuestConstants.PLAYER_UPGRADE_FIVE);
 		}
+	}
+
+	public void enterTown() {
+		setCurrentMode(Mode.TOWN);
+		contentFrame = null;
 	}
 	
 	public ContentFrame getContentFrame() {
