@@ -108,9 +108,6 @@ public class Main extends BasicGame {
 				font.drawString(85, 186, state.getBattle().getShieldString(), Color.blue);
 				font.drawString(85, 205, state.getBattle().getHpString(), Color.red);
 				font.drawString(85, 224, state.getBattle().getRemainingWawes(), Color.red);
-//				double maxHp = state.getBattle().getMaxshield();
-//				double maxHp = state.getBattle().getCurrentHp();
-//				double maxHp = state.getBattle().getCurshield();
 				
 			}
 		}

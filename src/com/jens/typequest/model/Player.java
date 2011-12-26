@@ -114,6 +114,14 @@ public class Player {
 			nextLevel += level*1.5*10;
 		}
 	}
+	
+	public int getUnspentSkillpoints(){
+		int tot = 0;
+		for (int i = 0; i < skillLevels.length; i++) {
+			tot += skillLevels[i];
+		}
+		return level - tot;
+	}
 
 	public int getLevel() {
 		return level;
@@ -161,5 +169,13 @@ public class Player {
 
 	public void setShieldIdleTime(int shieldIdleTime) {
 		this.shieldIdleTime = shieldIdleTime;
+	}
+	
+	public void upgradeSkill(int i) {
+		System.out.println("Trying to upgrade skill nr: " + i);
+		if(getUnspentSkillpoints() > 0){
+			System.out.println("Upgrading skill nr " + i);
+			skillLevels[i] ++;
+		}
 	}
 }

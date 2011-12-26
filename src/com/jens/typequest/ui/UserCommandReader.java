@@ -1,6 +1,7 @@
 package com.jens.typequest.ui;
 
 import java.util.LinkedList;
+import java.util.Queue;
 
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
@@ -10,11 +11,15 @@ import org.newdawn.slick.geom.Vector2f;
 
 import com.jens.typequest.model.Button;
 import com.jens.typequest.model.StateHandler;
+import com.jens.typequest.model.StateHandler.Mode;
 
 public class UserCommandReader implements KeyListener, MouseListener {
 
+	public static final char CLOSE_DIALOGUE = ' ';
+	
 	StringBuilder characterQue = new StringBuilder();
 	LinkedList<Integer> queuedCommands = new LinkedList<Integer>();
+	Queue<Character> queueCommandKeys = new LinkedList<Character>();
 	LinkedList<Vector2f> queuedClicks = new LinkedList<Vector2f>();
 	
 	public String popCharacterQue() {
@@ -43,6 +48,7 @@ public class UserCommandReader implements KeyListener, MouseListener {
 	@Override
 	public void keyPressed(int arg0, char character) {
 		queuedCommands.offer(arg0);
+		queueCommandKeys.offer(character);
 	}
 
 	@Override
@@ -63,6 +69,13 @@ public class UserCommandReader implements KeyListener, MouseListener {
 			}
 		}
 		queuedClicks.clear();
+		
+		while(!queueCommandKeys.isEmpty()) {
+			Character c = queueCommandKeys.poll();
+			if(c.equals(CLOSE_DIALOGUE) && stateHandler.getCurrentMode().equals(Mode.BATTLE) && stateHandler.getBattle().isCompleted()) {
+				stateHandler.enterTown();
+			}
+		}
 	}
 
 	@Override

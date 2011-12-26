@@ -81,12 +81,8 @@ public class StateHandler {
 		
 		String action = entity.getAction();
 		
-//		{"id":"savePlayer","imagePath":"button-town","position":{"x":600.0,"y":600.0},"actionId":"action-save-player"}
-//		{"id":"loadPlayer","imagePath":"button-town","position":{"x":400.0,"y":600.0},"actionId":"action-load-player"}
-		
 		if(action.equals(TypeQuestConstants.ACTION_ENTER_TOWN)){
-			setCurrentMode(Mode.TOWN);
-			contentFrame = null;
+			enterTown();
 		} else if(action.equals(TypeQuestConstants.ACTION_ENTER_BATTLE)){
 			setCurrentMode(Mode.BATTLE);
 			contentFrame = null;
@@ -99,7 +95,24 @@ public class StateHandler {
 		} else if(action.equals(TypeQuestConstants.ACTION_LOAD_PLAYER)){
 			Player loadPlayer = loader.loadPlayer();
 			player = loadPlayer != null ? loadPlayer : player;
+			
+		//upgrade buttons:
+		} else if(action.equals(TypeQuestConstants.ACTION_PLAYER_UPGRADE_ONE)){
+			player.upgradeSkill(TypeQuestConstants.PLAYER_UPGRADE_ONE);
+		} else if(action.equals(TypeQuestConstants.ACTION_PLAYER_UPGRADE_TWO)){
+			player.upgradeSkill(TypeQuestConstants.PLAYER_UPGRADE_TWO);
+		} else if(action.equals(TypeQuestConstants.ACTION_PLAYER_UPGRADE_THREE)){
+			player.upgradeSkill(TypeQuestConstants.PLAYER_UPGRADE_THREE);
+		} else if(action.equals(TypeQuestConstants.ACTION_PLAYER_UPGRADE_FOUR)){
+			player.upgradeSkill(TypeQuestConstants.PLAYER_UPGRADE_FOUR);
+		} else if(action.equals(TypeQuestConstants.ACTION_PLAYER_UPGRADE_FIVE)){
+			player.upgradeSkill(TypeQuestConstants.PLAYER_UPGRADE_FIVE);
 		}
+	}
+
+	public void enterTown() {
+		setCurrentMode(Mode.TOWN);
+		contentFrame = null;
 	}
 	
 	public ContentFrame getContentFrame() {
@@ -153,10 +166,6 @@ public class StateHandler {
 	long lastShieldReg = System.currentTimeMillis();
 	
 	public void timePassed(int delta) {
-//		System.out.println("a:" + battle.isShieldDamaged());
-//		System.out.println("b: " + (battle.getLastHit() + player.getShieldIdleTime() < System.currentTimeMillis()));
-//		System.out.println("c: " + (System.currentTimeMillis() - lastShieldReg > player.getShieldRegenSpeed()));
-		
 		if(battle.isShieldDamaged() && battle.getLastHit() + player.getShieldIdleTime() < System.currentTimeMillis() && System.currentTimeMillis() - lastShieldReg > player.getShieldRegenSpeed()){
 			lastShieldReg = System.currentTimeMillis();
 			battle.addShield(1);

@@ -61,7 +61,6 @@ public class HealthBar {
 				}
 			}
 		} else {
-			//empty life - dead
 			healthPart = null;
 		}
 		
@@ -81,7 +80,6 @@ public class HealthBar {
 				}
 			}
 		} else {
-			//empty life - dead
 			shieldPart = null;
 		}
 	}
