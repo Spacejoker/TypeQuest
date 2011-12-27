@@ -61,8 +61,6 @@ public class UserCommandReader implements KeyListener, MouseListener {
 			for (int i = 0; i < stateHandler.getClickEntities().size(); i++) {
 				Button entity = stateHandler.getClickEntities().get(i);
 				if(entity.isIn(poll.x, poll.y)){
-					System.out.println("in "  + entity.getImage().getResourceReference());
-					
 					stateHandler.isClicked(entity);
 					break out;
 				}

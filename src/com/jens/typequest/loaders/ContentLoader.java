@@ -86,7 +86,6 @@ public class ContentLoader {
 				if (contentData == null || contentData.length() == 0) {
 					break;
 				}
-				System.out.println(contentData);
 				ButtonBlueprint print = gson.fromJson(contentData, ButtonBlueprint.class);
 				buttonBlueprintMap.put(print.getId(), print);
 			}
@@ -113,7 +112,6 @@ public class ContentLoader {
 			writer.write(json);
 			writer.close();
 		} catch (Exception  e) {
-//			System.out.println("Probelm problem");
 			e.printStackTrace();
 		}
 	}

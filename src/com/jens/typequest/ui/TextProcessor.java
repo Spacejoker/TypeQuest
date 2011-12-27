@@ -40,7 +40,6 @@ public class TextProcessor implements KeyListener {
 	@Override
 	public void keyPressed(int arg0, char character) {
 		if (arg0 == Input.KEY_TAB) {
-			System.out.println("TAB");
 			StateHandler.getInstance().getPlayer().cycleEnemy();
 		} else {
 			characterQue.append(character);

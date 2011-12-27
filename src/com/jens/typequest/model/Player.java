@@ -173,9 +173,7 @@ public class Player {
 	}
 	
 	public void upgradeSkill(int i) {
-		System.out.println("Trying to upgrade skill nr: " + i);
 		if(getUnspentSkillpoints() > 0){
-			System.out.println("Upgrading skill nr " + i);
 			skillLevels[i] ++;
 		}
 	}
