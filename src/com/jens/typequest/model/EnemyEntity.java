@@ -45,13 +45,14 @@ public class EnemyEntity extends GraphicalEntity {
 		
 		this.level = level;
 		this.portraitImage = ImageProvider.getImage(blueprint.getPortraitImage());
-		walkAnimation = new Animation(ImageProvider.getImages(blueprint.getWalkAnimation()), 350);
-		walkAnimation = new Animation(ImageProvider.getImages(blueprint.getAttackAnimation()), 350);
+		walkAnimation = new Animation(ImageProvider.getImages(blueprint.getWalkAnimation()), 200);
+		attackAnimation = new Animation(ImageProvider.getImages(blueprint.getAttackAnimation()), (int) (attackSpeed / 2));
 	}
 	
 	public long becomesActive = 0;
 	public long lastDmg = 0;
 	boolean marked = false;
+	private boolean attacking = false;
 	
 	@Override
 	public void update(int delta) {
@@ -60,6 +61,7 @@ public class EnemyEntity extends GraphicalEntity {
 			if(position.x > TypeQuestConstants.WALL_X){
 				position.x -= speed*delta;
 			} else { //hit the wall!
+				attacking  = true;
 				if(System.currentTimeMillis() -lastDmg > attackSpeed){
 					lastDmg = System.currentTimeMillis();
 					BroadCaster.getInstance().writeMessage(name + " hits the wall for " + dmg + " damage.", Color.orange);
@@ -120,6 +122,22 @@ public class EnemyEntity extends GraphicalEntity {
 
 	public void setWalkAnimation(Animation walkAnimation) {
 		this.walkAnimation = walkAnimation;
+	}
+
+	public boolean isAttacking() {
+		return attacking;
+	}
+
+	public void setAttacking(boolean attacking) {
+		this.attacking = attacking;
+	}
+
+	public Animation getAttackAnimation() {
+		return attackAnimation;
+	}
+
+	public void setAttackAnimation(Animation attackAnimation) {
+		this.attackAnimation = attackAnimation;
 	}
 	
 }
