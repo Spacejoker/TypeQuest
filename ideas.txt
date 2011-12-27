@@ -7,11 +7,15 @@ Upgrade load/save be a dialogue with 5 slots or so, that shows level etc.
 Configure character, name? Lore?
 Need to implement text-loading from file in some smart way... this one is tricky
 Add a player inventory with pots etc - short term boosts
-Start working on some graphics - need to set a theme for the game. Something funny and cool.
+Start working on some graphics - need to set a theme for the game.
 Some deeper stats, save some history data or such for statistikrunkare
-No tabbing needed, first enemy to enter screen gets selected if nothing else is
 Keyboard commands for buttons
 
 Started:
-Skill system for Player - make it simple
-Show stats during fight - Health bar in place, maybe show current wave and total waves or something?
+
+Tema-idéer:
+Svenska kändisar, space, rock, film, musik, dikter, poeter, bilar, byggnader, konst, historya,epoker, möbler, excavators, fakta, blommor, länder, nationalsånger, eld, is, vaten,
+skola, matte, programmering, snö, väderlekar, årstider, hus, sten, slump, random, frankenstien, en bana är en film - bossen är bad guy från filmen, låttexter, spelmanus,
+filmmanus, wikipedia-sidor - live parsning och man får skriva stycken från texten (fiender kan vara något generiskt). världsdelar, naturtyper, band, olkia färger, gamla människor,
+unga människor, snygga, fula, resa runt i sverige, oldschool, slut på vatten, under vatten - konstiga fiskar som bajsar, internet-tema, kallt, skidåkartema, lchf, snö,
+fiskar innanför kläderna
