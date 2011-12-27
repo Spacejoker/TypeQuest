@@ -45,8 +45,8 @@ public class EnemyEntity extends GraphicalEntity {
 		
 		this.level = level;
 		this.portraitImage = ImageProvider.getImage(blueprint.getPortraitImage());
-		walkAnimation = new Animation(ImageProvider.getImages(new String[]{"enemies/lady-walk-1","enemies/lady-walk-2","enemies/lady-walk-3","enemies/lady-walk-4"} ), 350);
-		attackAnimation = new Animation(new Image[]{}, 500);
+		walkAnimation = new Animation(ImageProvider.getImages(blueprint.getWalkAnimation()), 350);
+		walkAnimation = new Animation(ImageProvider.getImages(blueprint.getAttackAnimation()), 350);
 	}
 	
 	public long becomesActive = 0;
