@@ -155,7 +155,9 @@ public class ContentLoader {
 		// randomize a new position
 		Image image = ImageProvider.getImage(enemyBlueprint.getImagePath());
 		
-		return new EnemyEntity(enemyBlueprint.getId(), new Vector2f(1024 + 100 * nr, 640- image.getHeight()), image, enemyBlueprint, level);
+		int y = 720- image.getHeight() - RandomUtil.nextInt(100);
+		int x = 1024 + 100 * nr;
+		return new EnemyEntity(enemyBlueprint.getId(), new Vector2f(x, y), image, enemyBlueprint, level);
 	}
 
 	public Battle getBattle(int difficulty) {
@@ -168,6 +170,13 @@ public class ContentLoader {
 		// test level
 		Wave w = new Wave();
 		w.add(getEnemy(1, 0, true));
+		w.add(getEnemy(1, 1, true));
+		w.add(getEnemy(1, 2, true));
+		w.add(getEnemy(1, 3, true));
+		w.add(getEnemy(1, 4, true));
+		w.add(getEnemy(1, 5, true));
+		w.add(getEnemy(1, 6, true));
+		w.add(getEnemy(1, 7, true));
 		battle.addWave(w);
 
 		w = new Wave();

@@ -9,7 +9,8 @@ import com.jens.typequest.model.blueprint.PlayerBlueprint;
 
 public class Player {
 
-	private int wallHealth = 100;
+	private int wallHealth = 1000;
+	
 	int targetNr = 0;
 	List<EnemyEntity> possibleTargets = new ArrayList<EnemyEntity>();
 	EnemyEntity target = null;

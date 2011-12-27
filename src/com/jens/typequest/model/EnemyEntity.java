@@ -58,7 +58,8 @@ public class EnemyEntity extends GraphicalEntity {
 	public void update(int delta) {
 		
 		if(System.currentTimeMillis() >= becomesActive){
-			if(position.x > TypeQuestConstants.WALL_X){
+			double stopPos = TypeQuestConstants.WALL_X + (720-position.y)*0.7;
+			if(position.x > stopPos){
 				position.x -= speed*delta;
 			} else { //hit the wall!
 				attacking  = true;
