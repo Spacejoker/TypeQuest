@@ -284,7 +284,8 @@ public class Main extends BasicGame {
 		});
 
 		for (EnemyEntity entity : state.getBattle().getCurrentEnemies()) {
-			entity.getImage().draw(entity.getPosition().x, entity.getPosition().y);
+//			entity.getImage().draw(entity.getPosition().x, entity.getPosition().y);
+			entity.getWalkAnimation().draw(entity.getPosition().x, entity.getPosition().y);
 			if (entity.isMarked()) {
 				targetImage.draw(entity.getPosition().x + entity.getImage().getWidth() / 2 - targetImage.getWidth() / 2, entity.getPosition().y + entity.getImage().getHeight() / 2 - targetImage.getHeight() / 2);
 			}

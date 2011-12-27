@@ -1,5 +1,6 @@
 package com.jens.typequest.model;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
@@ -16,6 +17,12 @@ public class EnemyEntity extends GraphicalEntity {
 		return portraitImage;
 	}
 	
+	public Image getImage() {
+		return walkAnimation.getCurrentFrame();
+	};
+	
+	Animation walkAnimation;
+	Animation attackAnimation;
 	double speed = 0.1;
 	double dmg;
 	long attackSpeed;
@@ -38,6 +45,8 @@ public class EnemyEntity extends GraphicalEntity {
 		
 		this.level = level;
 		this.portraitImage = ImageProvider.getImage(blueprint.getPortraitImage());
+		walkAnimation = new Animation(ImageProvider.getImages(new String[]{"enemies/lady-walk-1","enemies/lady-walk-2","enemies/lady-walk-3","enemies/lady-walk-4"} ), 350);
+		attackAnimation = new Animation(new Image[]{}, 500);
 	}
 	
 	public long becomesActive = 0;
@@ -104,4 +113,13 @@ public class EnemyEntity extends GraphicalEntity {
 	public void setLevel(int level) {
 		this.level = level;
 	}
+
+	public Animation getWalkAnimation() {
+		return walkAnimation;
+	}
+
+	public void setWalkAnimation(Animation walkAnimation) {
+		this.walkAnimation = walkAnimation;
+	}
+	
 }

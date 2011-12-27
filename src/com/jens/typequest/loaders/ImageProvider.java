@@ -26,4 +26,14 @@ public class ImageProvider {
 			throw new RuntimeException("Error loading file: " + name);
 		}
 	}
+
+	public static Image[] getImages(String[] strings) {
+		Image[] ret = new Image[strings.length];
+		
+		for (int i = 0; i < strings.length; i++) {
+			ret[i] = getImage(strings[i]);
+		}
+		
+		return ret;
+	}
 }
