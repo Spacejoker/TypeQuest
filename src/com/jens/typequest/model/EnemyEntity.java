@@ -42,7 +42,7 @@ public class EnemyEntity extends GraphicalEntity {
 		textToWrite = blueprint.getText();
 		gold = blueprint.getMingold() + RandomUtil.nextInt(blueprint.getDiffgold());
 		xp = (int) (blueprint.getXp()*1.5*level);
-		
+		name = id;
 		this.level = level;
 		this.portraitImage = ImageProvider.getImage(blueprint.getPortraitImage());
 		walkAnimation = new Animation(ImageProvider.getImages(blueprint.getWalkAnimation()), 200);

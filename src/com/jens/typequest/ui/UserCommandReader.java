@@ -18,9 +18,9 @@ public class UserCommandReader implements KeyListener, MouseListener {
 	public static final char CLOSE_DIALOGUE = ' ';
 	
 	StringBuilder characterQue = new StringBuilder();
-	LinkedList<Integer> queuedCommands = new LinkedList<Integer>();
+	Queue<Integer> queuedCommands = new LinkedList<Integer>();
 	Queue<Character> queueCommandKeys = new LinkedList<Character>();
-	LinkedList<Vector2f> queuedClicks = new LinkedList<Vector2f>();
+	Queue<Vector2f> queuedClicks = new LinkedList<Vector2f>();
 	
 	public String popCharacterQue() {
 		String string = characterQue.toString();
