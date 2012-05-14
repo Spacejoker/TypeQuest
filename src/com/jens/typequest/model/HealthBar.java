@@ -1,10 +1,7 @@
 package com.jens.typequest.model;
 
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Curve;
 import org.newdawn.slick.geom.Polygon;
-import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
 import com.jens.typequest.loaders.ImageProvider;

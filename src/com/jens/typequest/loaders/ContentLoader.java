@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,7 +15,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.jens.typequest.model.Battle;
 import com.jens.typequest.model.Button;
 import com.jens.typequest.model.EnemyEntity;
